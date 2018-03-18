@@ -7,27 +7,32 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
-    work_out_fragment fragment = new work_out_fragment();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.add(R.id.fragment_container, fragment);
-                    fragmentTransaction.commit();
+                    work_out_fragment fragment1 = new work_out_fragment();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment1).commit();
                     return true;
                 case R.id.navigation_dashboard:
+                    manage_workouts_fragment fragment2 = new manage_workouts_fragment();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment2).commit();
                     return true;
                 case R.id.navigation_notifications:
+                    stats_fragment fragment3 = new stats_fragment();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment3).commit();
                     return true;
             }
             return false;
