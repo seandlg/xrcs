@@ -2,10 +2,6 @@ package com.example.android.xrcs.data;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by Sean on 18-Mar-18.
- */
-
 public class WorkoutContract {
     public static final class WorkoutEntry implements BaseColumns{
         public static final String TABLE_NAME = "workouts";
@@ -16,5 +12,6 @@ public class WorkoutContract {
         public static final String COLUMN_REPS = "repsPerSet";
         public static final String COLUMN_TIMED_TARGET_MODE = "timedTargetModeBool";
         public static final String COLUMN_TARGET_TIME = "targetTime";
+        public static final String COLUMN_TIMESTAMP = "timeStamp";
     }
 }
