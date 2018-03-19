@@ -1,5 +1,6 @@
 package com.example.android.xrcs;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,8 +8,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.android.xrcs.data.WorkoutContract;
 import com.example.android.xrcs.data.WorkoutDbHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,9 +49,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         WorkoutDbHelper dbHelper = new WorkoutDbHelper(this);
         mDb = dbHelper.getWritableDatabase();
+        Cursor cursor = getAllWorkouts();
+        // cursor.moveToFirst();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    private Cursor getAllWorkouts() {
+        return mDb.query(
+                WorkoutContract.WorkoutEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                WorkoutContract.WorkoutEntry.COLUMN_TIMESTAMP);
     }
 
 }
