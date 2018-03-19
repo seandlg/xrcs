@@ -8,7 +8,7 @@ public class WorkoutContract {
         public static final String COLUMN_EXERCISE_NAME =  "exerciseName";
         public static final String COLUMN_EXERCISE_TYPE =  "exerciseType";
         public static final String COLUMN_NO_SETS = "noOfSets";
-        public static final String COLUMN_BREAK_TIME = "breakTimeBetweenSets";
+        public static final String COLUMN_REST_TIME = "breakTimeBetweenSets";
         public static final String COLUMN_REPS = "repsPerSet";
         public static final String COLUMN_TIMED_TARGET_MODE = "timedTargetModeBool";
         public static final String COLUMN_TARGET_TIME = "targetTime";

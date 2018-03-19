@@ -106,7 +106,7 @@ public class DatabaseTest {
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_NAME, "DatabaseTest Exercise");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_TYPE, "Pushups");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
-        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_BREAK_TIME, 30);
+        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 10);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TIMED_TARGET_MODE, "y");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 10);
@@ -174,7 +174,7 @@ public class DatabaseTest {
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_NAME, "DatabaseTest Exercise");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_TYPE, "Pushups");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
-        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_BREAK_TIME, 30);
+        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 10);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TIMED_TARGET_MODE, "y");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 10);
@@ -218,7 +218,7 @@ public class DatabaseTest {
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_NAME, "DatabaseTest Exercise");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_TYPE, "Pushups");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
-        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_BREAK_TIME, 30);
+        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 10);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TIMED_TARGET_MODE, "y");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 10);
@@ -267,9 +267,8 @@ public class DatabaseTest {
                 null);
 
         /* Cursor.moveToFirst will return false if there are no records returned from your query */
-
-        assertFalse("Database doesn't seem to have been dropped successfully when upgrading",
-                wCursor.moveToFirst());
+        // We're expecting a count of 2, as every new database is initialized with 2 exemplary workouts
+        assertTrue("After onUpgrade the (exemplary) workout entries in the table != 2",wCursor.getCount() == 2);
 
         tableNameCursor.close();
         database.close();
