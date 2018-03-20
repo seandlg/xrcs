@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private ActionBar customActionBar;
-    private TextView ActionBarHeadingTV;
+    private TextView ActionBarTitleTV;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -25,17 +25,17 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_work_out:
                     WorkOutFragment fragment1 = new WorkOutFragment();
-                    ActionBarHeadingTV.setText("Work out");
+                    ActionBarTitleTV.setText("Work out");
                     fragmentTransaction.replace(R.id.fragment_container, fragment1).commit();
                     return true;
                 case R.id.navigation_manage_workouts:
                     ManageWorkoutsFragment fragment2 = new ManageWorkoutsFragment();
-                    ActionBarHeadingTV.setText("Manage workouts");
+                    ActionBarTitleTV.setText("Manage workouts");
                     fragmentTransaction.replace(R.id.fragment_container, fragment2).commit();
                     return true;
                 case R.id.navigation_stats:
                     StatsFragment fragment3 = new StatsFragment();
-                    ActionBarHeadingTV.setText("Stats");
+                    ActionBarTitleTV.setText("Stats");
                     fragmentTransaction.replace(R.id.fragment_container, fragment3).commit();
                     return true;
             }
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         customActionBar = getSupportActionBar();
         customActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         customActionBar.setCustomView(R.layout.action_bar_layout);
-        ActionBarHeadingTV = (TextView) findViewById(R.id.action_bar_title);
+        ActionBarTitleTV = (TextView) findViewById(R.id.action_bar_title);
         // Set main layout
         setContentView(R.layout.activity_main);
         // Set up the bottom navigation

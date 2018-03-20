@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.example.android.xrcs.data.WorkoutContract;
 
-import org.w3c.dom.Text;
-
 public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAdapter.WorkoutViewHolder> {
     private Cursor mCursor;
     private Context mContext;
@@ -38,6 +36,7 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
 
     @Override
     public void onBindViewHolder(WorkoutViewHolder holder, int position) {
+        mCursor.moveToPosition(position);
         if (!mCursor.moveToPosition(position))
             return; // bail if returned null
 
@@ -49,15 +48,17 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
         int no_reps = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REPS));
         String timed_target_mode = mCursor.getString(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TIMED_TARGET_MODE));
         int target_time = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME));
-
         // Update the holder information from database data
         holder.workoutTitleTV.setText(workout_name);
         holder.workoutTypeTV.setText(workout_type);
-        holder.timedTargetModeTV.setText(timed_target_mode);
         holder.noSetsTV.setText(String.valueOf(no_sets));
-        holder.restBetweenTV.setText(String.valueOf(rest_time));
+        holder.restBetweenTV.setText(String.valueOf(rest_time)+"s");
         holder.noRepsTV.setText(String.valueOf(no_reps));
-        holder.setTargetTimeTV.setText(String.valueOf(target_time));
+        holder.timedTargetModeTV.setText(timed_target_mode);
+        holder.setTargetTimeNumberTV.setText(String.valueOf(target_time)+"s");
+        if (timed_target_mode.equals("No Timed Target")){
+            holder.setTargetTimeNumberTV.setText("---");
+        }
     }
 
     @Override
@@ -75,17 +76,17 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
         TextView noSetsTV;
         TextView restBetweenTV;
         TextView noRepsTV;
-        TextView setTargetTimeTV;
+        TextView setTargetTimeNumberTV;
 
         public WorkoutViewHolder(View itemView) {
             super(itemView);
             workoutTitleTV = (TextView) itemView.findViewById(R.id.workout_title_tv);
             workoutTypeTV = (TextView) itemView.findViewById(R.id.workout_type_tv);
             timedTargetModeTV = (TextView) itemView.findViewById(R.id.timed_target_mode_tv);
-            noSetsTV = (TextView) itemView.findViewById(R.id.no_sets_display);
-            restBetweenTV = (TextView) itemView.findViewById(R.id.rest_between_display);
-            noRepsTV = (TextView) itemView.findViewById(R.id.no_reps_display);
-            setTargetTimeTV = (TextView) itemView.findViewById(R.id.target_time_display);
+            noSetsTV = (TextView) itemView.findViewById(R.id.no_sets_number_tv);
+            restBetweenTV = (TextView) itemView.findViewById(R.id.rest_between_number_tv);
+            noRepsTV = (TextView) itemView.findViewById(R.id.no_reps_number_tv);
+            setTargetTimeNumberTV = (TextView) itemView.findViewById(R.id.set_target_time_number_tv);
         }
     }
 }

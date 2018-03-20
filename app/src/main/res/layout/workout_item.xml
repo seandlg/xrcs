@@ -37,10 +37,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/workouttype"
+            app:layout_constraintBottom_toBottomOf="@+id/gym_icon"
             app:layout_constraintStart_toEndOf="@+id/gym_icon"
-            app:layout_constraintTop_toBottomOf="@+id/workout_title_tv" />
+            app:layout_constraintTop_toTopOf="@+id/gym_icon" />
 
         <TextView
             android:id="@+id/no_sets_tv"
@@ -52,10 +52,10 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/no_sets_display" />
+            app:layout_constraintTop_toBottomOf="@+id/no_sets_number_tv" />
 
         <TextView
-            android:id="@+id/no_sets_display"
+            android:id="@+id/no_sets_number_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -96,7 +96,7 @@
             app:layout_constraintStart_toEndOf="@+id/no_sets_tv" />
 
         <TextView
-            android:id="@+id/rest_between_display"
+            android:id="@+id/rest_between_number_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
@@ -108,7 +108,7 @@
             app:layout_constraintStart_toStartOf="@+id/rest_between_tv" />
 
         <TextView
-            android:id="@+id/no_reps_display"
+            android:id="@+id/no_reps_number_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
@@ -140,7 +140,7 @@
             app:layout_constraintStart_toEndOf="@+id/repetitions_tv" />
 
         <TextView
-            android:id="@+id/target_time_display"
+            android:id="@+id/set_target_time_number_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"

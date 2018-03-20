@@ -2,12 +2,14 @@ package com.example.android.xrcs;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +46,6 @@ public class ManageWorkoutsFragment extends Fragment {
         mAdapter = new ManageWorkoutsAdapter(getActivity(), cursor);
         // Link the adapter to the RecyclerView
         workoutsRecyclerView.setAdapter(mAdapter);
-
         return rootView;
     }
 

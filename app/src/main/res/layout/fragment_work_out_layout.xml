@@ -17,7 +17,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Welcome to xrcs"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text='Please select a workout from the menu below. If you have not yet created a workout, head to the "Manage workouts" section and do so now :)'
+            android:text='Please select a workout from the menu below. If you have not yet created a workout, use a default workout or head to the "Manage workouts" section and do so now :)'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
             android:text="TLDR; Get started!"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/welcome_text" />

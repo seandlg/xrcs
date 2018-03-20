@@ -5,15 +5,16 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorkoutDbHelper extends SQLiteOpenHelper{
+public class WorkoutDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "workouts.db";
     private static final int DATABASE_VERSION = 1;
 
-    public WorkoutDbHelper (Context context){
+    public WorkoutDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -29,7 +30,7 @@ public class WorkoutDbHelper extends SQLiteOpenHelper{
                 WorkoutContract.WorkoutEntry.COLUMN_REPS + " INTEGER NOT NULL, " +
                 WorkoutContract.WorkoutEntry.COLUMN_TIMED_TARGET_MODE + " TEXT NOT NULL, " +
                 WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME + " INTEGER NOT NULL, " +
-                WorkoutContract.WorkoutEntry.COLUMN_TIMESTAMP +" TIMESTAMP DEFAULT CURRENT_TIMESTAMP);";
+                WorkoutContract.WorkoutEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP);";
         sqLiteDatabase.execSQL(SQL_CREATE_WORKOUTS_TABLE);
 
         // Populate the database with two exemplary workouts
@@ -45,6 +46,7 @@ public class WorkoutDbHelper extends SQLiteOpenHelper{
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 10);
         list.add(cv);
 
+        cv = new ContentValues();
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME, "Pullup Sample Exercise");
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE, "Pullups");
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
@@ -54,22 +56,20 @@ public class WorkoutDbHelper extends SQLiteOpenHelper{
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 0);
         list.add(cv);
 
-        try
-        {
+        try {
             sqLiteDatabase.beginTransaction();
             //clear the table first
-            sqLiteDatabase.delete (WorkoutContract.WorkoutEntry.TABLE_NAME,null,null);
+            sqLiteDatabase.delete(WorkoutContract.WorkoutEntry.TABLE_NAME, null, null);
             //go through the list and add one by one
-            for(ContentValues c:list){
+            for (ContentValues c : list) {
+                Log.d("Database Init", c.toString());
                 sqLiteDatabase.insert(WorkoutContract.WorkoutEntry.TABLE_NAME, null, c);
             }
             sqLiteDatabase.setTransactionSuccessful();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }
-        finally
-        {
+            Log.d("Database Error", "Error printed above!");
+        } finally {
             sqLiteDatabase.endTransaction();
         }
     }
