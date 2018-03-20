@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class manage_workouts_fragment extends Fragment {
-    public manage_workouts_fragment() {
+public class ManageWorkoutsFragment extends Fragment {
+    public ManageWorkoutsFragment() {
         // Required empty public constructor
     }
 

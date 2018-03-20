@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class stats_fragment extends Fragment {
-    public stats_fragment() {
+public class StatsFragment extends Fragment {
+    public StatsFragment() {
         // Required empty public constructor
     }
 

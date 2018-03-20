@@ -5,8 +5,8 @@ import android.provider.BaseColumns;
 public class WorkoutContract {
     public static final class WorkoutEntry implements BaseColumns{
         public static final String TABLE_NAME = "workouts";
-        public static final String COLUMN_EXERCISE_NAME =  "exerciseName";
-        public static final String COLUMN_EXERCISE_TYPE =  "exerciseType";
+        public static final String COLUMN_WORKOUT_NAME =  "exerciseName";
+        public static final String COLUMN_WORKOUT_TYPE =  "exerciseType";
         public static final String COLUMN_NO_SETS = "noOfSets";
         public static final String COLUMN_REST_TIME = "breakTimeBetweenSets";
         public static final String COLUMN_REPS = "repsPerSet";

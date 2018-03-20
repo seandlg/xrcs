@@ -22,8 +22,8 @@ public class WorkoutDbHelper extends SQLiteOpenHelper{
         final String SQL_CREATE_WORKOUTS_TABLE = "CREATE TABLE " +
                 WorkoutContract.WorkoutEntry.TABLE_NAME + " (" +
                 WorkoutContract.WorkoutEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_NAME + " TEXT NOT NULL, " +
-                WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_TYPE + " TEXT NOT NULL, " +
+                WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME + " TEXT NOT NULL, " +
+                WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE + " TEXT NOT NULL, " +
                 WorkoutContract.WorkoutEntry.COLUMN_NO_SETS + " INTEGER NOT NULL, " +
                 WorkoutContract.WorkoutEntry.COLUMN_REST_TIME + " INTEGER NOT NULL, " +
                 WorkoutContract.WorkoutEntry.COLUMN_REPS + " INTEGER NOT NULL, " +
@@ -36,8 +36,8 @@ public class WorkoutDbHelper extends SQLiteOpenHelper{
         List<ContentValues> list = new ArrayList<ContentValues>();
         ContentValues cv = new ContentValues();
 
-        cv.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_NAME, "Pushup Sample Exercise");
-        cv.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_TYPE, "Pushups");
+        cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME, "Pushup Sample Exercise");
+        cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE, "Pushups");
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30);
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 10);
@@ -45,8 +45,8 @@ public class WorkoutDbHelper extends SQLiteOpenHelper{
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 10);
         list.add(cv);
 
-        cv.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_NAME, "Pullup Sample Exercise");
-        cv.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_TYPE, "Pullups");
+        cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME, "Pullup Sample Exercise");
+        cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE, "Pullups");
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 60);
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 7);

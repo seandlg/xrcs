@@ -103,8 +103,8 @@ public class DatabaseTest {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
         ContentValues testValues = new ContentValues();
-        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_NAME, "DatabaseTest Exercise");
-        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_TYPE, "Pushups");
+        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME, "DatabaseTest Exercise");
+        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE, "Pushups");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 10);
@@ -171,8 +171,8 @@ public class DatabaseTest {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
         ContentValues testValues = new ContentValues();
-        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_NAME, "DatabaseTest Exercise");
-        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_TYPE, "Pushups");
+        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME, "DatabaseTest Exercise");
+        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE, "Pushups");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 10);
@@ -215,8 +215,8 @@ public class DatabaseTest {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
         ContentValues testValues = new ContentValues();
-        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_NAME, "DatabaseTest Exercise");
-        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_EXERCISE_TYPE, "Pushups");
+        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME, "DatabaseTest Exercise");
+        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE, "Pushups");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 10);

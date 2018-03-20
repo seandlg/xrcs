@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/workout_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/workouttitle"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/gym_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="false"
+            android:contentDescription="@string/weight_bar_symbol"
+            android:cropToPadding="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/workout_title_tv"
+            app:srcCompat="@drawable/ic_fitness_center_black_24dp" />
+
+        <TextView
+            android:id="@+id/workout_type_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/workouttype"
+            app:layout_constraintStart_toEndOf="@+id/gym_icon"
+            app:layout_constraintTop_toBottomOf="@+id/workout_title_tv" />
+
+        <TextView
+            android:id="@+id/no_sets_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/sets_text"
+            app:layout_constraintEnd_toStartOf="@+id/rest_between_tv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/no_sets_display" />
+
+        <TextView
+            android:id="@+id/no_sets_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/set_display_value"
+            app:layout_constraintEnd_toEndOf="@+id/no_sets_tv"
+            app:layout_constraintStart_toStartOf="@+id/no_sets_tv"
+            app:layout_constraintTop_toBottomOf="@+id/gym_icon" />
+
+        <ImageView
+            android:id="@+id/timer_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/timer_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/gym_icon"
+            app:layout_constraintStart_toEndOf="@+id/workout_type_tv"
+            app:layout_constraintTop_toTopOf="@+id/gym_icon"
+            app:srcCompat="@drawable/ic_timer_black_24dp" />
+
+        <TextView
+            android:id="@+id/timed_target_mode_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/timed_target_mode_text"
+            app:layout_constraintBottom_toBottomOf="@+id/timer_icon"
+            app:layout_constraintStart_toEndOf="@+id/timer_icon"
+            app:layout_constraintTop_toTopOf="@+id/timer_icon" />
+
+        <TextView
+            android:id="@+id/rest_between_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rest_between_text"
+            app:layout_constraintBaseline_toBaselineOf="@+id/no_sets_tv"
+            app:layout_constraintEnd_toStartOf="@+id/repetitions_tv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/no_sets_tv" />
+
+        <TextView
+            android:id="@+id/rest_between_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/rest_between_value"
+            app:layout_constraintBottom_toTopOf="@+id/rest_between_tv"
+            app:layout_constraintEnd_toEndOf="@+id/rest_between_tv"
+            app:layout_constraintStart_toStartOf="@+id/rest_between_tv" />
+
+        <TextView
+            android:id="@+id/no_reps_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/repetitions_value"
+            app:layout_constraintBottom_toTopOf="@+id/repetitions_tv"
+            app:layout_constraintEnd_toEndOf="@+id/repetitions_tv"
+            app:layout_constraintStart_toStartOf="@+id/repetitions_tv" />
+
+        <TextView
+            android:id="@+id/repetitions_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repetitions_text"
+            app:layout_constraintBaseline_toBaselineOf="@+id/rest_between_tv"
+            app:layout_constraintEnd_toStartOf="@+id/set_target_time_tv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/rest_between_tv" />
+
+        <TextView
+            android:id="@+id/set_target_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/set_target_time_text"
+            app:layout_constraintBaseline_toBaselineOf="@+id/repetitions_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/repetitions_tv"
+            tools:layout_editor_absoluteY="115dp" />
+
+        <TextView
+            android:id="@+id/target_time_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/set_target_time_value"
+            app:layout_constraintBottom_toTopOf="@+id/set_target_time_tv"
+            app:layout_constraintEnd_toEndOf="@+id/set_target_time_tv"
+            app:layout_constraintStart_toStartOf="@+id/set_target_time_tv" />
+
+        <View
+            android:id="@+id/divider_view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/colorPrimaryLight"
+            app:layout_constraintBottom_toBottomOf="@id/set_target_time_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/no_sets_tv" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>
