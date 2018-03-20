@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_work_out"
         android:icon="@drawable/ic_flash_on_black_24dp"
         android:title="@string/title_work_out" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_manage_workouts"
         android:icon="@drawable/ic_mode_edit_black_24dp"
         android:title="@string/title_manage_workouts" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_stats"
         android:icon="@drawable/ic_pie_chart_black_24dp"
         android:title="@string/title_stats" />
 
