@@ -19,7 +19,7 @@
     <string name="repetitions_text">Repetitions</string>
     <string name="set_target_time_text">Set target time</string>
     <string name="timer_icon">timer_icon</string>
-    <string name="manage_workouts">Manage workouts</string>
+    <string name="manage_workouts">Manage your workouts</string>
     <string name="create_a_new_workout_text">Create a new workout</string>
     <string name="create_workout_button_text">Create new</string>
     <string name="edit_existing_workouts_text">Edit existing workouts</string>

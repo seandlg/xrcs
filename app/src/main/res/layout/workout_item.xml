@@ -2,17 +2,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/workout_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/workouttitle"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -23,7 +23,6 @@
             android:id="@+id/gym_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:adjustViewBounds="false"
             android:contentDescription="@string/weight_bar_symbol"
@@ -46,8 +45,7 @@
             android:id="@+id/no_sets_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:text="@string/sets_text"
             app:layout_constraintEnd_toStartOf="@+id/rest_between_tv"
             app:layout_constraintHorizontal_bias="0.5"
@@ -100,7 +98,7 @@
             android:id="@+id/rest_between_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:text="@string/rest_between_value"
@@ -112,7 +110,7 @@
             android:id="@+id/no_reps_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:text="@string/repetitions_value"
@@ -134,19 +132,17 @@
             android:id="@+id/set_target_time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:text="@string/set_target_time_text"
             app:layout_constraintBaseline_toBaselineOf="@+id/repetitions_tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/repetitions_tv"
-            tools:layout_editor_absoluteY="115dp" />
+            app:layout_constraintStart_toEndOf="@+id/repetitions_tv" />
 
         <TextView
             android:id="@+id/target_time_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:text="@string/set_target_time_value"
@@ -158,8 +154,6 @@
             android:id="@+id/divider_view"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:background="@color/colorPrimaryLight"
             app:layout_constraintBottom_toBottomOf="@id/set_target_time_tv"
