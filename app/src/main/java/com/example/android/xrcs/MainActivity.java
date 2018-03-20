@@ -53,9 +53,10 @@ public class MainActivity extends AppCompatActivity {
         ActionBarHeadingTV = (TextView) findViewById(R.id.action_bar_title);
         // Set main layout
         setContentView(R.layout.activity_main);
-
         // Set up the bottom navigation
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        // Load first fragment
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, new WorkOutFragment()).commit();
     }
 }
