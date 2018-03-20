@@ -108,7 +108,7 @@ public class DatabaseTest {
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 10);
-        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TIMED_TARGET_MODE, "y");
+        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE, "y");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 10);
 
 
@@ -176,7 +176,7 @@ public class DatabaseTest {
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 10);
-        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TIMED_TARGET_MODE, "y");
+        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE, "y");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 10);
 
         /* Insert ContentValues into database and get first row ID back */
@@ -220,7 +220,7 @@ public class DatabaseTest {
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30);
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 10);
-        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TIMED_TARGET_MODE, "y");
+        testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE, "y");
         testValues.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 10);
 
         /* Insert ContentValues into database and get first row ID back */

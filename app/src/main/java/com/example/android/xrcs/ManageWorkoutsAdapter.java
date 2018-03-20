@@ -46,7 +46,7 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
         int no_sets = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS));
         int rest_time = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME));
         int no_reps = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REPS));
-        String timed_target_mode = mCursor.getString(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TIMED_TARGET_MODE));
+        String timed_target_mode = mCursor.getString(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE));
         int target_time = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME));
         // Update the holder information from database data
         holder.workoutTitleTV.setText(workout_name);
@@ -56,7 +56,7 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
         holder.noRepsTV.setText(String.valueOf(no_reps));
         holder.timedTargetModeTV.setText(timed_target_mode);
         holder.setTargetTimeNumberTV.setText(String.valueOf(target_time)+"s");
-        if (timed_target_mode.equals("No Timed Target")){
+        if (timed_target_mode.equals("No Time Target")){
             holder.setTargetTimeNumberTV.setText("---");
         }
     }
@@ -82,7 +82,7 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
             super(itemView);
             workoutTitleTV = (TextView) itemView.findViewById(R.id.workout_title_tv);
             workoutTypeTV = (TextView) itemView.findViewById(R.id.workout_type_tv);
-            timedTargetModeTV = (TextView) itemView.findViewById(R.id.timed_target_mode_tv);
+            timedTargetModeTV = (TextView) itemView.findViewById(R.id.time_target_mode_tv);
             noSetsTV = (TextView) itemView.findViewById(R.id.no_sets_number_tv);
             restBetweenTV = (TextView) itemView.findViewById(R.id.rest_between_number_tv);
             noRepsTV = (TextView) itemView.findViewById(R.id.no_reps_number_tv);

@@ -28,7 +28,7 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
                 WorkoutContract.WorkoutEntry.COLUMN_NO_SETS + " INTEGER NOT NULL, " +
                 WorkoutContract.WorkoutEntry.COLUMN_REST_TIME + " INTEGER NOT NULL, " +
                 WorkoutContract.WorkoutEntry.COLUMN_REPS + " INTEGER NOT NULL, " +
-                WorkoutContract.WorkoutEntry.COLUMN_TIMED_TARGET_MODE + " TEXT NOT NULL, " +
+                WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE + " TEXT NOT NULL, " +
                 WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME + " INTEGER NOT NULL, " +
                 WorkoutContract.WorkoutEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP);";
         sqLiteDatabase.execSQL(SQL_CREATE_WORKOUTS_TABLE);
@@ -42,7 +42,7 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30);
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 10);
-        cv.put(WorkoutContract.WorkoutEntry.COLUMN_TIMED_TARGET_MODE, "Timed Target Mode");
+        cv.put(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE, "Time Target Mode");
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 10);
         list.add(cv);
 
@@ -52,7 +52,7 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 60);
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 7);
-        cv.put(WorkoutContract.WorkoutEntry.COLUMN_TIMED_TARGET_MODE, "No Timed Target");
+        cv.put(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE, "No Time Target");
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 0);
         list.add(cv);
 
