@@ -11,8 +11,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.android.xrcs.data.WorkoutContract;
 import com.example.android.xrcs.data.WorkoutDbHelper;
@@ -46,6 +50,7 @@ public class ManageWorkoutsFragment extends Fragment {
         mAdapter = new ManageWorkoutsAdapter(getActivity(), cursor);
         // Link the adapter to the RecyclerView
         workoutsRecyclerView.setAdapter(mAdapter);
+        setHasOptionsMenu(true);
         return rootView;
     }
 
@@ -58,5 +63,22 @@ public class ManageWorkoutsFragment extends Fragment {
                 null,
                 null,
                 WorkoutContract.WorkoutEntry.COLUMN_TIMESTAMP);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.manage_workouts_extra_menu_items, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add_workout:
+                Toast.makeText(getActivity(), "YEAR!",
+                        Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
