@@ -1,6 +1,7 @@
 package com.example.android.xrcs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -74,6 +75,8 @@ public class ManageWorkoutsFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_workout:
+                Intent createWorkoutIntent = new Intent(getActivity(),editWorkoutActivity.class);
+                startActivity(createWorkoutIntent);
                 Toast.makeText(getActivity(), "YEAR!",
                         Toast.LENGTH_LONG).show();
                 return true;
