@@ -55,10 +55,8 @@ public class ManageWorkoutsFragment extends Fragment {
                 new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        Toast.makeText(getActivity(), "You clicked position: " + String.valueOf(position),
-                                Toast.LENGTH_LONG).show();
-                        Intent createWorkoutIntent = new Intent(getActivity(),editWorkoutActivity.class);
-                        // Also pass the database ID!
+                        // Handle click by getting database ID and passing it to new createWorkoutIntent
+                        Intent createWorkoutIntent = new Intent(getActivity(), editWorkoutActivity.class);
                         final ManageWorkoutsAdapter.WorkoutViewHolder holder = (ManageWorkoutsAdapter.WorkoutViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(position));
                         createWorkoutIntent.putExtra("databaseID", holder.getDatabaseID());
                         startActivity(createWorkoutIntent);
@@ -88,7 +86,7 @@ public class ManageWorkoutsFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_workout:
-                Intent createWorkoutIntent = new Intent(getActivity(),editWorkoutActivity.class);
+                Intent createWorkoutIntent = new Intent(getActivity(), editWorkoutActivity.class);
                 startActivity(createWorkoutIntent);
                 Toast.makeText(getActivity(), "Working!!",
                         Toast.LENGTH_LONG).show();
