@@ -1,16 +1,12 @@
 package com.example.android.xrcs;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +17,8 @@ import android.widget.Toast;
 
 import com.example.android.xrcs.data.WorkoutContract;
 import com.example.android.xrcs.data.WorkoutDbHelper;
+import com.example.android.xrcs.helpers.ItemClickSupport;
+import com.example.android.xrcs.helpers.ManageWorkoutsAdapter;
 
 public class ManageWorkoutsFragment extends Fragment {
     private SQLiteDatabase mDb;
@@ -40,7 +38,7 @@ public class ManageWorkoutsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_manage_workouts_layout, container, false);
-        RecyclerView workoutsRecyclerView = (RecyclerView) rootView.findViewById(R.id.manage_workouts_recycler_view);
+        RecyclerView workoutsRecyclerView = rootView.findViewById(R.id.manage_workouts_recycler_view);
         workoutsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Create a DB helper (this will create the DB if run for the first time)
@@ -52,6 +50,21 @@ public class ManageWorkoutsFragment extends Fragment {
         // Link the adapter to the RecyclerView
         workoutsRecyclerView.setAdapter(mAdapter);
         setHasOptionsMenu(true);
+
+        ItemClickSupport.addTo(workoutsRecyclerView).setOnItemClickListener(
+                new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        Toast.makeText(getActivity(), "You clicked position: " + String.valueOf(position),
+                                Toast.LENGTH_LONG).show();
+                        Intent createWorkoutIntent = new Intent(getActivity(),editWorkoutActivity.class);
+                        // Also pass the database ID!
+                        final ManageWorkoutsAdapter.WorkoutViewHolder holder = (ManageWorkoutsAdapter.WorkoutViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(position));
+                        createWorkoutIntent.putExtra("databaseID", holder.getDatabaseID());
+                        startActivity(createWorkoutIntent);
+                    }
+                }
+        );
         return rootView;
     }
 

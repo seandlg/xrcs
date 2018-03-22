@@ -1,13 +1,15 @@
-package com.example.android.xrcs;
+package com.example.android.xrcs.helpers;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.xrcs.R;
 import com.example.android.xrcs.data.WorkoutContract;
 
 public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAdapter.WorkoutViewHolder> {
@@ -41,6 +43,7 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
             return; // bail if returned null
 
         // Get data from database
+        int database_id = mCursor.getInt(mCursor.getColumnIndex("_id"));
         String workout_name = mCursor.getString(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME));
         String workout_type = mCursor.getString(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE));
         int no_sets = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS));
@@ -48,6 +51,8 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
         int no_reps = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REPS));
         String timed_target_mode = mCursor.getString(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE));
         int target_time = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME));
+        // Set the database ID in the holder object for later reference
+        holder.setDatabaseID(database_id);
         // Update the holder information from database data
         holder.workoutTitleTV.setText(workout_name);
         holder.workoutTypeTV.setText(workout_type);
@@ -68,9 +73,8 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
         return mCursor.getCount();
     }
 
-    class WorkoutViewHolder extends RecyclerView.ViewHolder {
-
-        // Will display the workout title and other information
+    public class WorkoutViewHolder extends RecyclerView.ViewHolder {
+        int databaseID;
         TextView workoutTitleTV;
         TextView workoutTypeTV;
         TextView timedTargetModeTV;
@@ -81,13 +85,20 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
 
         public WorkoutViewHolder(View itemView) {
             super(itemView);
-            workoutTitleTV = (TextView) itemView.findViewById(R.id.workout_title_tv);
-            workoutTypeTV = (TextView) itemView.findViewById(R.id.workout_type_tv);
-            timedTargetModeTV = (TextView) itemView.findViewById(R.id.time_target_mode_tv);
-            noSetsTV = (TextView) itemView.findViewById(R.id.no_sets_number_tv);
-            restBetweenTV = (TextView) itemView.findViewById(R.id.rest_between_number_tv);
-            noRepsTV = (TextView) itemView.findViewById(R.id.no_reps_number_tv);
-            setTargetTimeNumberTV = (TextView) itemView.findViewById(R.id.set_target_time_number_tv);
+            databaseID = this.databaseID;
+            workoutTitleTV = itemView.findViewById(R.id.workout_title_tv);
+            workoutTypeTV = itemView.findViewById(R.id.workout_type_tv);
+            timedTargetModeTV = itemView.findViewById(R.id.time_target_mode_tv);
+            noSetsTV = itemView.findViewById(R.id.no_sets_number_tv);
+            restBetweenTV = itemView.findViewById(R.id.rest_between_number_tv);
+            noRepsTV = itemView.findViewById(R.id.no_reps_number_tv);
+            setTargetTimeNumberTV = itemView.findViewById(R.id.set_target_time_number_tv);
+        }
+        public int getDatabaseID(){
+            return this.databaseID;
+        }
+        public void setDatabaseID(int newDatabaseID){
+            this.databaseID = newDatabaseID;
         }
     }
 }

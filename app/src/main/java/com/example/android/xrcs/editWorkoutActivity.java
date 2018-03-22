@@ -2,6 +2,7 @@ package com.example.android.xrcs;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -52,5 +53,12 @@ public class editWorkoutActivity extends AppCompatActivity {
         setTargetTime.setMinValue(1);
         setTargetTime.setMaxValue(100);
         setTargetTime.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            // This means that we're coming to edit a workout!
+            int databaseID = extras.getInt("databaseID");
+            Log.d("databaseID", String.valueOf(databaseID));
+        }
     }
 }
