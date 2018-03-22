@@ -87,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Break between sets [s]"
+        android:text="Rest between sets [s]"
         android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintEnd_toEndOf="@+id/set_break_time_edit_activity"
         app:layout_constraintStart_toStartOf="@+id/set_break_time_edit_activity"

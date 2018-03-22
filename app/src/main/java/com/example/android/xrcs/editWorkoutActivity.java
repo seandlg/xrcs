@@ -1,8 +1,11 @@
 package com.example.android.xrcs;
 
+import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,13 +16,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.xrcs.data.WorkoutContract;
 import com.example.android.xrcs.data.WorkoutDbHelper;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
+import java.util.List;
 
 public class editWorkoutActivity extends AppCompatActivity {
     private EditText workOutName;
@@ -27,7 +30,7 @@ public class editWorkoutActivity extends AppCompatActivity {
     private NumberPicker exerciseType;
     private NumberPicker noSets;
     private NumberPicker noReps;
-    private NumberPicker setBreakTime;
+    private NumberPicker setRestTime;
     private NumberPicker setTargetTime;
     private SQLiteDatabase mDb;
     private boolean editMode;
@@ -56,19 +59,61 @@ public class editWorkoutActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        ContentValues cv = new ContentValues();
         switch (item.getItemId()) {
             case R.id.action_confirm_workout_changes:
-                if (editMode) {
-                    Toast.makeText(this, "Workout updated!",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "New workout added!",
-                            Toast.LENGTH_SHORT).show();
+                cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME, workOutName.getText().toString());
+                switch (exerciseType.getDisplayedValues()[exerciseType.getValue()]) {
+                    case "Pushups":
+                        cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE, "Pushups");
+                        break;
+                    case "Pullups":
+                        cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE, "Pullups");
+                        break;
                 }
-                return true;
+                cv.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, noSets.getValue());
+                cv.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, setRestTime.getValue());
+                cv.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, noReps.getValue());
+                if (timeTargetSwitch.isChecked()) {
+                    cv.put(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE, "Time Target Mode");
+                } else {
+                    cv.put(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE, "No Time Target");
+                }
+                cv.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, setTargetTime.getValue());
+                if (editMode) {
+                    // We're in Edit mode!
+                    try {
+                        mDb.beginTransaction();
+                        mDb.update(WorkoutContract.WorkoutEntry.TABLE_NAME, cv, "_id = " + String.valueOf(databaseID), null);
+                        mDb.setTransactionSuccessful();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } finally {
+                        mDb.endTransaction();
+                        Toast.makeText(this, "Workout updated!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // We're in Add mode!
+                    try {
+                        mDb.beginTransaction();
+                        mDb.insert(WorkoutContract.WorkoutEntry.TABLE_NAME, null, cv);
+                        mDb.setTransactionSuccessful();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } finally {
+                        mDb.endTransaction();
+                        Toast.makeText(this, "New workout added!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+                setResult(Activity.RESULT_OK,null);
+                finish();
+                return true; // Will not be called, but we don't mind
             default:
                 return super.onOptionsItemSelected(item);
         }
+
     }
 
     public void populateViewWithData(Bundle extras) {
@@ -89,11 +134,11 @@ public class editWorkoutActivity extends AppCompatActivity {
         noReps.setMinValue(1);
         noReps.setMaxValue(100);
         noReps.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-        setBreakTime = findViewById(R.id.set_break_time_edit_activity);
-        setBreakTime.setMinValue(1);
-        setBreakTime.setMaxValue(6);
-        setBreakTime.setDisplayedValues(new String[]{"30", "60", "90", "120", "150", "180"});
-        setBreakTime.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+        setRestTime = findViewById(R.id.set_break_time_edit_activity);
+        setRestTime.setMinValue(1);
+        setRestTime.setMaxValue(6);
+        setRestTime.setDisplayedValues(new String[]{"30", "60", "90", "120", "150", "180"});
+        setRestTime.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         setTargetTime = findViewById(R.id.set_target_time_edit_activity);
         setTargetTime.setMinValue(1);
         setTargetTime.setMaxValue(100);
@@ -131,7 +176,7 @@ public class editWorkoutActivity extends AppCompatActivity {
             noSets.setValue(cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS)));
             noReps.setValue(cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REPS)));
             int breakTime = cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME)) / 30; // Moving in steps of 30, yet index is integer
-            setBreakTime.setValue(breakTime);
+            setRestTime.setValue(breakTime);
             setTargetTime.setValue(cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME)));
         }
     }

@@ -68,7 +68,6 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
             sqLiteDatabase.setTransactionSuccessful();
         } catch (SQLException e) {
             e.printStackTrace();
-            Log.d("Database Error", "Error printed above!");
         } finally {
             sqLiteDatabase.endTransaction();
         }

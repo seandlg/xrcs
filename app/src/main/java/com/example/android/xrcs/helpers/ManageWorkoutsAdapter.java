@@ -74,14 +74,14 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
     }
 
     public class WorkoutViewHolder extends RecyclerView.ViewHolder {
-        int databaseID;
-        TextView workoutTitleTV;
-        TextView workoutTypeTV;
-        TextView timedTargetModeTV;
-        TextView noSetsTV;
-        TextView restBetweenTV;
-        TextView noRepsTV;
-        TextView setTargetTimeNumberTV;
+        private int databaseID;
+        private TextView workoutTitleTV;
+        private TextView workoutTypeTV;
+        private TextView timedTargetModeTV;
+        private TextView noSetsTV;
+        private TextView restBetweenTV;
+        private TextView noRepsTV;
+        private TextView setTargetTimeNumberTV;
 
         public WorkoutViewHolder(View itemView) {
             super(itemView);
@@ -97,7 +97,7 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
         public int getDatabaseID(){
             return this.databaseID;
         }
-        public void setDatabaseID(int newDatabaseID){
+        private void setDatabaseID(int newDatabaseID){
             this.databaseID = newDatabaseID;
         }
     }

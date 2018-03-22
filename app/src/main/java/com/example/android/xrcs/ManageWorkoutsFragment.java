@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -59,7 +60,7 @@ public class ManageWorkoutsFragment extends Fragment {
                         Intent createWorkoutIntent = new Intent(getActivity(), editWorkoutActivity.class);
                         final ManageWorkoutsAdapter.WorkoutViewHolder holder = (ManageWorkoutsAdapter.WorkoutViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(position));
                         createWorkoutIntent.putExtra("databaseID", holder.getDatabaseID());
-                        startActivity(createWorkoutIntent);
+                        startActivityForResult(createWorkoutIntent,1);
                     }
                 }
         );
@@ -87,10 +88,20 @@ public class ManageWorkoutsFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_add_workout:
                 Intent createWorkoutIntent = new Intent(getActivity(), editWorkoutActivity.class);
-                startActivity(createWorkoutIntent);
+                startActivityForResult(createWorkoutIntent,1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("ActivityResult","");
+        updateRecyclerView();
+    }
+
+    public void updateRecyclerView() {
+        mAdapter.notifyDataSetChanged();
     }
 }
