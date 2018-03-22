@@ -43,7 +43,7 @@
             app:layout_constraintTop_toTopOf="@+id/gym_icon" />
 
         <TextView
-            android:id="@+id/no_sets_tv"
+            android:id="@+id/no_sets_edit_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -60,8 +60,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/set_display_value"
-            app:layout_constraintEnd_toEndOf="@+id/no_sets_tv"
-            app:layout_constraintStart_toStartOf="@+id/no_sets_tv"
+            app:layout_constraintEnd_toEndOf="@+id/no_sets_edit_activity"
+            app:layout_constraintStart_toStartOf="@+id/no_sets_edit_activity"
             app:layout_constraintTop_toBottomOf="@+id/gym_icon" />
 
         <ImageView
@@ -90,10 +90,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rest_between_text"
-            app:layout_constraintBaseline_toBaselineOf="@+id/no_sets_tv"
+            app:layout_constraintBaseline_toBaselineOf="@+id/no_sets_edit_activity"
             app:layout_constraintEnd_toStartOf="@+id/repetitions_tv"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/no_sets_tv" />
+            app:layout_constraintStart_toEndOf="@+id/no_sets_edit_activity" />
 
         <TextView
             android:id="@+id/rest_between_number_tv"
@@ -125,12 +125,12 @@
             android:layout_height="wrap_content"
             android:text="@string/repetitions_text"
             app:layout_constraintBaseline_toBaselineOf="@+id/rest_between_tv"
-            app:layout_constraintEnd_toStartOf="@+id/set_target_time_tv"
+            app:layout_constraintEnd_toStartOf="@+id/set_target_time_edit_activity"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/rest_between_tv" />
 
         <TextView
-            android:id="@+id/set_target_time_tv"
+            android:id="@+id/set_target_time_edit_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/set_target_time_text"
@@ -147,9 +147,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:text="@string/set_target_time_value"
-            app:layout_constraintBottom_toTopOf="@+id/set_target_time_tv"
-            app:layout_constraintEnd_toEndOf="@+id/set_target_time_tv"
-            app:layout_constraintStart_toStartOf="@+id/set_target_time_tv" />
+            app:layout_constraintBottom_toTopOf="@+id/set_target_time_edit_activity"
+            app:layout_constraintEnd_toEndOf="@+id/set_target_time_edit_activity"
+            app:layout_constraintStart_toStartOf="@+id/set_target_time_edit_activity" />
 
         <View
             android:id="@+id/divider_view"
@@ -157,10 +157,10 @@
             android:layout_height="1dp"
             android:layout_marginTop="24dp"
             android:background="@color/colorPrimaryLight"
-            app:layout_constraintBottom_toBottomOf="@id/set_target_time_tv"
+            app:layout_constraintBottom_toBottomOf="@id/set_target_time_edit_activity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/no_sets_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/no_sets_edit_activity" />
 
     </android.support.constraint.ConstraintLayout>
 

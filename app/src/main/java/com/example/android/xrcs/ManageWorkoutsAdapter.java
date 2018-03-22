@@ -58,6 +58,7 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
         holder.setTargetTimeNumberTV.setText(String.valueOf(target_time)+"s");
         if (timed_target_mode.equals("No Time Target")){
             holder.setTargetTimeNumberTV.setText("---");
+            holder.restBetweenTV.setText("---");
         }
     }
 

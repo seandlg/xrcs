@@ -19,11 +19,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Set main layout
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("Work out");
         // Set up the bottom navigation
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         // Load first fragment
+        getSupportActionBar().setTitle("Work out");
         fragmentManager.beginTransaction().replace(R.id.fragment_container, new WorkOutFragment()).commit();
     }
 

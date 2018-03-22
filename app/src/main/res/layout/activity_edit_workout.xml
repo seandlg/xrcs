@@ -20,141 +20,123 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/workout_name_edit_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Workout name"
-        app:layout_constraintEnd_toStartOf="@+id/switch1"
+        app:layout_constraintEnd_toStartOf="@+id/time_target_switch_edit_activity"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_add_workout_heading" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/time_target_switch_edit_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time Target "
         android:thumbTint="@color/colorAccent"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText"
+        app:layout_constraintBaseline_toBaselineOf="@+id/workout_name_edit_activity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editText" />
+        app:layout_constraintStart_toEndOf="@+id/workout_name_edit_activity" />
 
     <NumberPicker
-        android:id="@+id/numberPicker"
+        android:id="@+id/exercise_type_edit_activity"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/no_sets_edit_activity"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Exercise type"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_constraintEnd_toEndOf="@+id/exercise_type_edit_activity"
+        app:layout_constraintStart_toStartOf="@+id/exercise_type_edit_activity"
+        app:layout_constraintTop_toBottomOf="@+id/workout_name_edit_activity" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="# Sets"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toStartOf="@+id/textView6"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_constraintEnd_toEndOf="@+id/no_sets_edit_activity"
+        app:layout_constraintStart_toStartOf="@+id/no_sets_edit_activity"
         app:layout_constraintTop_toTopOf="@+id/textView3" />
 
     <NumberPicker
-        android:id="@+id/numberPicker2"
+        android:id="@+id/no_sets_edit_activity"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        app:layout_constraintEnd_toEndOf="@+id/textView4"
-        app:layout_constraintHorizontal_bias="0.428"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <Button
-        android:id="@+id/button2"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="Save and exit"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/no_reps_edit_activity"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/exercise_type_edit_activity"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="Set break [s]"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toStartOf="@+id/textView7"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numberPicker" />
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_constraintEnd_toEndOf="@+id/set_break_time_edit_activity"
+        app:layout_constraintStart_toStartOf="@+id/set_break_time_edit_activity"
+        app:layout_constraintTop_toBottomOf="@+id/exercise_type_edit_activity" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="# Reps"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/textView3" />
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_constraintEnd_toEndOf="@+id/no_reps_edit_activity"
+        app:layout_constraintStart_toStartOf="@+id/no_reps_edit_activity"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set target time [s]"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
+        android:text="Set target [s]"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_constraintEnd_toEndOf="@+id/set_target_time_edit_activity"
+        app:layout_constraintStart_toStartOf="@+id/set_target_time_edit_activity"
         app:layout_constraintTop_toTopOf="@+id/textView5" />
 
     <NumberPicker
-        android:id="@+id/numberPicker3"
+        android:id="@+id/no_reps_edit_activity"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        app:layout_constraintEnd_toEndOf="@+id/textView6"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/no_sets_edit_activity"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <NumberPicker
-        android:id="@+id/numberPicker4"
+        android:id="@+id/set_break_time_edit_activity"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/set_target_time_edit_activity"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <NumberPicker
-        android:id="@+id/numberPicker5"
+        android:id="@+id/set_target_time_edit_activity"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        app:layout_constraintEnd_toEndOf="@+id/textView7"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/set_break_time_edit_activity"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 </android.support.constraint.ConstraintLayout>
