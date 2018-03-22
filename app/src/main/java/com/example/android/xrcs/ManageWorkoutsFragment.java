@@ -88,8 +88,6 @@ public class ManageWorkoutsFragment extends Fragment {
             case R.id.action_add_workout:
                 Intent createWorkoutIntent = new Intent(getActivity(), editWorkoutActivity.class);
                 startActivity(createWorkoutIntent);
-                Toast.makeText(getActivity(), "Working!!",
-                        Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

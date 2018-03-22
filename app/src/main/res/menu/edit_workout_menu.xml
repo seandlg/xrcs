@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_add_workout"
-        android:icon="@drawable/ic_add_white_24dp"
+        android:id="@+id/action_confirm_workout_changes"
+        android:icon="@drawable/ic_check_white_24dp"
         android:title="Add Workout"
-        app:showAsAction="always" />
+        app:showAsAction="always"/>
 </menu>

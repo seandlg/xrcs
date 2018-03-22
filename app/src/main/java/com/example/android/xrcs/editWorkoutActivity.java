@@ -1,16 +1,20 @@
 package com.example.android.xrcs;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.xrcs.data.WorkoutContract;
 import com.example.android.xrcs.data.WorkoutDbHelper;
@@ -27,6 +31,7 @@ public class editWorkoutActivity extends AppCompatActivity {
     private NumberPicker setTargetTime;
     private SQLiteDatabase mDb;
     private boolean editMode;
+    private int databaseID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +45,33 @@ public class editWorkoutActivity extends AppCompatActivity {
         // Setting boolean whether activity in Edit Mode or Add Mode based on whether additional data has been passed to the activity
         Bundle extras = getIntent().getExtras();
         editMode = extras != null;
-        populateView(extras);
+        populateViewWithData(extras);
     }
 
-    public void populateView(Bundle extras) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_workout_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_confirm_workout_changes:
+                if (editMode) {
+                    Toast.makeText(this, "Workout updated!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "New workout added!",
+                            Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void populateViewWithData(Bundle extras) {
         // Getting references to workout_name tv and time_target_switch
         workOutName = findViewById(R.id.workout_name_edit_activity);
         timeTargetSwitch = findViewById(R.id.time_target_switch_edit_activity);
@@ -74,7 +102,7 @@ public class editWorkoutActivity extends AppCompatActivity {
         // If the user is in edit mode, query the database to populate the fields with the respective information
         // This means that the user wants to edit/view a workout!
         if (editMode) {
-            int databaseID = extras.getInt("databaseID");
+            databaseID = extras.getInt("databaseID");
             Cursor cursor = mDb.rawQuery("SELECT * FROM " + WorkoutContract.WorkoutEntry.TABLE_NAME + " WHERE _id = " + databaseID, null);
             Log.d("Database", DatabaseUtils.dumpCursorToString(cursor));
             cursor.moveToFirst();
