@@ -46,7 +46,7 @@
     <NumberPicker
         android:id="@+id/exercise_type_edit_activity"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         app:layout_constraintEnd_toStartOf="@+id/no_sets_edit_activity"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
     <NumberPicker
         android:id="@+id/no_sets_edit_activity"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         app:layout_constraintEnd_toStartOf="@+id/no_reps_edit_activity"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/exercise_type_edit_activity"
@@ -86,12 +86,12 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Set break [s]"
+        android:layout_marginTop="16dp"
+        android:text="Break between sets [s]"
         android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintEnd_toEndOf="@+id/set_break_time_edit_activity"
         app:layout_constraintStart_toStartOf="@+id/set_break_time_edit_activity"
-        app:layout_constraintTop_toBottomOf="@+id/exercise_type_edit_activity" />
+        app:layout_constraintTop_toBottomOf="@+id/divider_view" />
 
     <TextView
         android:id="@+id/textView6"
@@ -107,7 +107,7 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set target [s]"
+        android:text="Set target time [s]"
         android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintEnd_toEndOf="@+id/set_target_time_edit_activity"
         app:layout_constraintStart_toStartOf="@+id/set_target_time_edit_activity"
@@ -116,7 +116,7 @@
     <NumberPicker
         android:id="@+id/no_reps_edit_activity"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/no_sets_edit_activity"
@@ -125,7 +125,7 @@
     <NumberPicker
         android:id="@+id/set_break_time_edit_activity"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         app:layout_constraintEnd_toStartOf="@+id/set_target_time_edit_activity"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -134,9 +134,20 @@
     <NumberPicker
         android:id="@+id/set_target_time_edit_activity"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/set_break_time_edit_activity"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <View
+        android:id="@+id/divider_view"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimaryLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exercise_type_edit_activity" />
+
 </android.support.constraint.ConstraintLayout>
