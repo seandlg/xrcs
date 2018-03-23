@@ -11,7 +11,7 @@
     <string name="workouttype">workoutType</string>
     <string name="set_display_value">5</string>
     <string name="timed_target_mode_text">Time Target Mode</string>
-    <string name="rest_between_value">30 s</string>
+    <string name="rest_between_value">30s</string>
     <string name="repetitions_value">10</string>
     <string name="set_target_time_value">20s</string>
     <string name="sets_text">Sets</string>

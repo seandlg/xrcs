@@ -5,16 +5,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.android.xrcs.data.WorkoutContract;
 import com.example.android.xrcs.data.WorkoutDbHelper;
@@ -42,6 +41,9 @@ public class ManageWorkoutsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_manage_workouts_layout, container, false);
         workoutsRecyclerView = rootView.findViewById(R.id.manage_workouts_recycler_view);
         workoutsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        // Optional: Have a divider between items
+        // DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        // workoutsRecyclerView.addItemDecoration(itemDecoration);
 
         // Create a DB helper (this will create the DB if run for the first time)
         WorkoutDbHelper dbHelper = new WorkoutDbHelper(getActivity());

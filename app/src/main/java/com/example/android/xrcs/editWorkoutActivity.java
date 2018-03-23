@@ -62,6 +62,12 @@ public class editWorkoutActivity extends AppCompatActivity {
         ContentValues cv = new ContentValues();
         switch (item.getItemId()) {
             case R.id.action_confirm_workout_changes:
+                // In case of empty workout name show Toast and return
+                if(workOutName.getText().toString().trim().length() == 0){
+                    Toast.makeText(this, "Workout name cannot be empty!",
+                            Toast.LENGTH_SHORT).show();
+                    return true;
+                }
                 cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME, workOutName.getText().toString());
                 switch (exerciseType.getDisplayedValues()[exerciseType.getValue()]) {
                     case "Pushups":
@@ -111,6 +117,8 @@ public class editWorkoutActivity extends AppCompatActivity {
                 finish();
                 return true; // Will not be called, but we don't mind
             default:
+                Toast.makeText(this, "Changes discarded!",
+                        Toast.LENGTH_SHORT).show();
                 return super.onOptionsItemSelected(item);
         }
 
