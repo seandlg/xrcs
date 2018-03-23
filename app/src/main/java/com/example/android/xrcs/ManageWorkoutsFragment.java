@@ -24,6 +24,7 @@ import com.example.android.xrcs.helpers.ManageWorkoutsAdapter;
 public class ManageWorkoutsFragment extends Fragment {
     private SQLiteDatabase mDb;
     private ManageWorkoutsAdapter mAdapter;
+    private RecyclerView workoutsRecyclerView;
 
     public ManageWorkoutsFragment() {
         // Required empty public constructor
@@ -39,7 +40,7 @@ public class ManageWorkoutsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_manage_workouts_layout, container, false);
-        RecyclerView workoutsRecyclerView = rootView.findViewById(R.id.manage_workouts_recycler_view);
+        workoutsRecyclerView = rootView.findViewById(R.id.manage_workouts_recycler_view);
         workoutsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Create a DB helper (this will create the DB if run for the first time)
@@ -94,14 +95,9 @@ public class ManageWorkoutsFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("ActivityResult","");
-        updateRecyclerView();
-    }
-
-    public void updateRecyclerView() {
-        mAdapter.notifyDataSetChanged();
+        // Create new adapter and pass it to the RecyclerView. Not performant, but works for now.
+        workoutsRecyclerView.setAdapter(new ManageWorkoutsAdapter(getActivity(), getAllWorkouts()));
     }
 }
