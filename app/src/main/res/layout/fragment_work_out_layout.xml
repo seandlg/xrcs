@@ -22,17 +22,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Spinner
-            android:id="@+id/select_workout_spinner"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tldr_text" />
-
         <TextView
             android:id="@+id/tldr_text"
             android:layout_width="0dp"
@@ -73,19 +62,32 @@
             app:layout_constraintTop_toBottomOf="@+id/welcome_text" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/start_workout_button"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:paddingHorizontal="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:text="@string/start_workout_button_text"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textColor="@color/colorIcons"
+            android:background="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/work_out_number_picker"
+            app:layout_constraintTop_toBottomOf="@+id/tldr_text"/>
+
+        <NumberPicker
+            android:id="@+id/work_out_number_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/start_workout_button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/select_workout_spinner"
-            tools:background="@color/colorAccent" />
+            app:layout_constraintTop_toBottomOf="@+id/tldr_text" />
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

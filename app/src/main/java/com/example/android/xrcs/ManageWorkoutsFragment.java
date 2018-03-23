@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,6 +30,9 @@ public class ManageWorkoutsFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        // Create a DB helper (this will create the DB if run for the first time)
+        WorkoutDbHelper dbHelper = new WorkoutDbHelper(getActivity());
+        mDb = dbHelper.getWritableDatabase();
         super.onCreate(savedInstanceState);
     }
 
@@ -41,13 +43,6 @@ public class ManageWorkoutsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_manage_workouts_layout, container, false);
         workoutsRecyclerView = rootView.findViewById(R.id.manage_workouts_recycler_view);
         workoutsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        // Optional: Have a divider between items
-        // DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-        // workoutsRecyclerView.addItemDecoration(itemDecoration);
-
-        // Create a DB helper (this will create the DB if run for the first time)
-        WorkoutDbHelper dbHelper = new WorkoutDbHelper(getActivity());
-        mDb = dbHelper.getWritableDatabase();
         Cursor cursor = getAllWorkouts();
         // Pass the entire cursor to the adapter rather than just the count & create an adapter for that cursor to display the data
         mAdapter = new ManageWorkoutsAdapter(getActivity(), cursor);
@@ -100,6 +95,7 @@ public class ManageWorkoutsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Create new adapter and pass it to the RecyclerView. Not performant, but works for now.
+        // TODO: Upgrade this behavior!
         workoutsRecyclerView.setAdapter(new ManageWorkoutsAdapter(getActivity(), getAllWorkouts()));
     }
 }

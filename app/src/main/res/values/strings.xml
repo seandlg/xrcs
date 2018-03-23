@@ -24,10 +24,10 @@
     <string name="create_workout_button_text">Create new</string>
     <string name="edit_existing_workouts_text">Select workout to edit</string>
     <string name="welcome_to_xrcs">Welcome to xrcs</string>
-    <string name="tldr_text">Please select a workout from the menu below. If you have not yet created a workout, use a default workout or head to the Manage workoutssection and do so now :)</string>
+    <string name="tldr_text">Please select a workout from the menu below. If you have not yet created a workout, use a default workout or head to the Manage workouts section and do so now :)</string>
     <string name="welcome_text">xrcs is an app for tracking your workout progress using your device\'s camera. It implements a neural network in the backend that keeps track of your position and thus calculate your workout progress from your movement. xrcs has been written as a mini thesis at the Tsinghua University, Beijing. It is entirely experimental. Right now, we only support tracking for pushups and pullups!</string>
     <string name="tldr_heading">TLDR; Get me started!</string>
-    <string name="start_workout_button_text">Start Workout</string>
+    <string name="start_workout_button_text">Start Workout!</string>
     <string-array name="static_spinner_selection">
         <item>Mercury</item>
         <item>Venus</item>
