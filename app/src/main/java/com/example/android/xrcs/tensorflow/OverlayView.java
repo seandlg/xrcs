@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-package org.tensorflow.demo;
+package com.example.android.xrcs.tensorflow;
 
 import android.content.Context;
 import android.graphics.Canvas;

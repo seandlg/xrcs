@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+import com.example.android.xrcs.tensorflow.OverlayView.DrawCallback;
 //import org.tensorflow.demo.OverlayView.DrawCallback;
 //import org.tensorflow.demo.env.BorderedText;
 //import org.tensorflow.demo.env.ImageUtils;

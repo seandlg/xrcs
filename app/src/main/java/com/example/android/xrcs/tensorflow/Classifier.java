@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-package com.example.android.xrcs.helpers.tensorflow;
+package com.example.android.xrcs.tensorflow;
 
 import android.graphics.Bitmap;
 import android.graphics.RectF;
