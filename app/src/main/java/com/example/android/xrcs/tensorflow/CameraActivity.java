@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.xrcs.helpers.tensorflow;
+package com.example.android.xrcs.tensorflow;
 
 import android.Manifest;
 import android.app.Activity;
@@ -41,9 +41,9 @@ import android.view.Surface;
 import android.view.WindowManager;
 import android.widget.Toast;
 import java.nio.ByteBuffer;
-import org.tensorflow.demo.env.ImageUtils;
-import org.tensorflow.demo.env.Logger;
-import org.tensorflow.demo.R; // Explicit import needed for internal Google builds.
+import com.example.android.xrcs.tensorflow.env.ImageUtils;
+import com.example.android.xrcs.tensorflow.env.Logger;
+import com.example.android.xrcs.R; // Explicit import needed for internal Google builds.
 
 public abstract class CameraActivity extends Activity
     implements OnImageAvailableListener, Camera.PreviewCallback {
@@ -358,9 +358,9 @@ public abstract class CameraActivity extends Activity
 
     Fragment fragment;
     if (useCamera2API) {
-      org.tensorflow.demo.CameraConnectionFragment camera2Fragment =
-          org.tensorflow.demo.CameraConnectionFragment.newInstance(
-              new org.tensorflow.demo.CameraConnectionFragment.ConnectionCallback() {
+      com.example.android.xrcs.tensorflow.CameraConnectionFragment camera2Fragment =
+              com.example.android.xrcs.tensorflow.CameraConnectionFragment.newInstance(
+              new com.example.android.xrcs.tensorflow.CameraConnectionFragment.ConnectionCallback() {
                 @Override
                 public void onPreviewSizeChosen(final Size size, final int rotation) {
                   previewHeight = size.getHeight();
@@ -376,7 +376,7 @@ public abstract class CameraActivity extends Activity
       fragment = camera2Fragment;
     } else {
       fragment =
-          new org.tensorflow.demo.LegacyCameraConnectionFragment(this, getLayoutId(), getDesiredPreviewFrameSize());
+          new com.example.android.xrcs.tensorflow.LegacyCameraConnectionFragment(this, getLayoutId(), getDesiredPreviewFrameSize());
     }
 
     getFragmentManager()
@@ -403,14 +403,14 @@ public abstract class CameraActivity extends Activity
   }
 
   public void requestRender() {
-    final org.tensorflow.demo.OverlayView overlay = (org.tensorflow.demo.OverlayView) findViewById(R.id.debug_overlay);
+    final com.example.android.xrcs.tensorflow.OverlayView overlay = (com.example.android.xrcs.tensorflow.OverlayView) findViewById(R.id.debug_overlay);
     if (overlay != null) {
       overlay.postInvalidate();
     }
   }
 
-  public void addCallback(final org.tensorflow.demo.OverlayView.DrawCallback callback) {
-    final org.tensorflow.demo.OverlayView overlay = (org.tensorflow.demo.OverlayView) findViewById(R.id.debug_overlay);
+  public void addCallback(final com.example.android.xrcs.tensorflow.OverlayView.DrawCallback callback) {
+    final com.example.android.xrcs.tensorflow.OverlayView overlay = (com.example.android.xrcs.tensorflow.OverlayView) findViewById(R.id.debug_overlay);
     if (overlay != null) {
       overlay.addCallback(callback);
     }

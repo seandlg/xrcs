@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.android.xrcs.helpers.tensorflow;
+package com.example.android.xrcs.tensorflow;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -58,9 +59,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import org.tensorflow.demo.env.Logger;
-import org.tensorflow.demo.R; // Explicit import needed for internal Google builds.
+import com.example.android.xrcs.tensorflow.env.Logger;
+import com.example.android.xrcs.R; // Explicit import needed for internal Google builds.
 
+@SuppressLint("ValidFragment")
 public class CameraConnectionFragment extends Fragment {
   private static final Logger LOGGER = new Logger();
 
@@ -126,7 +128,7 @@ public class CameraConnectionFragment extends Fragment {
   /**
    * An {@link AutoFitTextureView} for camera preview.
    */
-  private AutoFitTextureView textureView;
+  private com.example.android.xrcs.tensorflow.AutoFitTextureView textureView;
 
   /**
    * A {@link CameraCaptureSession } for camera preview.
@@ -322,7 +324,7 @@ public class CameraConnectionFragment extends Fragment {
 
   @Override
   public void onViewCreated(final View view, final Bundle savedInstanceState) {
-    textureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+    textureView = (com.example.android.xrcs.tensorflow.AutoFitTextureView) view.findViewById(R.id.texture);
   }
 
   @Override
@@ -410,6 +412,7 @@ public class CameraConnectionFragment extends Fragment {
   /**
    * Opens the camera specified by {@link CameraConnectionFragment#cameraId}.
    */
+  @SuppressLint("MissingPermission")
   private void openCamera(final int width, final int height) {
     setUpCameraOutputs();
     configureTransform(width, height);

@@ -20,19 +20,23 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+
+import com.example.android.xrcs.tensorflow.Classifier;
+import com.example.android.xrcs.tensorflow.OverlayView;
 import com.example.android.xrcs.tensorflow.OverlayView.DrawCallback;
-//import org.tensorflow.demo.OverlayView.DrawCallback;
-//import org.tensorflow.demo.env.BorderedText;
-//import org.tensorflow.demo.env.ImageUtils;
-//import org.tensorflow.demo.env.Logger;
-//import org.tensorflow.demo.tracking.MultiBoxTracker;
-//import org.tensorflow.demo.R; // Explicit import needed for internal Google builds.
+import com.example.android.xrcs.tensorflow.TensorFlowObjectDetectionAPIModel;
+import com.example.android.xrcs.tensorflow.env.BorderedText;
+import com.example.android.xrcs.tensorflow.env.ImageUtils;
+import com.example.android.xrcs.tensorflow.env.Logger;
+import com.example.android.xrcs.tensorflow.tracking.MultiBoxTracker;
+import com.example.android.xrcs.tensorflow.CameraActivity;
+import com.example.android.xrcs.R; // Explicit import needed for internal Google builds.
 
 /**
  * An activity that uses a TensorFlowMultiBoxDetector and ObjectTracker to detect and then track
  * objects.
  */
-public class DetectorActivity extends org.tensorflow.demo.CameraActivity implements OnImageAvailableListener {
+public class DetectorActivity extends CameraActivity implements OnImageAvailableListener {
     private static final Logger LOGGER = new Logger();
 
     // Configuration values for the prepackaged multibox model.
@@ -84,7 +88,7 @@ public class DetectorActivity extends org.tensorflow.demo.CameraActivity impleme
 
     private Integer sensorOrientation;
 
-    private org.tensorflow.demo.Classifier detector;
+    private Classifier detector;
 
     private long lastProcessingTimeMs;
     private Bitmap rgbFrameBitmap = null;
@@ -98,25 +102,25 @@ public class DetectorActivity extends org.tensorflow.demo.CameraActivity impleme
     private Matrix frameToCropTransform;
     private Matrix cropToFrameTransform;
 
-    private org.tensorflow.demo.tracking.MultiBoxTracker tracker;
+    private MultiBoxTracker tracker;
 
     private byte[] luminanceCopy;
 
-    private org.tensorflow.demo.env.BorderedText borderedText;
+    private BorderedText borderedText;
     @Override
     public void onPreviewSizeChosen(final Size size, final int rotation) {
         final float textSizePx =
                 TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP, TEXT_SIZE_DIP, getResources().getDisplayMetrics());
-        borderedText = new org.tensorflow.demo.env.BorderedText(textSizePx);
+        borderedText = new BorderedText(textSizePx);
         borderedText.setTypeface(Typeface.MONOSPACE);
 
-        tracker = new org.tensorflow.demo.tracking.MultiBoxTracker(this);
+        tracker = new MultiBoxTracker(this);
 
         int cropSize = TF_OD_API_INPUT_SIZE;
 
         try {
-            detector = org.tensorflow.demo.TensorFlowObjectDetectionAPIModel.create(
+            detector = TensorFlowObjectDetectionAPIModel.create(
                     getAssets(), TF_OD_API_MODEL_FILE, TF_OD_API_LABELS_FILE, TF_OD_API_INPUT_SIZE);
             cropSize = TF_OD_API_INPUT_SIZE;
         } catch (final IOException e) {
@@ -140,7 +144,7 @@ public class DetectorActivity extends org.tensorflow.demo.CameraActivity impleme
         croppedBitmap = Bitmap.createBitmap(cropSize, cropSize, Config.ARGB_8888);
 
         frameToCropTransform =
-                org.tensorflow.demo.env.ImageUtils.getTransformationMatrix(
+                ImageUtils.getTransformationMatrix(
                         previewWidth, previewHeight,
                         cropSize, cropSize,
                         sensorOrientation, MAINTAIN_ASPECT);
@@ -148,7 +152,7 @@ public class DetectorActivity extends org.tensorflow.demo.CameraActivity impleme
         cropToFrameTransform = new Matrix();
         frameToCropTransform.invert(cropToFrameTransform);
 
-        trackingOverlay = (org.tensorflow.demo.OverlayView) findViewById(R.id.tracking_overlay);
+        trackingOverlay = (OverlayView) findViewById(R.id.tracking_overlay);
         trackingOverlay.addCallback(
                 new DrawCallback() {
                     @Override
@@ -204,7 +208,7 @@ public class DetectorActivity extends org.tensorflow.demo.CameraActivity impleme
                 });
     }
 
-    org.tensorflow.demo.OverlayView trackingOverlay;
+    OverlayView trackingOverlay;
 
     @Override
     protected void processImage() {
@@ -240,7 +244,7 @@ public class DetectorActivity extends org.tensorflow.demo.CameraActivity impleme
         canvas.drawBitmap(rgbFrameBitmap, frameToCropTransform, null);
         // For examining the actual TF input.
         if (SAVE_PREVIEW_BITMAP) {
-            org.tensorflow.demo.env.ImageUtils.saveBitmap(croppedBitmap);
+            ImageUtils.saveBitmap(croppedBitmap);
         }
 
         runInBackground(
@@ -249,7 +253,7 @@ public class DetectorActivity extends org.tensorflow.demo.CameraActivity impleme
                     public void run() {
                         LOGGER.i("Running detection on image " + currTimestamp);
                         final long startTime = SystemClock.uptimeMillis();
-                        final List<org.tensorflow.demo.Classifier.Recognition> results = detector.recognizeImage(croppedBitmap);
+                        final List<Classifier.Recognition> results = detector.recognizeImage(croppedBitmap);
                         lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;
 
                         cropCopyBitmap = Bitmap.createBitmap(croppedBitmap);
@@ -272,10 +276,10 @@ public class DetectorActivity extends org.tensorflow.demo.CameraActivity impleme
                                 break;
                         }
 
-                        final List<org.tensorflow.demo.Classifier.Recognition> mappedRecognitions =
-                                new LinkedList<org.tensorflow.demo.Classifier.Recognition>();
+                        final List<Classifier.Recognition> mappedRecognitions =
+                                new LinkedList<Classifier.Recognition>();
 
-                        for (final org.tensorflow.demo.Classifier.Recognition result : results) {
+                        for (final Classifier.Recognition result : results) {
                             final RectF location = result.getLocation();
                             if (location != null && result.getConfidence() >= minimumConfidence) {
                                 canvas.drawRect(location, paint);

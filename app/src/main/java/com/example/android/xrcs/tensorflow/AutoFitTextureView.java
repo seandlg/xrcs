@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.xrcs.helpers.tensorflow;
+package com.example.android.xrcs.tensorflow;
 
 import android.content.Context;
 import android.util.AttributeSet;

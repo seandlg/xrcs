@@ -1,4 +1,4 @@
-package org.tensorflow.demo;
+package com.example.android.xrcs.tensorflow;
 
 /*
  * Copyright 2017 The TensorFlow Authors. All Rights Reserved.
@@ -16,6 +16,7 @@ package org.tensorflow.demo;
  * limitations under the License.
  */
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -30,12 +31,17 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.android.xrcs.tensorflow.AutoFitTextureView;
+import com.example.android.xrcs.tensorflow.CameraConnectionFragment;
+
 import java.io.IOException;
 import java.util.List;
-import org.tensorflow.demo.env.ImageUtils;
-import org.tensorflow.demo.env.Logger;
-import org.tensorflow.demo.R; // Explicit import needed for internal Google builds.
+import com.example.android.xrcs.tensorflow.env.ImageUtils;
+import com.example.android.xrcs.tensorflow.env.Logger;
+import com.example.android.xrcs.R; // Explicit import needed for internal Google builds.
 
+@SuppressLint("ValidFragment")
 public class LegacyCameraConnectionFragment extends Fragment {
   private Camera camera;
   private static final Logger LOGGER = new Logger();
@@ -93,7 +99,7 @@ public class LegacyCameraConnectionFragment extends Fragment {
               sizes[i++] = new Size(size.width, size.height);
             }
             Size previewSize =
-                CameraConnectionFragment.chooseOptimalSize(
+                    com.example.android.xrcs.tensorflow.CameraConnectionFragment.chooseOptimalSize(
                     sizes, desiredSize.getWidth(), desiredSize.getHeight());
             parameters.setPreviewSize(previewSize.getWidth(), previewSize.getHeight());
             camera.setDisplayOrientation(90);
@@ -128,7 +134,7 @@ public class LegacyCameraConnectionFragment extends Fragment {
   /**
    * An {@link AutoFitTextureView} for camera preview.
    */
-  private AutoFitTextureView textureView;
+  private com.example.android.xrcs.tensorflow.AutoFitTextureView textureView;
 
   /**
    * An additional thread for running tasks that shouldn't block the UI.
@@ -143,7 +149,7 @@ public class LegacyCameraConnectionFragment extends Fragment {
 
   @Override
   public void onViewCreated(final View view, final Bundle savedInstanceState) {
-    textureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+    textureView = (com.example.android.xrcs.tensorflow.AutoFitTextureView) view.findViewById(R.id.texture);
   }
 
   @Override
