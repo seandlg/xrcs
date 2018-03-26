@@ -1,7 +1,6 @@
 package com.example.android.xrcs;
 
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,18 +11,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Toast;
+import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 
 import com.example.android.xrcs.data.WorkoutContract;
 import com.example.android.xrcs.data.WorkoutDbHelper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class WorkOutFragment extends Fragment {
     private NumberPicker workOutNumberPicker;
     private Button startWorkoutButton;
     private SQLiteDatabase mDb;
+    private TensorFlowInferenceInterface inferenceInterface;
+    // Tensorflow Constants
+    private static final String MODEL_FILE = "file:///android_asset/frozen_model_EXAMPLE.pb";
+    private static final String INPUT_NODE = "input";
+    private static final String[] OUTPUT_NODE = new String[] {"output"};
+    private static final int INPUT_SIZE = 5;
+    private static int[] myans;
 
     public WorkOutFragment() {
         // Required empty public constructor
@@ -35,6 +41,8 @@ public class WorkOutFragment extends Fragment {
         // Create a DB helper (this will create the DB if run for the first time)
         WorkoutDbHelper dbHelper = new WorkoutDbHelper(getActivity());
         mDb = dbHelper.getWritableDatabase();
+        inferenceInterface = new TensorFlowInferenceInterface(getActivity().getAssets(), MODEL_FILE);
+        System.out.println("Model loaded successfully!");
     }
 
     @Override
@@ -55,11 +63,16 @@ public class WorkOutFragment extends Fragment {
         workOutNumberPicker.setDisplayedValues(displayedElements);
         workOutNumberPicker.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         startWorkoutButton = rootView.findViewById(R.id.start_workout_button);
+
         startWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "Initializing workout (or not)!",
                         Toast.LENGTH_SHORT).show();
+                //inferenceInterface.feed(INPUT_NODE, INPUT_SIZ   E, 5);
+                //inferenceInterface.run(OUTPUT_NODE);
+                //inferenceInterface.fetch("output",myans);
+                //Log.d("COMPUTEDINTF",myans.toString());
             }
         });
         return rootView;
