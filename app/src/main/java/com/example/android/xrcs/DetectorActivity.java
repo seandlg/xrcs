@@ -10,12 +10,16 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
+import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Surface;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -66,12 +70,16 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     private static final String YOLO_OUTPUT_NAMES = "output";
     private static final int YOLO_BLOCK_SIZE = 32;
 
+    private TextView locationTextView;
+    private Handler handler = new Handler();
+
     // Which detection model to use: by default uses Tensorflow Object Detection API frozen
     // checkpoints.  Optionally use legacy Multibox (trained using an older version of the API)
     // or YOLO.
     private enum DetectorMode {
         TF_OD_API, MULTIBOX, YOLO;
     }
+
     private static final DetectorMode MODE = DetectorMode.TF_OD_API;
 
     // Minimum detection confidence to track a detection.
@@ -107,6 +115,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     private byte[] luminanceCopy;
 
     private BorderedText borderedText;
+
     @Override
     public void onPreviewSizeChosen(final Size size, final int rotation) {
         final float textSizePx =
@@ -163,7 +172,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                         }
                     }
                 });
-
+        locationTextView = findViewById(R.id.box_location);
         addCallback(
                 new DrawCallback() {
                     @Override
@@ -283,14 +292,19 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                             final RectF location = result.getLocation();
                             if (location != null && result.getConfidence() >= minimumConfidence) {
                                 canvas.drawRect(location, paint);
-
+                                Log.d("Result", result.toString());
                                 cropToFrameTransform.mapRect(location);
                                 result.setLocation(location);
                                 mappedRecognitions.add(result);
                             }
                         }
+                        handler.post(new Runnable() {
+                                         public void run() {
+                                             locationTextView.setText(mappedRecognitions.toString());
+                                         }
+                                     });
 
-                        tracker.trackResults(mappedRecognitions, luminanceCopy, currTimestamp);
+                                tracker.trackResults(mappedRecognitions, luminanceCopy, currTimestamp);
                         trackingOverlay.postInvalidate();
 
                         requestRender();
