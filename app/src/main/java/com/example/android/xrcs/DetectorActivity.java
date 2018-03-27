@@ -264,6 +264,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                         final long startTime = SystemClock.uptimeMillis();
                         final List<Classifier.Recognition> results = detector.recognizeImage(croppedBitmap);
                         lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;
+                        boolean humanDetected = false;
 
                         cropCopyBitmap = Bitmap.createBitmap(croppedBitmap);
                         final Canvas canvas = new Canvas(cropCopyBitmap);
@@ -290,21 +291,22 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
                         for (final Classifier.Recognition result : results) {
                             final RectF location = result.getLocation();
-                            if (location != null && result.getConfidence() >= minimumConfidence) {
+                            if ((location != null && result.getConfidence() >= minimumConfidence) && (result.getTitle().equals("person"))) {
+                                humanDetected = true;
                                 canvas.drawRect(location, paint);
                                 Log.d("Result", result.toString());
                                 cropToFrameTransform.mapRect(location);
                                 result.setLocation(location);
                                 mappedRecognitions.add(result);
+                                handler.post(new Runnable() {
+                                    public void run() {
+                                        locationTextView.setText(mappedRecognitions.toString());
+                                    }
+                                });
                             }
                         }
-                        handler.post(new Runnable() {
-                                         public void run() {
-                                             locationTextView.setText(mappedRecognitions.toString());
-                                         }
-                                     });
 
-                                tracker.trackResults(mappedRecognitions, luminanceCopy, currTimestamp);
+                        tracker.trackResults(mappedRecognitions, luminanceCopy, currTimestamp);
                         trackingOverlay.postInvalidate();
 
                         requestRender();
