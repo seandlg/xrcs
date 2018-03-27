@@ -36,6 +36,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Trace;
+import android.util.Log;
 import android.util.Size;
 import android.view.KeyEvent;
 import android.view.Surface;
@@ -112,8 +113,10 @@ public abstract class CameraActivity extends Activity
           if (no_deltas>=2){
               LinkedList<change> deltaList = new LinkedList<change>();
               for (int i=0; i<no_deltas; i++){
-                  deltaList.add(deltaChange(locationHistory.get(i).height(),locationHistory.get(i+1).height()));
+                  Log.d("HEIGHT",String.valueOf(locationHistory.get(i).width()));
+                  deltaList.add(deltaChange(locationHistory.get(i).width(),locationHistory.get(i+1).width()));
               }
+              Log.d("LIST",deltaList.toString());
               int firstDecreasePosition = 0;
               int firstIncreasePosition = 0;
               for (int i=0; i<deltaList.size(); i++){
@@ -137,7 +140,7 @@ public abstract class CameraActivity extends Activity
       }
       private change deltaChange(float val1, float val2){
           float percentageChange = ((val1-val2)/val2)*100;
-          if (percentageChange<20){
+          if (percentageChange>20){
               return change.increasing;
           } else if (percentageChange<-20){
               return change.decreasing;
