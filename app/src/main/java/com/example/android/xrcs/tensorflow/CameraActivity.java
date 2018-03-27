@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.RectF;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
@@ -39,11 +40,17 @@ import android.util.Size;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import com.example.android.xrcs.tensorflow.env.ImageUtils;
 import com.example.android.xrcs.tensorflow.env.Logger;
 import com.example.android.xrcs.R; // Explicit import needed for internal Google builds.
+
+import org.tensorflow.Session;
 
 public abstract class CameraActivity extends Activity
     implements OnImageAvailableListener, Camera.PreviewCallback {
@@ -70,11 +77,82 @@ public abstract class CameraActivity extends Activity
   private Runnable postInferenceCallback;
   private Runnable imageConverter;
 
+  public workoutLogger progressLogger;
+  public TextView locationTextView;
+
+  public static class workoutLogger {
+      private LinkedList<RectF> locationHistory; // History of last rep
+      private int repetitionCount;
+      private enum change {neutral, decreasing, increasing};
+
+      public workoutLogger(){
+          locationHistory = new LinkedList<RectF>();
+          repetitionCount = 0;
+      }
+
+      private void resetHistory(){
+          locationHistory.clear();
+      }
+
+      public int addLocationAndEvaluateTotalReps(RectF newLocation){
+          // Reset history if nothing has happened for 50 iterations
+          if (locationHistory.size()>50){
+              resetHistory();
+          }
+          // Add the new location
+          locationHistory.add(newLocation);
+          // Evaluate the History - History is reset if a rep is detected
+          repetitionCount += evaluateHistoryForRep();
+          return repetitionCount;
+      }
+      // Returns 0 if no rep found, otherwise returns 1 and deletes history
+      private int evaluateHistoryForRep(){
+          int no_deltas = locationHistory.size()-1;
+          int ans = 0;
+          if (no_deltas>=2){
+              LinkedList<change> deltaList = new LinkedList<change>();
+              for (int i=0; i<no_deltas; i++){
+                  deltaList.add(deltaChange(locationHistory.get(i).height(),locationHistory.get(i+1).height()));
+              }
+              int firstDecreasePosition = 0;
+              int firstIncreasePosition = 0;
+              for (int i=0; i<deltaList.size(); i++){
+                  switch (deltaList.get(i)){
+                      case decreasing:
+                          firstDecreasePosition = i;
+                          break;
+                      case increasing:
+                          firstIncreasePosition = i;
+                          break;
+                  }
+              }
+              if (firstIncreasePosition>firstDecreasePosition){
+                  ans = 1;
+                  resetHistory();
+              }
+          } else{
+              ans=0;
+          }
+          return ans;
+      }
+      private change deltaChange(float val1, float val2){
+          float percentageChange = ((val1-val2)/val2)*100;
+          if (percentageChange<20){
+              return change.increasing;
+          } else if (percentageChange<-20){
+              return change.decreasing;
+          } else {
+              return change.neutral;
+          }
+      }
+  }
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     LOGGER.d("onCreate " + this);
     super.onCreate(null);
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    progressLogger = new workoutLogger();
+    locationTextView = findViewById(R.id.box_location);
 
     setContentView(R.layout.activity_camera);
 

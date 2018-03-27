@@ -70,7 +70,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     private static final String YOLO_OUTPUT_NAMES = "output";
     private static final int YOLO_BLOCK_SIZE = 32;
 
-    private TextView locationTextView;
     private Handler handler = new Handler();
 
     // Which detection model to use: by default uses Tensorflow Object Detection API frozen
@@ -115,6 +114,15 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     private byte[] luminanceCopy;
 
     private BorderedText borderedText;
+    private Toast ToastMoreThanTwoPersons;
+
+    public void showToastMoreThanTwoPersons() {
+        if (ToastMoreThanTwoPersons != null) {
+            ToastMoreThanTwoPersons.cancel();
+        }
+        ToastMoreThanTwoPersons = Toast.makeText(this, "Count paused. More than 2 persons detected!", Toast.LENGTH_SHORT);
+        ToastMoreThanTwoPersons.show();
+    }
 
     @Override
     public void onPreviewSizeChosen(final Size size, final int rotation) {
@@ -172,7 +180,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                         }
                     }
                 });
-        locationTextView = findViewById(R.id.box_location);
+
         addCallback(
                 new DrawCallback() {
                     @Override
@@ -218,6 +226,11 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     }
 
     OverlayView trackingOverlay;
+
+    public void updateTextView(RectF location){
+        //locationTextView.setText(progressLogger.addLocationAndEvaluateTotalReps(location));
+        Log.d("COUNTER",String.valueOf(progressLogger.addLocationAndEvaluateTotalReps(location)));
+    }
 
     @Override
     protected void processImage() {
@@ -288,11 +301,15 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
                         final List<Classifier.Recognition> mappedRecognitions =
                                 new LinkedList<Classifier.Recognition>();
-
+                        int counter = 0;
                         for (final Classifier.Recognition result : results) {
                             final RectF location = result.getLocation();
                             if ((location != null && result.getConfidence() >= minimumConfidence) && (result.getTitle().equals("person"))) {
-                                humanDetected = true;
+                                counter++;
+                                if (counter > 1) {
+                                    showToastMoreThanTwoPersons();
+                                    break;
+                                }
                                 canvas.drawRect(location, paint);
                                 Log.d("Result", result.toString());
                                 cropToFrameTransform.mapRect(location);
@@ -300,7 +317,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                                 mappedRecognitions.add(result);
                                 handler.post(new Runnable() {
                                     public void run() {
-                                        locationTextView.setText(mappedRecognitions.toString());
+                                        //locationTextView.setText(progressLogger.addLocationAndEvaluateTotalReps(location));
+                                        updateTextView(location);
                                     }
                                 });
                             }
