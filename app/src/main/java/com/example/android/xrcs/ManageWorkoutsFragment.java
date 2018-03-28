@@ -55,7 +55,7 @@ public class ManageWorkoutsFragment extends Fragment {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                         // Handle click by getting database ID and passing it to new createWorkoutIntent
-                        Intent createWorkoutIntent = new Intent(getActivity(), editWorkoutActivity.class);
+                        Intent createWorkoutIntent = new Intent(getActivity(), EditWorkoutActivity.class);
                         final ManageWorkoutsAdapter.WorkoutViewHolder holder = (ManageWorkoutsAdapter.WorkoutViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(position));
                         createWorkoutIntent.putExtra("databaseID", holder.getDatabaseID());
                         startActivityForResult(createWorkoutIntent,1);
@@ -85,7 +85,7 @@ public class ManageWorkoutsFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_workout:
-                Intent createWorkoutIntent = new Intent(getActivity(), editWorkoutActivity.class);
+                Intent createWorkoutIntent = new Intent(getActivity(), EditWorkoutActivity.class);
                 startActivityForResult(createWorkoutIntent,1);
                 return true;
             default:

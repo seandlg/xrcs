@@ -2,8 +2,10 @@ package com.example.android.xrcs;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,13 +28,6 @@ public class WorkOutFragment extends Fragment {
     private NumberPicker workOutNumberPicker;
     private Button startWorkoutButton;
     private SQLiteDatabase mDb;
-    // private TensorFlowInferenceInterface inferenceInterface;
-    // Tensorflow Constants
-    // private static final String MODEL_FILE = "file:///android_asset/frozen_model_EXAMPLE.pb";
-    // private static final String INPUT_NODE = "input";
-    // private static final String[] OUTPUT_NODE = new String[] {"output"};
-    // private static final int INPUT_SIZE = 5;
-    // private static int[] myans;
 
     public WorkOutFragment() {
         // Required empty public constructor
@@ -44,8 +39,6 @@ public class WorkOutFragment extends Fragment {
         // Create a DB helper (this will create the DB if run for the first time)
         WorkoutDbHelper dbHelper = new WorkoutDbHelper(getActivity());
         mDb = dbHelper.getWritableDatabase();
-        //inferenceInterface = new TensorFlowInferenceInterface(getActivity().getAssets(), MODEL_FILE);
-        //System.out.println("Model loaded successfully!");
     }
 
     @Override
@@ -53,16 +46,16 @@ public class WorkOutFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_work_out_layout, container, false);
         workOutNumberPicker = rootView.findViewById(R.id.work_out_number_picker);
         // Populate the NumberPicker from the database
-        Cursor cursor = mDb.query(WorkoutContract.WorkoutEntry.TABLE_NAME, new String[]{WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME},null,null,null,null,WorkoutContract.WorkoutEntry.COLUMN_TIMESTAMP);
+        Cursor cursor = mDb.query(WorkoutContract.WorkoutEntry.TABLE_NAME, new String[]{WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME}, null, null, null, null, WorkoutContract.WorkoutEntry.COLUMN_TIMESTAMP);
         int noWorkouts = cursor.getCount();
         List<String> displayedElementsList = new ArrayList<>();
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             displayedElementsList.add(cursor.getString(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME)));
         }
         String[] displayedElements = new String[noWorkouts];
         displayedElements = displayedElementsList.toArray(displayedElements);
         workOutNumberPicker.setMinValue(0);
-        workOutNumberPicker.setMaxValue(noWorkouts-1);
+        workOutNumberPicker.setMaxValue(noWorkouts - 1);
         workOutNumberPicker.setDisplayedValues(displayedElements);
         workOutNumberPicker.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         startWorkoutButton = rootView.findViewById(R.id.start_workout_button);
@@ -72,11 +65,20 @@ public class WorkOutFragment extends Fragment {
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "Initializing workout (or not)!",
                         Toast.LENGTH_SHORT).show();
-                //inferenceInterface.feed(INPUT_NODE, INPUT_SIZ   E, 5);
-                //inferenceInterface.run(OUTPUT_NODE);
-                //inferenceInterface.fetch("output",myans);
-                //Log.d("COMPUTEDINTF",myans.toString());
+                String selectedWorkout = workOutNumberPicker.getDisplayedValues()[workOutNumberPicker.getValue()];
                 Intent DetectorActivityIntent = new Intent(getActivity(), DetectorActivity.class);
+                String[] tableColumns = new String[]{WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, WorkoutContract.WorkoutEntry.COLUMN_REPS, WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME};
+                String whereClause = WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME + " = ?";
+                String[] whereArgs = new String[]{selectedWorkout};
+                Cursor c = mDb.query(WorkoutContract.WorkoutEntry.TABLE_NAME, tableColumns, whereClause, whereArgs, null, null, null);
+                Log.d("DATABASE", DatabaseUtils.dumpCursorToString(c));
+                c.moveToFirst();
+                DetectorActivityIntent.putExtra("repTarget", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REPS)));
+                DetectorActivityIntent.putExtra("setTarget", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS)));
+                DetectorActivityIntent.putExtra("workoutName", selectedWorkout);
+                DetectorActivityIntent.putExtra("restBetween", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME)));
+                DetectorActivityIntent.putExtra("targetTime", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME)));
+                c.close();
                 startActivity(DetectorActivityIntent);
             }
         });

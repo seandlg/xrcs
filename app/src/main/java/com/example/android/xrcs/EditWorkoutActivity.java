@@ -24,7 +24,7 @@ import com.example.android.xrcs.data.WorkoutDbHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class editWorkoutActivity extends AppCompatActivity {
+public class EditWorkoutActivity extends AppCompatActivity {
     private EditText workOutName;
     private Switch timeTargetSwitch;
     private NumberPicker exerciseType;

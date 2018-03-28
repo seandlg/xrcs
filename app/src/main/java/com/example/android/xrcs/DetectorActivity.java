@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
@@ -323,11 +324,12 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                                         //updateTextView(location);
                                     }
                                 });*/
+                                final int noReps = progressLogger.addLocationAndEvaluateTotalReps(location);
                                 Runnable runnable = new Runnable() {
                                     public void run() {
                                         Message msg = tvHandler.obtainMessage();
                                         Bundle bundle = new Bundle();
-                                        bundle.putString("reps", String.valueOf(progressLogger.addLocationAndEvaluateTotalReps(location)));
+                                        bundle.putString("reps", String.valueOf(noReps));
                                         msg.setData(bundle);
                                         tvHandler.sendMessage(msg);
                                     }
