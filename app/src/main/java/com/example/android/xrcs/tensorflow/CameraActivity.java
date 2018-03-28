@@ -35,6 +35,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Message;
 import android.os.Trace;
 import android.util.Log;
 import android.util.Size;
@@ -44,14 +45,12 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import com.example.android.xrcs.tensorflow.env.ImageUtils;
 import com.example.android.xrcs.tensorflow.env.Logger;
 import com.example.android.xrcs.R; // Explicit import needed for internal Google builds.
 
-import org.tensorflow.Session;
 
 public abstract class CameraActivity extends Activity
     implements OnImageAvailableListener, Camera.PreviewCallback {
@@ -79,7 +78,9 @@ public abstract class CameraActivity extends Activity
   private Runnable imageConverter;
 
   public workoutLogger progressLogger;
-  public TextView locationTextView;
+  public TextView noRepsTV;
+  public TextView noSetsTV;
+  public static Handler tvHandler;
 
   public static class workoutLogger {
       private LinkedList<RectF> locationHistory; // History of last rep
@@ -113,7 +114,6 @@ public abstract class CameraActivity extends Activity
           if (no_deltas>=2){
               LinkedList<change> deltaList = new LinkedList<change>();
               for (int i=0; i<no_deltas; i++){
-                  Log.d("HEIGHT",String.valueOf(locationHistory.get(i).width()));
                   deltaList.add(deltaChange(locationHistory.get(i).width(),locationHistory.get(i+1).width()));
               }
               Log.d("LIST",deltaList.toString());
@@ -153,11 +153,19 @@ public abstract class CameraActivity extends Activity
   protected void onCreate(final Bundle savedInstanceState) {
     LOGGER.d("onCreate " + this);
     super.onCreate(null);
+    setContentView(R.layout.activity_camera);
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     progressLogger = new workoutLogger();
-    locationTextView = findViewById(R.id.box_location);
-
-    setContentView(R.layout.activity_camera);
+    noRepsTV = findViewById(R.id.activity_camera_reps_tv);
+    noSetsTV = findViewById(R.id.activity_camera_sets_tv);
+    tvHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            Bundle bundle = msg.getData();
+            String noReps = bundle.getString("reps");
+            noRepsTV.setText(noReps);
+        }
+    };
 
     if (hasPermission()) {
       setFragment();

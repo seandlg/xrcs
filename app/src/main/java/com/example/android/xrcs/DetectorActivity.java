@@ -10,7 +10,9 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.util.Size;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import com.example.android.xrcs.tensorflow.Classifier;
@@ -69,8 +72,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     private static final String YOLO_INPUT_NAME = "input";
     private static final String YOLO_OUTPUT_NAMES = "output";
     private static final int YOLO_BLOCK_SIZE = 32;
-
-    private Handler handler = new Handler();
 
     // Which detection model to use: by default uses Tensorflow Object Detection API frozen
     // checkpoints.  Optionally use legacy Multibox (trained using an older version of the API)
@@ -227,10 +228,10 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
     OverlayView trackingOverlay;
 
-    public void updateTextView(RectF location){
-        //locationTextView.setText(progressLogger.addLocationAndEvaluateTotalReps(location));
-        Log.d("COUNTER",String.valueOf(progressLogger.addLocationAndEvaluateTotalReps(location)));
-    }
+/*    public void updateTextView(RectF location){
+        noRepsTV.setText(progressLogger.addLocationAndEvaluateTotalReps(location));
+        //Log.d("COUNTER",String.valueOf(progressLogger.addLocationAndEvaluateTotalReps(location)));
+    }*/
 
     @Override
     protected void processImage() {
@@ -315,12 +316,24 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                                 cropToFrameTransform.mapRect(location);
                                 result.setLocation(location);
                                 mappedRecognitions.add(result);
-                                handler.post(new Runnable() {
+                                /*tvHandler.post(new Runnable() {
                                     public void run() {
-                                        //locationTextView.setText(progressLogger.addLocationAndEvaluateTotalReps(location));
-                                        updateTextView(location);
+                                        noRepsTV = findViewById(R.id.activity_camera_reps_tv);
+                                        noRepsTV.setText(progressLogger.addLocationAndEvaluateTotalReps(location));
+                                        //updateTextView(location);
                                     }
-                                });
+                                });*/
+                                Runnable runnable = new Runnable() {
+                                    public void run() {
+                                        Message msg = tvHandler.obtainMessage();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("reps", String.valueOf(progressLogger.addLocationAndEvaluateTotalReps(location)));
+                                        msg.setData(bundle);
+                                        tvHandler.sendMessage(msg);
+                                    }
+                                };
+                                Thread myThread = new Thread(runnable);
+                                myThread.start();
                             }
                         }
 
