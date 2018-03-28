@@ -172,41 +172,46 @@ public abstract class CameraActivity extends Activity
         final Intent intent = getIntent();
         progressLogger = new workoutLogger();
         noRepsTV = findViewById(R.id.activity_camera_reps_tv);
-        noRepsTV.setText("0/"+intent.getStringExtra("repTarget"));
+        final int repTarget = Integer.parseInt(intent.getStringExtra("repTarget"));
+        noRepsTV.setText("0/" + repTarget);
         noSetsTV = findViewById(R.id.activity_camera_sets_tv);
-        noSetsTV.setText("0/"+intent.getStringExtra("setTarget"));
+        final int setTarget = Integer.parseInt(intent.getStringExtra("setTarget"));
+        noSetsTV.setText("0/" + setTarget);
         workoutHeading = findViewById(R.id.activity_camera_heading_tv);
+        workoutHeading.setText("Tracking: " + intent.getStringExtra("workoutName"));
         restBetween = findViewById(R.id.activity_camera_rest_between_tv);
-        noSetsTV = findViewById(R.id.activity_camera_target_time_tv);
+        restBetween.setText("Rest between: " + intent.getStringExtra("restBetween") + "s");
+        setTargetTime = findViewById(R.id.activity_camera_target_time_tv);
+        setTargetTime.setText("Target time: " + intent.getStringExtra("targetTime") + "s");
         // Initialize a Handler that updates the current workout status
         tvHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 Bundle bundle = msg.getData();
-                String noReps = bundle.getString("reps");
-                String repTarget = intent.getStringExtra("repTarget");
+                int noRepsTotal = Integer.parseInt(bundle.getString("reps"));
+                int noSets = noRepsTotal/setTarget;
+                int noReps = noRepsTotal%repTarget;
                 if (!(noReps + "/" + repTarget).equals(String.valueOf(noRepsTV.getText()))) {
-                    t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_FLUSH, null);
+                    t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                 }
                 noRepsTV.setText(noReps + "/" + repTarget);
             }
         };
-
+        if (hasPermission()) {
+            setFragment();
+        } else {
+            requestPermission();
+        }
         // Initialize the TextToSpeech Engine
         t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
+                    t1.speak("Begin workout." + intent.getStringExtra("workoutName"), TextToSpeech.QUEUE_FLUSH, null, null);
                 }
             }
         });
-
-        if (hasPermission()) {
-            setFragment();
-        } else {
-            requestPermission();
-        }
     }
 
     private byte[] lastPreviewFrame;

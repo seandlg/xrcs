@@ -207,8 +207,8 @@ public class ObjectTracker {
       final int frameWidth, final int frameHeight, final int rowStride, final boolean alwaysTrack) {
     if (!libraryFound) {
       LOGGER.e(
-          "Native object tracking support not found. "
-              + "See tensorflow/examples/android/README.md for details.");
+              "Native object tracking support not found. "
+                      + "See tensorflow/examples/android/README.md for details.");
       return null;
     }
 
