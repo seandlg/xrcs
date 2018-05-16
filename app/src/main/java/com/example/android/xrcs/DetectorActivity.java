@@ -11,22 +11,16 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
-import android.view.Display;
-import android.view.Surface;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Vector;
 
 import com.example.android.xrcs.tensorflow.Classifier;
@@ -38,7 +32,6 @@ import com.example.android.xrcs.tensorflow.env.ImageUtils;
 import com.example.android.xrcs.tensorflow.env.Logger;
 import com.example.android.xrcs.tensorflow.tracking.MultiBoxTracker;
 import com.example.android.xrcs.tensorflow.CameraActivity;
-import com.example.android.xrcs.R; // Explicit import needed for internal Google builds.
 
 /**
  * An activity that uses a TensorFlowMultiBoxDetector and ObjectTracker to detect and then track
@@ -230,8 +223,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     OverlayView trackingOverlay;
 
 /*    public void updateTextView(RectF location){
-        noRepsTV.setText(progressLogger.addLocationAndEvaluateTotalReps(location));
-        //Log.d("COUNTER",String.valueOf(progressLogger.addLocationAndEvaluateTotalReps(location)));
+        noRepsTV.setText(myWorkoutLogger.addLocationAndEvaluateTotalReps(location));
+        //Log.d("COUNTER",String.valueOf(myWorkoutLogger.addLocationAndEvaluateTotalReps(location)));
     }*/
 
     @Override
@@ -320,11 +313,11 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                                 /*tvHandler.post(new Runnable() {
                                     public void run() {
                                         noRepsTV = findViewById(R.id.activity_camera_reps_tv);
-                                        noRepsTV.setText(progressLogger.addLocationAndEvaluateTotalReps(location));
+                                        noRepsTV.setText(myWorkoutLogger.addLocationAndEvaluateTotalReps(location));
                                         //updateTextView(location);
                                     }
                                 });*/
-                                final int noReps = progressLogger.addLocationAndEvaluateTotalReps(location);
+                                final int noReps = myWorkoutLogger.addLocationAndEvaluateTotalReps(location);
                                 Runnable runnable = new Runnable() {
                                     public void run() {
                                         Message msg = tvHandler.obtainMessage();
