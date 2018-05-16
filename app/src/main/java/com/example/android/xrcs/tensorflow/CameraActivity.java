@@ -188,12 +188,21 @@ public abstract class CameraActivity extends Activity
             public void handleMessage(Message msg) {
                 Bundle bundle = msg.getData();
                 int noRepsTotal = Integer.parseInt(bundle.getString("reps"));
-                int noSets = noRepsTotal/setTarget;
+                int noSets = noRepsTotal/repTarget;
                 int noReps = noRepsTotal%repTarget;
                 if (!(noReps + "/" + repTarget).equals(String.valueOf(noRepsTV.getText()))) {
-                    t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
+                    if (!(noSets + "/" + setTarget).equals(String.valueOf(noSetsTV.getText()))){
+                        String setFinishedText = "Set number " + noSets + " finished.";
+                        noReps = repTarget;
+                        t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
+                        t1.speak(setFinishedText, TextToSpeech.QUEUE_ADD, null, null);
+                    }
+                    else {
+                        t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
+                    }
                 }
                 noRepsTV.setText(noReps + "/" + repTarget);
+                noSetsTV.setText(noSets + "/" + setTarget);
             }
         };
         if (hasPermission()) {
@@ -526,7 +535,7 @@ public abstract class CameraActivity extends Activity
         }
     }
 
-    public boolean isDebug() {
+/*    public boolean isDebug() {
         return debug;
     }
 
@@ -557,7 +566,7 @@ public abstract class CameraActivity extends Activity
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
+    }*/
 
     protected void readyForNextImage() {
         if (postInferenceCallback != null) {

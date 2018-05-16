@@ -40,48 +40,24 @@ import com.example.android.xrcs.tensorflow.CameraActivity;
 public class DetectorActivity extends CameraActivity implements OnImageAvailableListener {
     private static final Logger LOGGER = new Logger();
 
-    // Configuration values for the prepackaged multibox model.
-    private static final int MB_INPUT_SIZE = 224;
-    private static final int MB_IMAGE_MEAN = 128;
-    private static final float MB_IMAGE_STD = 128;
-    private static final String MB_INPUT_NAME = "ResizeBilinear";
-    private static final String MB_OUTPUT_LOCATIONS_NAME = "output_locations/Reshape";
-    private static final String MB_OUTPUT_SCORES_NAME = "output_scores/Reshape";
-    private static final String MB_MODEL_FILE = "file:///android_asset/multibox_model.pb";
-    private static final String MB_LOCATION_FILE =
-            "file:///android_asset/multibox_location_priors.txt";
-
     private static final int TF_OD_API_INPUT_SIZE = 300;
     private static final String TF_OD_API_MODEL_FILE =
             "file:///android_asset/ssd_mobilenet_v1_android_export.pb";
     private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/coco_labels_list.txt";
 
-    // Configuration values for tiny-yolo-voc. Note that the graph is not included with TensorFlow and
-    // must be manually placed in the assets/ directory by the user.
-    // Graphs and models downloaded from http://pjreddie.com/darknet/yolo/ may be converted e.g. via
-    // DarkFlow (https://github.com/thtrieu/darkflow). Sample command:
-    // ./flow --model cfg/tiny-yolo-voc.cfg --load bin/tiny-yolo-voc.weights --savepb --verbalise
-    private static final String YOLO_MODEL_FILE = "file:///android_asset/graph-tiny-yolo-voc.pb";
-    private static final int YOLO_INPUT_SIZE = 416;
-    private static final String YOLO_INPUT_NAME = "input";
-    private static final String YOLO_OUTPUT_NAMES = "output";
-    private static final int YOLO_BLOCK_SIZE = 32;
-
     // Which detection model to use: by default uses Tensorflow Object Detection API frozen
     // checkpoints.  Optionally use legacy Multibox (trained using an older version of the API)
     // or YOLO.
     private enum DetectorMode {
-        TF_OD_API, MULTIBOX, YOLO;
+        TF_OD_API
     }
 
     private static final DetectorMode MODE = DetectorMode.TF_OD_API;
 
     // Minimum detection confidence to track a detection.
     private static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.6f;
-    private static final float MINIMUM_CONFIDENCE_MULTIBOX = 0.1f;
-    private static final float MINIMUM_CONFIDENCE_YOLO = 0.25f;
 
-    private static final boolean MAINTAIN_ASPECT = MODE == DetectorMode.YOLO;
+    private static final boolean MAINTAIN_ASPECT = false;
 
     private static final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
 
@@ -165,7 +141,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
         frameToCropTransform.invert(cropToFrameTransform);
 
         trackingOverlay = (OverlayView) findViewById(R.id.tracking_overlay);
-        trackingOverlay.addCallback(
+/*        trackingOverlay.addCallback(
                 new DrawCallback() {
                     @Override
                     public void drawCallback(final Canvas canvas) {
@@ -217,15 +193,10 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
                         borderedText.drawLines(canvas, 10, canvas.getHeight() - 10, lines);
                     }
-                });
+                });*/
     }
 
     OverlayView trackingOverlay;
-
-/*    public void updateTextView(RectF location){
-        noRepsTV.setText(myWorkoutLogger.addLocationAndEvaluateTotalReps(location));
-        //Log.d("COUNTER",String.valueOf(myWorkoutLogger.addLocationAndEvaluateTotalReps(location)));
-    }*/
 
     @Override
     protected void processImage() {
@@ -282,17 +253,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                         paint.setStrokeWidth(2.0f);
 
                         float minimumConfidence = MINIMUM_CONFIDENCE_TF_OD_API;
-                        switch (MODE) {
-                            case TF_OD_API:
-                                minimumConfidence = MINIMUM_CONFIDENCE_TF_OD_API;
-                                break;
-                            case MULTIBOX:
-                                minimumConfidence = MINIMUM_CONFIDENCE_MULTIBOX;
-                                break;
-                            case YOLO:
-                                minimumConfidence = MINIMUM_CONFIDENCE_YOLO;
-                                break;
-                        }
 
                         final List<Classifier.Recognition> mappedRecognitions =
                                 new LinkedList<Classifier.Recognition>();
@@ -310,13 +270,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                                 cropToFrameTransform.mapRect(location);
                                 result.setLocation(location);
                                 mappedRecognitions.add(result);
-                                /*tvHandler.post(new Runnable() {
-                                    public void run() {
-                                        noRepsTV = findViewById(R.id.activity_camera_reps_tv);
-                                        noRepsTV.setText(myWorkoutLogger.addLocationAndEvaluateTotalReps(location));
-                                        //updateTextView(location);
-                                    }
-                                });*/
                                 final int noReps = myWorkoutLogger.addLocationAndEvaluateTotalReps(location);
                                 Runnable runnable = new Runnable() {
                                     public void run() {
@@ -335,7 +288,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                         tracker.trackResults(mappedRecognitions, luminanceCopy, currTimestamp);
                         trackingOverlay.postInvalidate();
 
-                        requestRender();
+                        //requestRender();
                         computingDetection = false;
                     }
                 });
@@ -351,8 +304,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
         return DESIRED_PREVIEW_SIZE;
     }
 
-    @Override
+    /*@Override
     public void onSetDebug(final boolean debug) {
         detector.enableStatLogging(debug);
-    }
+    }*/
 }
