@@ -82,21 +82,19 @@ public abstract class CameraActivity extends Activity
     private Runnable postInferenceCallback;
     private Runnable imageConverter;
 
-    public workoutLogger progressLogger;
+    public workoutLogger myWorkoutLogger;
     public TextView noRepsTV;
     public TextView noSetsTV;
     public TextView workoutHeading;
     public TextView restBetween;
     public TextView setTargetTime;
     public static Handler tvHandler;
+    public String workoutType;
 
     public static class workoutLogger {
         private LinkedList<RectF> locationHistory; // History of last rep
         private int repetitionCount;
-
         private enum change {neutral, decreasing, increasing}
-
-        ;
 
         public workoutLogger() {
             locationHistory = new LinkedList<RectF>();
@@ -170,13 +168,14 @@ public abstract class CameraActivity extends Activity
         setContentView(R.layout.activity_camera);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         final Intent intent = getIntent();
-        progressLogger = new workoutLogger();
+        myWorkoutLogger = new workoutLogger();
         noRepsTV = findViewById(R.id.activity_camera_reps_tv);
         final int repTarget = Integer.parseInt(intent.getStringExtra("repTarget"));
         noRepsTV.setText("0/" + repTarget);
         noSetsTV = findViewById(R.id.activity_camera_sets_tv);
         final int setTarget = Integer.parseInt(intent.getStringExtra("setTarget"));
         noSetsTV.setText("0/" + setTarget);
+        workoutType = intent.getStringExtra("workoutType");
         workoutHeading = findViewById(R.id.activity_camera_heading_tv);
         workoutHeading.setText("Tracking: " + intent.getStringExtra("workoutName"));
         restBetween = findViewById(R.id.activity_camera_rest_between_tv);
@@ -208,7 +207,7 @@ public abstract class CameraActivity extends Activity
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
-                    t1.speak("Begin workout." + intent.getStringExtra("workoutName"), TextToSpeech.QUEUE_FLUSH, null, null);
+                    t1.speak("Begin " + workoutType + " workout." + intent.getStringExtra("workoutName"), TextToSpeech.QUEUE_FLUSH, null, null);
                 }
             }
         });

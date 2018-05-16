@@ -67,7 +67,7 @@ public class WorkOutFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
                 String selectedWorkout = workOutNumberPicker.getDisplayedValues()[workOutNumberPicker.getValue()];
                 Intent DetectorActivityIntent = new Intent(getActivity(), DetectorActivity.class);
-                String[] tableColumns = new String[]{WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, WorkoutContract.WorkoutEntry.COLUMN_REPS, WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME};
+                String[] tableColumns = new String[]{WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, WorkoutContract.WorkoutEntry.COLUMN_REPS, WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE};
                 String whereClause = WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME + " = ?";
                 String[] whereArgs = new String[]{selectedWorkout};
                 Cursor c = mDb.query(WorkoutContract.WorkoutEntry.TABLE_NAME, tableColumns, whereClause, whereArgs, null, null, null);
@@ -78,6 +78,7 @@ public class WorkOutFragment extends Fragment {
                 DetectorActivityIntent.putExtra("workoutName", selectedWorkout);
                 DetectorActivityIntent.putExtra("restBetween", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME)));
                 DetectorActivityIntent.putExtra("targetTime", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME)));
+                DetectorActivityIntent.putExtra("workoutType", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE)));
                 c.close();
                 startActivity(DetectorActivityIntent);
             }
