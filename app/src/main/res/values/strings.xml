@@ -31,6 +31,10 @@
     <string name="description_info">Info</string>
     <string name="request_permission">This sample needs camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="confirm_delete_workout_text">Delete</string>
+    <string name="cancel_delete_workout_text">Cancel</string>
+    <string name="delete_dialog_title">Delete workout?</string>
+    <string name="delete_dialog_message">Are you sure you want to delete this workout?</string>
     <string-array name="static_spinner_selection">
         <item>Mercury</item>
         <item>Venus</item>

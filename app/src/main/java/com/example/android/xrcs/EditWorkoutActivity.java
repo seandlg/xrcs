@@ -1,7 +1,9 @@
 package com.example.android.xrcs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.SQLException;
@@ -21,9 +23,6 @@ import android.widget.Toast;
 import com.example.android.xrcs.data.WorkoutContract;
 import com.example.android.xrcs.data.WorkoutDbHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class EditWorkoutActivity extends AppCompatActivity {
     private EditText workOutName;
     private Switch timeTargetSwitch;
@@ -35,6 +34,8 @@ public class EditWorkoutActivity extends AppCompatActivity {
     private SQLiteDatabase mDb;
     private boolean editMode;
     private int databaseID;
+    private MenuItem removeWorkoutMenuButton;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,24 +46,30 @@ public class EditWorkoutActivity extends AppCompatActivity {
         // Configure database access
         WorkoutDbHelper dbHelper = new WorkoutDbHelper(this);
         mDb = dbHelper.getWritableDatabase();
+
         // Setting boolean whether activity in Edit Mode or Add Mode based on whether additional data has been passed to the activity
         Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            databaseID = extras.getInt("databaseID");
+        }
         editMode = extras != null;
+
         timeTargetSwitch = findViewById(R.id.time_target_switch_edit_activity);
         setRestTime = findViewById(R.id.set_break_time_edit_activity);
         setTargetTime = findViewById(R.id.set_target_time_edit_activity);
         populateViewWithData(extras);
 
+        // Deactivate / activate time number pickers if time target switch toggled off / on
         timeTargetSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked){
-                        setTargetTime.setEnabled(true);
-                        setRestTime.setEnabled(true);
-                    } else{
-                        setTargetTime.setEnabled(false);
-                        setRestTime.setEnabled(false);
-                    }
+                if (isChecked) {
+                    setTargetTime.setEnabled(true);
+                    setRestTime.setEnabled(true);
+                } else {
+                    setTargetTime.setEnabled(false);
+                    setRestTime.setEnabled(false);
+                }
             }
         });
     }
@@ -70,6 +77,11 @@ public class EditWorkoutActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.edit_workout_menu, menu);
+        // Only show the menu "delete workout" button if we're in Edit Mode
+        removeWorkoutMenuButton = menu.findItem(R.id.action_remove_workout);
+        if (!editMode) {
+            removeWorkoutMenuButton.setVisible(false);
+        }
         return true;
     }
 
@@ -79,7 +91,7 @@ public class EditWorkoutActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_confirm_workout_changes:
                 // In case of empty workout name show Toast and return
-                if(workOutName.getText().toString().trim().length() == 0){
+                if (workOutName.getText().toString().trim().length() == 0) {
                     Toast.makeText(this, "Workout name cannot be empty!",
                             Toast.LENGTH_SHORT).show();
                     return true;
@@ -129,9 +141,36 @@ public class EditWorkoutActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
-                setResult(Activity.RESULT_OK,null);
+                setResult(Activity.RESULT_OK, null);
                 finish();
                 return true; // Will not be called, but we don't mind
+            case R.id.action_remove_workout:
+                // Create an alert dialog to show when the remove workout button is clicked
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                // Add title and message
+                builder.setMessage(R.string.delete_dialog_message).setTitle(R.string.delete_dialog_title);
+                // Add the buttons
+                builder.setPositiveButton(R.string.confirm_delete_workout_text, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked Delete button
+                        String whereClause = "_id=?";
+                        String[] whereArgs = new String[]{String.valueOf(databaseID)};
+                        mDb.delete(WorkoutContract.WorkoutEntry.TABLE_NAME, whereClause, whereArgs);
+                        Toast.makeText(getApplicationContext(), "Workout deleted",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel_delete_workout_text, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        Toast.makeText(getApplicationContext(), "Delete discarded",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+                // Create the AlertDialog
+                dialog = builder.create();
+                dialog.show();
+                return true;
             default:
                 Toast.makeText(this, "Changes discarded!",
                         Toast.LENGTH_SHORT).show();
@@ -167,7 +206,6 @@ public class EditWorkoutActivity extends AppCompatActivity {
         // If the user is in edit mode, query the database to populate the fields with the respective information
         // This means that the user wants to edit/view a workout!
         if (editMode) {
-            databaseID = extras.getInt("databaseID");
             Cursor cursor = mDb.rawQuery("SELECT * FROM " + WorkoutContract.WorkoutEntry.TABLE_NAME + " WHERE _id = " + databaseID, null);
             Log.d("Database", DatabaseUtils.dumpCursorToString(cursor));
             cursor.moveToFirst();
@@ -200,10 +238,10 @@ public class EditWorkoutActivity extends AppCompatActivity {
             setTargetTime.setValue(cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME)));
         }
         // Check after checking and potentially updating data in edit mode
-        if (timeTargetSwitch.isChecked()){
+        if (timeTargetSwitch.isChecked()) {
             setTargetTime.setActivated(true);
             setRestTime.setActivated(true);
-        } else{
+        } else {
             setTargetTime.setActivated(false);
             setRestTime.setActivated(false);
         }
