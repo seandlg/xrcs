@@ -187,11 +187,11 @@ public abstract class CameraActivity extends Activity
             @Override
             public void handleMessage(Message msg) {
                 Bundle bundle = msg.getData();
-                int noRepsTotal = Integer.parseInt(bundle.getString("reps"));
-                int noSets = noRepsTotal/repTarget;
-                int noReps = noRepsTotal%repTarget;
-                if (!(noReps + "/" + repTarget).equals(String.valueOf(noRepsTV.getText()))) {
-                    if (!(noSets + "/" + setTarget).equals(String.valueOf(noSetsTV.getText()))){
+                int noRepsTotal = Integer.parseInt(bundle.getString("reps")); // the total reps done in the workout so far
+                int noSets = noRepsTotal/repTarget; // this equates to noSets sets
+                int noReps = noRepsTotal%repTarget; // and to noReps reps in the current set
+                if (!(noReps + "/" + repTarget).equals(String.valueOf(noRepsTV.getText()))) { // if a new rep has been performed, i.e. noReps changed
+                    if (!(noSets + "/" + setTarget).equals(String.valueOf(noSetsTV.getText()))){ // if a new set is initialized
                         String setFinishedText = "Set number " + noSets + " finished.";
                         noReps = repTarget;
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
