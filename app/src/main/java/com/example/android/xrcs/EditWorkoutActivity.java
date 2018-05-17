@@ -174,7 +174,9 @@ public class EditWorkoutActivity extends AppCompatActivity {
             default:
                 Toast.makeText(this, "Changes discarded!",
                         Toast.LENGTH_SHORT).show();
-                return super.onOptionsItemSelected(item);
+                setResult(Activity.RESULT_OK, null);
+                finish();
+                return true;
         }
 
     }
