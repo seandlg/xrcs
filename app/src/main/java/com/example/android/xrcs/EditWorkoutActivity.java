@@ -2,7 +2,6 @@ package com.example.android.xrcs;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.SQLException;
@@ -13,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Switch;
@@ -48,7 +48,23 @@ public class EditWorkoutActivity extends AppCompatActivity {
         // Setting boolean whether activity in Edit Mode or Add Mode based on whether additional data has been passed to the activity
         Bundle extras = getIntent().getExtras();
         editMode = extras != null;
+        timeTargetSwitch = findViewById(R.id.time_target_switch_edit_activity);
+        setRestTime = findViewById(R.id.set_break_time_edit_activity);
+        setTargetTime = findViewById(R.id.set_target_time_edit_activity);
         populateViewWithData(extras);
+
+        timeTargetSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        setTargetTime.setEnabled(true);
+                        setRestTime.setEnabled(true);
+                    } else{
+                        setTargetTime.setEnabled(false);
+                        setRestTime.setEnabled(false);
+                    }
+            }
+        });
     }
 
     @Override
@@ -127,7 +143,6 @@ public class EditWorkoutActivity extends AppCompatActivity {
     public void populateViewWithData(Bundle extras) {
         // Getting references to workout_name tv and time_target_switch
         workOutName = findViewById(R.id.workout_name_edit_activity);
-        timeTargetSwitch = findViewById(R.id.time_target_switch_edit_activity);
         // Getting references to and configuring the number pickers
         exerciseType = findViewById(R.id.exercise_type_edit_activity);
         exerciseType.setMinValue(0);
@@ -142,16 +157,13 @@ public class EditWorkoutActivity extends AppCompatActivity {
         noReps.setMinValue(1);
         noReps.setMaxValue(100);
         noReps.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-        setRestTime = findViewById(R.id.set_break_time_edit_activity);
         setRestTime.setMinValue(1);
         setRestTime.setMaxValue(6);
         setRestTime.setDisplayedValues(new String[]{"30", "60", "90", "120", "150", "180"});
         setRestTime.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-        setTargetTime = findViewById(R.id.set_target_time_edit_activity);
         setTargetTime.setMinValue(1);
         setTargetTime.setMaxValue(100);
         setTargetTime.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-        timeTargetSwitch = findViewById(R.id.time_target_switch_edit_activity);
         // If the user is in edit mode, query the database to populate the fields with the respective information
         // This means that the user wants to edit/view a workout!
         if (editMode) {
@@ -186,6 +198,14 @@ public class EditWorkoutActivity extends AppCompatActivity {
             int breakTime = cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME)) / 30; // Moving in steps of 30, yet index is integer
             setRestTime.setValue(breakTime);
             setTargetTime.setValue(cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME)));
+        }
+        // Check after checking and potentially updating data in edit mode
+        if (timeTargetSwitch.isChecked()){
+            setTargetTime.setActivated(true);
+            setRestTime.setActivated(true);
+        } else{
+            setTargetTime.setActivated(false);
+            setRestTime.setActivated(false);
         }
     }
 }
