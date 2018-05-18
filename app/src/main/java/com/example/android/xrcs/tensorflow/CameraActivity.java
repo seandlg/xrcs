@@ -169,19 +169,20 @@ public abstract class CameraActivity extends Activity
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         final Intent intent = getIntent();
         myWorkoutLogger = new workoutLogger();
+        final Bundle workoutDataBundle = intent.getBundleExtra("workoutDataBundle");
         noRepsTV = findViewById(R.id.activity_camera_reps_tv);
-        final int repTarget = Integer.parseInt(intent.getStringExtra("repTarget"));
+        final int repTarget = Integer.parseInt(workoutDataBundle.getString("repTarget"));
         noRepsTV.setText("0/" + repTarget);
         noSetsTV = findViewById(R.id.activity_camera_sets_tv);
-        final int setTarget = Integer.parseInt(intent.getStringExtra("setTarget"));
+        final int setTarget = Integer.parseInt(workoutDataBundle.getString("setTarget"));
         noSetsTV.setText("0/" + setTarget);
-        workoutType = intent.getStringExtra("workoutType");
+        workoutType = workoutDataBundle.getString("workoutType");
         workoutHeading = findViewById(R.id.activity_camera_heading_tv);
-        workoutHeading.setText("Tracking: " + intent.getStringExtra("workoutName"));
+        workoutHeading.setText("Tracking: " + workoutDataBundle.getString("workoutName"));
         restBetween = findViewById(R.id.activity_camera_rest_between_tv);
-        restBetween.setText("Rest between: " + intent.getStringExtra("restBetween") + "s");
+        restBetween.setText("Rest between: " + workoutDataBundle.getString("restBetween") + "s");
         setTargetTime = findViewById(R.id.activity_camera_target_time_tv);
-        setTargetTime.setText("Target time: " + intent.getStringExtra("targetTime") + "s");
+        setTargetTime.setText("Target time: " + workoutDataBundle.getString("targetTime") + "s");
         // Initialize a Handler that updates the current workout status
         tvHandler = new Handler() {
             @Override
@@ -216,7 +217,7 @@ public abstract class CameraActivity extends Activity
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
-                    t1.speak("Begin " + workoutType + " workout." + intent.getStringExtra("workoutName"), TextToSpeech.QUEUE_FLUSH, null, null);
+                    t1.speak("Begin " + workoutType + " workout." + workoutDataBundle.getString("workoutName"), TextToSpeech.QUEUE_FLUSH, null, null);
                 }
             }
         });

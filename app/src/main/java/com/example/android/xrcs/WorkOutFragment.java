@@ -63,24 +63,26 @@ public class WorkOutFragment extends Fragment {
         startWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Initializing workout (or not)!",
-                        Toast.LENGTH_SHORT).show();
                 String selectedWorkout = workOutNumberPicker.getDisplayedValues()[workOutNumberPicker.getValue()];
-                Intent DetectorActivityIntent = new Intent(getActivity(), DetectorActivity.class);
+                Intent timerRedirectIntent = new Intent(getActivity(), timerRedirectActivity.class);
                 String[] tableColumns = new String[]{WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, WorkoutContract.WorkoutEntry.COLUMN_REPS, WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE};
                 String whereClause = WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME + " = ?";
                 String[] whereArgs = new String[]{selectedWorkout};
                 Cursor c = mDb.query(WorkoutContract.WorkoutEntry.TABLE_NAME, tableColumns, whereClause, whereArgs, null, null, null);
                 Log.d("DATABASE", DatabaseUtils.dumpCursorToString(c));
                 c.moveToFirst();
-                DetectorActivityIntent.putExtra("repTarget", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REPS)));
-                DetectorActivityIntent.putExtra("setTarget", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS)));
-                DetectorActivityIntent.putExtra("workoutName", selectedWorkout);
-                DetectorActivityIntent.putExtra("restBetween", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME)));
-                DetectorActivityIntent.putExtra("targetTime", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME)));
-                DetectorActivityIntent.putExtra("workoutType", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE)));
+                Bundle workoutDataBundle = new Bundle();
+                workoutDataBundle.putString("repTarget", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REPS)));
+                workoutDataBundle.putString("setTarget", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS)));
+                workoutDataBundle.putString("workoutName", selectedWorkout);
+                workoutDataBundle.putString("restBetween", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME)));
+                workoutDataBundle.putString("targetTime", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME)));
+                workoutDataBundle.putString("workoutType", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE)));
                 c.close();
-                startActivity(DetectorActivityIntent);
+                timerRedirectIntent.putExtra("workoutDataBundle",workoutDataBundle);
+                timerRedirectIntent.putExtra("timerHeading", "Get ready!");
+                timerRedirectIntent.putExtra("timerStartValue", 3);
+                startActivity(timerRedirectIntent);
             }
         });
         return rootView;
