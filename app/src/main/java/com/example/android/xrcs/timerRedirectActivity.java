@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -41,25 +42,28 @@ public class timerRedirectActivity extends AppCompatActivity {
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
+                    t1.speak("Hello Test!", TextToSpeech.QUEUE_FLUSH, null, null);
+                    new CountDownTimer(timerStartValue * 1000 + 100, 1000) {
+
+                        public void onTick(long millisUntilFinished) {
+                            overlayTimerTV.setText(String.valueOf(millisUntilFinished / 1000));
+                            // If not second 0, then just speech output respective second
+                            if (millisUntilFinished > 500) {
+                                t1.speak(String.valueOf(timerStartValue), TextToSpeech.QUEUE_FLUSH, null, null);
+                                timerStartValue--;
+                            // Else we're ready to go. Speech output that!
+                            } else {
+                                t1.speak("Go", TextToSpeech.QUEUE_FLUSH, null, null);
+                            }
+                        }
+
+                        public void onFinish() {
+                            startActivity(DetectorActivityIntent);
+                            finish();
+                        }
+                    }.start();
                 }
             }
         });
-
-        new CountDownTimer(timerStartValue * 1000 + 100, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                overlayTimerTV.setText(String.valueOf(millisUntilFinished / 1000));
-                if (millisUntilFinished%1000 == 0) {
-                    t1.speak(String.valueOf(timerStartValue), TextToSpeech.QUEUE_FLUSH, null, null);
-                    timerStartValue--;
-                }
-                // TODO FIX THE SPEECH OUTPUT!!!!!!!!!!!!!!!!!!!!!!
-            }
-            public void onFinish() {
-                startActivity(DetectorActivityIntent);
-                finish();
-            }
-        }.start();
     }
-
 }
