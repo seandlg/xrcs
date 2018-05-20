@@ -44,17 +44,15 @@ public class timerRedirectActivity extends AppCompatActivity {
                     t1.setLanguage(Locale.UK);
                     t1.speak("Hello Test!", TextToSpeech.QUEUE_FLUSH, null, null);
                     new CountDownTimer(timerStartValue * 1000 + 100, 1000) {
-
                         public void onTick(long millisUntilFinished) {
-                            overlayTimerTV.setText(String.valueOf(millisUntilFinished / 1000));
-                            // If not second 0, then just speech output respective second
-                            if (millisUntilFinished > 500) {
-                                t1.speak(String.valueOf(timerStartValue), TextToSpeech.QUEUE_FLUSH, null, null);
-                                timerStartValue--;
-                            // Else we're ready to go. Speech output that!
-                            } else {
-                                t1.speak("Go", TextToSpeech.QUEUE_FLUSH, null, null);
+                            Long secondsLeftLong = (millisUntilFinished / 1000);
+                            int secondsLeft = secondsLeftLong.intValue();
+                            overlayTimerTV.setText(String.valueOf(secondsLeft));
+                            // If not second < 5, then just speech output every 5 seconds, else if 0 < seconds < 5 speech output every second
+                            if ((millisUntilFinished > 500) && (millisUntilFinished < 6000) || secondsLeft % 5 == 0) {
+                                t1.speak(String.valueOf(secondsLeft), TextToSpeech.QUEUE_FLUSH, null, null);
                             }
+                            secondsLeft--;
                         }
 
                         public void onFinish() {
