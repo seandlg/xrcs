@@ -51,6 +51,7 @@ public class timerRedirectActivity extends AppCompatActivity {
                             Long secondsLeftLong = (millisUntilFinished / 1000);
                             int secondsLeft = secondsLeftLong.intValue();
                             overlayTimerTV.setText(String.valueOf(secondsLeft));
+                            // If last second, then say "Go" instead of 0
                             if (millisUntilFinished < 500){
                                 t1.speak("Go!", TextToSpeech.QUEUE_FLUSH, null, null);
                             }

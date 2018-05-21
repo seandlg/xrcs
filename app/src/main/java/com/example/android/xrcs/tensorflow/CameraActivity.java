@@ -96,6 +96,7 @@ public abstract class CameraActivity extends Activity
     public static class workoutLogger {
         private LinkedList<RectF> locationHistory; // History of last rep
         private int repetitionCount;
+
         private enum change {neutral, decreasing, increasing}
 
         public workoutLogger() {
@@ -177,37 +178,38 @@ public abstract class CameraActivity extends Activity
         noRepsTV.setText("0/" + repTarget);
         noSetsTV = findViewById(R.id.activity_camera_sets_tv);
         final int setTarget = Integer.parseInt(workoutDataBundle.getString("setTarget"));
-        setsPerformedSoFar = intent.getIntExtra("setsPerformedSoFar",0);
+        setsPerformedSoFar = intent.getIntExtra("setsPerformedSoFar", 0);
         noSetsTV.setText(String.valueOf(setsPerformedSoFar) + "/" + setTarget);
         workoutType = workoutDataBundle.getString("workoutType");
         workoutHeading = findViewById(R.id.activity_camera_heading_tv);
-        workoutHeading.setText("Tracking: " + workoutDataBundle.getString("workoutName"));
-        restBetween = findViewById(R.id.activity_camera_rest_between_tv);
-        restBetween.setText("Rest between: " + workoutDataBundle.getString("restBetween") + "s");
-        setTargetTime = findViewById(R.id.activity_camera_target_time_tv);
-        setTargetTime.setText("Target time: " + workoutDataBundle.getString("targetTime") + "s");
+        workoutHeading.setText(workoutDataBundle.getString("workoutName"));
+        if (workoutDataBundle.getString("timeTargetMode").equals("Time Target Mode")) {
+            restBetween = findViewById(R.id.activity_camera_rest_between_tv);
+            restBetween.setText("Rest between: " + workoutDataBundle.getString("restBetween") + "s");
+            setTargetTime = findViewById(R.id.activity_camera_target_time_tv);
+            setTargetTime.setText("Target time: " + workoutDataBundle.getString("targetTime") + "s");
+        }
         // Initialize a Handler that updates the current workout status
         tvHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 Bundle bundle = msg.getData();
                 int noReps = Integer.parseInt(bundle.getString("reps")); // the reps done in this workout iteration so far (restart counting on new set)
-                int setFinished =  noReps/repTarget; // this is 0 until a set has been finished and it becomes 1
+                int setFinished = noReps / repTarget; // this is 0 until a set has been finished and it becomes 1
                 if (!(noReps + "/" + repTarget).equals(String.valueOf(noRepsTV.getText()))) { // if a new rep has been performed, i.e. noReps changed
-                    if (setFinished==1){ // if a new set is initialized
-                        String setFinishedText = "Set number " + (setsPerformedSoFar+1) + " finished.";
+                    if (setFinished == 1) { // if a new set is initialized
+                        String setFinishedText = "Set number " + (setsPerformedSoFar + 1) + " finished.";
                         noReps = repTarget;
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                         t1.speak(setFinishedText, TextToSpeech.QUEUE_ADD, null, null);
                         Intent timerRedirectIntent = new Intent(getApplicationContext(), timerRedirectActivity.class);
-                        timerRedirectIntent.putExtra("workoutDataBundle",workoutDataBundle);
+                        timerRedirectIntent.putExtra("workoutDataBundle", workoutDataBundle);
                         timerRedirectIntent.putExtra("timerHeading", "Get ready for next set!");
                         timerRedirectIntent.putExtra("timerStartValue", Integer.parseInt(workoutDataBundle.getString("restBetween")));
-                        timerRedirectIntent.putExtra("setsPerformedSoFar",setsPerformedSoFar+1);
+                        timerRedirectIntent.putExtra("setsPerformedSoFar", setsPerformedSoFar + 1);
                         startActivity(timerRedirectIntent);
                         finish();
-                    }
-                    else {
+                    } else {
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                     }
                 }

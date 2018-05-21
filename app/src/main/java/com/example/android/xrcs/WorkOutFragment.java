@@ -62,7 +62,7 @@ public class WorkOutFragment extends Fragment {
             public void onClick(View view) {
                 String selectedWorkout = workOutNumberPicker.getDisplayedValues()[workOutNumberPicker.getValue()];
                 Intent timerRedirectIntent = new Intent(getActivity(), timerRedirectActivity.class);
-                String[] tableColumns = new String[]{WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, WorkoutContract.WorkoutEntry.COLUMN_REPS, WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE};
+                String[] tableColumns = new String[]{WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, WorkoutContract.WorkoutEntry.COLUMN_REPS, WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE, WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE};
                 String whereClause = WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME + " = ?";
                 String[] whereArgs = new String[]{selectedWorkout};
                 Cursor c = mDb.query(WorkoutContract.WorkoutEntry.TABLE_NAME, tableColumns, whereClause, whereArgs, null, null, null);
@@ -75,6 +75,7 @@ public class WorkOutFragment extends Fragment {
                 workoutDataBundle.putString("restBetween", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME)));
                 workoutDataBundle.putString("targetTime", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME)));
                 workoutDataBundle.putString("workoutType", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE)));
+                workoutDataBundle.putString("timeTargetMode", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE)));
                 c.close();
                 timerRedirectIntent.putExtra("workoutDataBundle",workoutDataBundle);
                 timerRedirectIntent.putExtra("timerHeading", "Get ready!");
