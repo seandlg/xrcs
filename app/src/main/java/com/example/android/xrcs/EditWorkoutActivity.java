@@ -225,27 +225,31 @@ public class EditWorkoutActivity extends AppCompatActivity {
             }
             switch (cursor.getString(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE))) {
                 case "Time Target Mode":
-                    timeTargetSwitch.setChecked(true);
+                    timeTargetSwitch.setActivated(true);
                     break;
                 case "No Time Target":
-                    timeTargetSwitch.setChecked(false);
+                    timeTargetSwitch.setActivated(false);
                     break;
                 default:
                     throw new RuntimeException("Database error! Database should only contain TIME_TARGET_MODES of 'Time Target Mode' or 'No Time Target'");
             }
             noSets.setValue(cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS)));
             noReps.setValue(cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REPS)));
-            int breakTime = cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME)) / 30; // Moving in steps of 30, yet index is integer
-            setRestTime.setValue(breakTime);
+            int restTime = cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME)) / 30; // Moving in steps of 30, yet index is integer
+            setRestTime.setValue(restTime);
             setTargetTime.setValue(cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME)));
         }
         // Check after checking and potentially updating data in edit mode
         if (timeTargetSwitch.isChecked()) {
             setTargetTime.setActivated(true);
+            setTargetTime.setEnabled(true);
             setRestTime.setActivated(true);
+            setRestTime.setEnabled(true);
         } else {
             setTargetTime.setActivated(false);
+            setTargetTime.setEnabled(false);
             setRestTime.setActivated(false);
+            setRestTime.setEnabled(false);
         }
     }
 }

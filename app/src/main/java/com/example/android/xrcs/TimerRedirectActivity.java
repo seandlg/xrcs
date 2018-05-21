@@ -46,26 +46,31 @@ public class TimerRedirectActivity extends AppCompatActivity {
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
-                    myCountDownTimer = new CountDownTimer(timerStartValue * 1000 + 100, 1000) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                    }
+                    myCountDownTimer = new CountDownTimer(timerStartValue * 1000 + 300, 1000) {
                         public void onTick(long millisUntilFinished) {
                             Long secondsLeftLong = (millisUntilFinished / 1000);
                             int secondsLeft = secondsLeftLong.intValue();
                             if (secondsLeft != 0) {
                                 overlayTimerTV.setText(String.valueOf(secondsLeft));
-                            }
-                            // If last second, then say "Go" instead of 0
-                            if (millisUntilFinished < 500) {
+                                if (secondsLeft <= 5 || secondsLeft % 5 == 0) {
+                                    t1.speak(String.valueOf(secondsLeft), TextToSpeech.QUEUE_FLUSH, null, null);
+                                }
+                            } else {
                                 overlayTimerTV.setText("Go!");
                                 t1.speak("Go!", TextToSpeech.QUEUE_FLUSH, null, null);
-                            }
-                            // If not second < 5, then just speech output every 5 seconds, else if 0 < seconds < 5 speech output every second
-                            else if ((millisUntilFinished > 500) && (millisUntilFinished < 6000) || secondsLeft % 5 == 0) {
-                                t1.speak(String.valueOf(secondsLeft), TextToSpeech.QUEUE_FLUSH, null, null);
                             }
                             secondsLeft--;
                         }
 
                         public void onFinish() {
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                            }
                             startActivity(DetectorActivityIntent);
                             finish();
                         }

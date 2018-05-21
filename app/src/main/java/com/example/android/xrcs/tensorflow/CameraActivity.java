@@ -197,13 +197,13 @@ public abstract class CameraActivity extends Activity
                 int setFinished = noReps / repTarget; // this is 0 until a set has been finished and it becomes 1
                 if (!("Rep " + noReps + "/" + repTarget).equals(String.valueOf(noRepsTV.getText()))) { // if a new rep has been performed, i.e. noReps changed
                     if (setFinished == 1) { // if a new set is initialized
-                        String setFinishedText = "Set number " + (currentSet) + " finished.";
+                        String setFinishedText = "Set number " + (currentSet) + " finished. Pause for " + workoutDataBundle.getString("restBetween") + " seconds.";
                         noReps = repTarget;
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                         t1.speak(setFinishedText, TextToSpeech.QUEUE_ADD, null, null);
                         Intent timerRedirectIntent = new Intent(getApplicationContext(), TimerRedirectActivity.class);
                         timerRedirectIntent.putExtra("workoutDataBundle", workoutDataBundle);
-                        timerRedirectIntent.putExtra("timerHeading", "Get ready for next set!");
+                        timerRedirectIntent.putExtra("timerHeading", "Get ready for set " + (currentSet+1));
                         timerRedirectIntent.putExtra("timerStartValue", Integer.parseInt(workoutDataBundle.getString("restBetween")));
                         timerRedirectIntent.putExtra("currentSet", (currentSet+1));
                         startActivity(timerRedirectIntent);
@@ -229,10 +229,10 @@ public abstract class CameraActivity extends Activity
                     t1.setLanguage(Locale.UK);
                     String speechOutputText = "";
                     if (currentSet==1){
-                        speechOutputText = "Begin " + workoutType + " workout. Set " + (currentSet) + " of " + setTarget + " of " + workoutDataBundle.getString("workoutName");
+                        speechOutputText = "Begin " + workoutType + " workout. Set " + (currentSet) + " of " + workoutDataBundle.getString("workoutName");
                     }
                     else {
-                        speechOutputText = "Continue " + workoutType + " workout. Set " + (currentSet) + " of " + setTarget + " of " + workoutDataBundle.getString("workoutName");
+                        speechOutputText = "Continue " + workoutType + " workout. Set " + (currentSet) + " of " + workoutDataBundle.getString("workoutName");
                     }
                     t1.speak(speechOutputText, TextToSpeech.QUEUE_FLUSH, null, null);
                 }

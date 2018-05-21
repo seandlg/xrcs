@@ -9,7 +9,7 @@
         android:id="@+id/countdown_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/colorAccent">
 
         <TextView
             android:id="@+id/overlay_heading_tv"
@@ -19,7 +19,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Get ready!"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toTopOf="@+id/overlay_text_tv"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,8 +34,8 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="3-2-1 GO!"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:text="3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toTopOf="@+id/pushup_guy_image"
             app:layout_constraintEnd_toEndOf="parent"

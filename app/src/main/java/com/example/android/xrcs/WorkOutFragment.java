@@ -76,7 +76,7 @@ public class WorkOutFragment extends Fragment {
                 workoutDataBundle.putString("timeTargetMode", c.getString(c.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE)));
                 c.close();
                 timerRedirectIntent.putExtra("workoutDataBundle",workoutDataBundle);
-                timerRedirectIntent.putExtra("timerHeading", "Get ready!");
+                timerRedirectIntent.putExtra("timerHeading", "Initializing workout!");
                 timerRedirectIntent.putExtra("timerStartValue", 3);
                 timerRedirectIntent.putExtra("setsPerformedSoFar",0);
                 startActivity(timerRedirectIntent);
