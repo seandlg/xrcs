@@ -24,7 +24,7 @@ public class TimerRedirectActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle workoutDataBundle = intent.getBundleExtra("workoutDataBundle");
-        int setsPerformedSoFar = intent.getIntExtra("setsPerformedSoFar", 0);
+        int currentSet = intent.getIntExtra("currentSet", 1);
 
         String overlayHeadingText = intent.getStringExtra("timerHeading");
         overlayHeadingTV = findViewById(R.id.overlay_heading_tv);
@@ -37,7 +37,7 @@ public class TimerRedirectActivity extends AppCompatActivity {
         final Intent DetectorActivityIntent = new Intent(this, DetectorActivity.class);
         DetectorActivityIntent.putExtra("workoutDataBundle", workoutDataBundle);
 
-        DetectorActivityIntent.putExtra("setsPerformedSoFar", setsPerformedSoFar);
+        DetectorActivityIntent.putExtra("currentSet", currentSet);
         TextView overlayHeadingTV = findViewById(R.id.overlay_heading_tv);
 
         // Initialize the TextToSpeech Engine
@@ -46,7 +46,6 @@ public class TimerRedirectActivity extends AppCompatActivity {
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
-                    t1.speak("Hello Test!", TextToSpeech.QUEUE_FLUSH, null, null);
                     myCountDownTimer = new CountDownTimer(timerStartValue * 1000 + 100, 1000) {
                         public void onTick(long millisUntilFinished) {
                             Long secondsLeftLong = (millisUntilFinished / 1000);

@@ -90,7 +90,7 @@ public abstract class CameraActivity extends Activity
     public TextView setTargetTime;
     public static Handler tvHandler;
     public String workoutType;
-    public int setsPerformedSoFar;
+    public int currentSet;
 
     public static class workoutLogger {
         private LinkedList<RectF> locationHistory; // History of last rep
@@ -174,11 +174,11 @@ public abstract class CameraActivity extends Activity
         final Bundle workoutDataBundle = intent.getBundleExtra("workoutDataBundle");
         noRepsTV = findViewById(R.id.activity_camera_reps_tv);
         final int repTarget = Integer.parseInt(workoutDataBundle.getString("repTarget"));
-        noRepsTV.setText("0/" + repTarget);
+        noRepsTV.setText("Rep 0/" + repTarget);
         noSetsTV = findViewById(R.id.activity_camera_sets_tv);
         final int setTarget = Integer.parseInt(workoutDataBundle.getString("setTarget"));
-        setsPerformedSoFar = intent.getIntExtra("setsPerformedSoFar", 0);
-        noSetsTV.setText(String.valueOf(setsPerformedSoFar) + "/" + setTarget);
+        currentSet = intent.getIntExtra("currentSet", 1);
+        noSetsTV.setText("Set " + String.valueOf(currentSet) + "/" + setTarget);
         workoutType = workoutDataBundle.getString("workoutType");
         workoutHeading = findViewById(R.id.activity_camera_heading_tv);
         workoutHeading.setText(workoutDataBundle.getString("workoutName"));
@@ -195,9 +195,9 @@ public abstract class CameraActivity extends Activity
                 Bundle bundle = msg.getData();
                 int noReps = Integer.parseInt(bundle.getString("reps")); // the reps done in this workout iteration so far (restart counting on new set)
                 int setFinished = noReps / repTarget; // this is 0 until a set has been finished and it becomes 1
-                if (!(noReps + "/" + repTarget).equals(String.valueOf(noRepsTV.getText()))) { // if a new rep has been performed, i.e. noReps changed
+                if (!("Rep " + noReps + "/" + repTarget).equals(String.valueOf(noRepsTV.getText()))) { // if a new rep has been performed, i.e. noReps changed
                     if (setFinished == 1) { // if a new set is initialized
-                        String setFinishedText = "Set number " + (setsPerformedSoFar + 1) + " finished.";
+                        String setFinishedText = "Set number " + (currentSet) + " finished.";
                         noReps = repTarget;
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                         t1.speak(setFinishedText, TextToSpeech.QUEUE_ADD, null, null);
@@ -205,15 +205,15 @@ public abstract class CameraActivity extends Activity
                         timerRedirectIntent.putExtra("workoutDataBundle", workoutDataBundle);
                         timerRedirectIntent.putExtra("timerHeading", "Get ready for next set!");
                         timerRedirectIntent.putExtra("timerStartValue", Integer.parseInt(workoutDataBundle.getString("restBetween")));
-                        timerRedirectIntent.putExtra("setsPerformedSoFar", setsPerformedSoFar + 1);
+                        timerRedirectIntent.putExtra("currentSet", (currentSet+1));
                         startActivity(timerRedirectIntent);
                         finish();
                     } else {
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                     }
                 }
-                noRepsTV.setText(noReps + "/" + repTarget);
-                noSetsTV.setText(setsPerformedSoFar + "/" + setTarget);
+                noRepsTV.setText("Rep " + noReps + "/" + repTarget);
+                noSetsTV.setText("Set " + currentSet + "/" + setTarget);
             }
         };
         if (hasPermission()) {
@@ -227,7 +227,14 @@ public abstract class CameraActivity extends Activity
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
-                    t1.speak("Begin " + workoutType + " workout." + workoutDataBundle.getString("workoutName"), TextToSpeech.QUEUE_FLUSH, null, null);
+                    String speechOutputText = "";
+                    if (currentSet==1){
+                        speechOutputText = "Begin " + workoutType + " workout. Set " + (currentSet) + " of " + setTarget + " of " + workoutDataBundle.getString("workoutName");
+                    }
+                    else {
+                        speechOutputText = "Continue " + workoutType + " workout. Set " + (currentSet) + " of " + setTarget + " of " + workoutDataBundle.getString("workoutName");
+                    }
+                    t1.speak(speechOutputText, TextToSpeech.QUEUE_FLUSH, null, null);
                 }
             }
         });
