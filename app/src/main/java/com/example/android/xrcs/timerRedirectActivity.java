@@ -51,8 +51,11 @@ public class timerRedirectActivity extends AppCompatActivity {
                             Long secondsLeftLong = (millisUntilFinished / 1000);
                             int secondsLeft = secondsLeftLong.intValue();
                             overlayTimerTV.setText(String.valueOf(secondsLeft));
+                            if (millisUntilFinished < 500){
+                                t1.speak("Go!", TextToSpeech.QUEUE_FLUSH, null, null);
+                            }
                             // If not second < 5, then just speech output every 5 seconds, else if 0 < seconds < 5 speech output every second
-                            if ((millisUntilFinished > 500) && (millisUntilFinished < 6000) || secondsLeft % 5 == 0) {
+                            else if ((millisUntilFinished > 500) && (millisUntilFinished < 6000) || secondsLeft % 5 == 0) {
                                 t1.speak(String.valueOf(secondsLeft), TextToSpeech.QUEUE_FLUSH, null, null);
                             }
                             secondsLeft--;
