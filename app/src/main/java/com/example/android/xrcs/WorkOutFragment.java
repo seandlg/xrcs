@@ -16,8 +16,6 @@ import android.widget.NumberPicker;
 import com.example.android.xrcs.data.WorkoutContract;
 import com.example.android.xrcs.data.WorkoutDbHelper;
 
-import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +59,7 @@ public class WorkOutFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String selectedWorkout = workOutNumberPicker.getDisplayedValues()[workOutNumberPicker.getValue()];
-                Intent timerRedirectIntent = new Intent(getActivity(), timerRedirectActivity.class);
+                Intent timerRedirectIntent = new Intent(getActivity(), TimerRedirectActivity.class);
                 String[] tableColumns = new String[]{WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, WorkoutContract.WorkoutEntry.COLUMN_REPS, WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE, WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE};
                 String whereClause = WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME + " = ?";
                 String[] whereArgs = new String[]{selectedWorkout};

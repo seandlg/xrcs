@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
-public class timerRedirectActivity extends AppCompatActivity {
+public class TimerRedirectActivity extends AppCompatActivity {
     public TextView overlayHeadingTV;
     public TextView overlayTimerTV;
     public TextToSpeech t1;
@@ -50,9 +50,12 @@ public class timerRedirectActivity extends AppCompatActivity {
                         public void onTick(long millisUntilFinished) {
                             Long secondsLeftLong = (millisUntilFinished / 1000);
                             int secondsLeft = secondsLeftLong.intValue();
-                            overlayTimerTV.setText(String.valueOf(secondsLeft));
+                            if (secondsLeft!=0){
+                                overlayTimerTV.setText(String.valueOf(secondsLeft));
+                            }
                             // If last second, then say "Go" instead of 0
                             if (millisUntilFinished < 500){
+                                overlayTimerTV.setText("Go!");
                                 t1.speak("Go!", TextToSpeech.QUEUE_FLUSH, null, null);
                             }
                             // If not second < 5, then just speech output every 5 seconds, else if 0 < seconds < 5 speech output every second

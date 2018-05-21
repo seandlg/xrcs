@@ -41,7 +41,6 @@ import android.os.Trace;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.util.Size;
-import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -54,7 +53,7 @@ import java.util.Locale;
 import com.example.android.xrcs.tensorflow.env.ImageUtils;
 import com.example.android.xrcs.tensorflow.env.Logger;
 import com.example.android.xrcs.R; // Explicit import needed for internal Google builds.
-import com.example.android.xrcs.timerRedirectActivity;
+import com.example.android.xrcs.TimerRedirectActivity;
 
 
 public abstract class CameraActivity extends Activity
@@ -202,7 +201,7 @@ public abstract class CameraActivity extends Activity
                         noReps = repTarget;
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                         t1.speak(setFinishedText, TextToSpeech.QUEUE_ADD, null, null);
-                        Intent timerRedirectIntent = new Intent(getApplicationContext(), timerRedirectActivity.class);
+                        Intent timerRedirectIntent = new Intent(getApplicationContext(), TimerRedirectActivity.class);
                         timerRedirectIntent.putExtra("workoutDataBundle", workoutDataBundle);
                         timerRedirectIntent.putExtra("timerHeading", "Get ready for next set!");
                         timerRedirectIntent.putExtra("timerStartValue", Integer.parseInt(workoutDataBundle.getString("restBetween")));
