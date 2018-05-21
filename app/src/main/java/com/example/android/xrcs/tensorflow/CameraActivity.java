@@ -54,6 +54,7 @@ import java.util.Locale;
 import com.example.android.xrcs.tensorflow.env.ImageUtils;
 import com.example.android.xrcs.tensorflow.env.Logger;
 import com.example.android.xrcs.R; // Explicit import needed for internal Google builds.
+import com.example.android.xrcs.timerRedirectActivity;
 
 
 public abstract class CameraActivity extends Activity
@@ -90,6 +91,7 @@ public abstract class CameraActivity extends Activity
     public TextView setTargetTime;
     public static Handler tvHandler;
     public String workoutType;
+    public int setsPerformedSoFar;
 
     public static class workoutLogger {
         private LinkedList<RectF> locationHistory; // History of last rep
@@ -175,7 +177,8 @@ public abstract class CameraActivity extends Activity
         noRepsTV.setText("0/" + repTarget);
         noSetsTV = findViewById(R.id.activity_camera_sets_tv);
         final int setTarget = Integer.parseInt(workoutDataBundle.getString("setTarget"));
-        noSetsTV.setText("0/" + setTarget);
+        setsPerformedSoFar = intent.getIntExtra("setsPerformedSoFar",0);
+        noSetsTV.setText(String.valueOf(setsPerformedSoFar) + "/" + setTarget);
         workoutType = workoutDataBundle.getString("workoutType");
         workoutHeading = findViewById(R.id.activity_camera_heading_tv);
         workoutHeading.setText("Tracking: " + workoutDataBundle.getString("workoutName"));
@@ -188,22 +191,28 @@ public abstract class CameraActivity extends Activity
             @Override
             public void handleMessage(Message msg) {
                 Bundle bundle = msg.getData();
-                int noRepsTotal = Integer.parseInt(bundle.getString("reps")); // the total reps done in the workout so far
-                int noSets = noRepsTotal/repTarget; // this equates to noSets sets
-                int noReps = noRepsTotal%repTarget; // and to noReps reps in the current set
+                int noReps = Integer.parseInt(bundle.getString("reps")); // the reps done in this workout iteration so far (restart counting on new set)
+                int setFinished =  noReps/repTarget; // this is 0 until a set has been finished and it becomes 1
                 if (!(noReps + "/" + repTarget).equals(String.valueOf(noRepsTV.getText()))) { // if a new rep has been performed, i.e. noReps changed
-                    if (!(noSets + "/" + setTarget).equals(String.valueOf(noSetsTV.getText()))){ // if a new set is initialized
-                        String setFinishedText = "Set number " + noSets + " finished.";
+                    if (setFinished==1){ // if a new set is initialized
+                        String setFinishedText = "Set number " + (setsPerformedSoFar+1) + " finished.";
                         noReps = repTarget;
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                         t1.speak(setFinishedText, TextToSpeech.QUEUE_ADD, null, null);
+                        Intent timerRedirectIntent = new Intent(getApplicationContext(), timerRedirectActivity.class);
+                        timerRedirectIntent.putExtra("workoutDataBundle",workoutDataBundle);
+                        timerRedirectIntent.putExtra("timerHeading", "Get ready for next set!");
+                        timerRedirectIntent.putExtra("timerStartValue", Integer.parseInt(workoutDataBundle.getString("restBetween")));
+                        timerRedirectIntent.putExtra("setsPerformedSoFar",setsPerformedSoFar+1);
+                        startActivity(timerRedirectIntent);
+                        finish();
                     }
                     else {
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                     }
                 }
                 noRepsTV.setText(noReps + "/" + repTarget);
-                noSetsTV.setText(noSets + "/" + setTarget);
+                noSetsTV.setText(setsPerformedSoFar + "/" + setTarget);
             }
         };
         if (hasPermission()) {

@@ -23,6 +23,7 @@ public class timerRedirectActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle workoutDataBundle = intent.getBundleExtra("workoutDataBundle");
+        int setsPerformedSoFar = intent.getIntExtra("setsPerformedSoFar",0);
 
         String overlayHeadingText = intent.getStringExtra("timerHeading");
         overlayHeadingTV = findViewById(R.id.overlay_heading_tv);
@@ -34,6 +35,8 @@ public class timerRedirectActivity extends AppCompatActivity {
 
         final Intent DetectorActivityIntent = new Intent(this, DetectorActivity.class);
         DetectorActivityIntent.putExtra("workoutDataBundle", workoutDataBundle);
+
+        DetectorActivityIntent.putExtra("setsPerformedSoFar",setsPerformedSoFar);
         TextView overlayHeadingTV = findViewById(R.id.overlay_heading_tv);
 
         // Initialize the TextToSpeech Engine

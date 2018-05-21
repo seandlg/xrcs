@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.NumberPicker;
-import android.widget.Toast;
-//import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 
 import com.example.android.xrcs.data.WorkoutContract;
 import com.example.android.xrcs.data.WorkoutDbHelper;
@@ -82,6 +79,7 @@ public class WorkOutFragment extends Fragment {
                 timerRedirectIntent.putExtra("workoutDataBundle",workoutDataBundle);
                 timerRedirectIntent.putExtra("timerHeading", "Get ready!");
                 timerRedirectIntent.putExtra("timerStartValue", 3);
+                timerRedirectIntent.putExtra("setsPerformedSoFar",0);
                 startActivity(timerRedirectIntent);
             }
         });
