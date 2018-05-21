@@ -15,6 +15,7 @@ public class TimerRedirectActivity extends AppCompatActivity {
     public TextView overlayTimerTV;
     public TextToSpeech t1;
     public int timerStartValue;
+    public CountDownTimer myCountDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class TimerRedirectActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle workoutDataBundle = intent.getBundleExtra("workoutDataBundle");
-        int setsPerformedSoFar = intent.getIntExtra("setsPerformedSoFar",0);
+        int setsPerformedSoFar = intent.getIntExtra("setsPerformedSoFar", 0);
 
         String overlayHeadingText = intent.getStringExtra("timerHeading");
         overlayHeadingTV = findViewById(R.id.overlay_heading_tv);
@@ -36,7 +37,7 @@ public class TimerRedirectActivity extends AppCompatActivity {
         final Intent DetectorActivityIntent = new Intent(this, DetectorActivity.class);
         DetectorActivityIntent.putExtra("workoutDataBundle", workoutDataBundle);
 
-        DetectorActivityIntent.putExtra("setsPerformedSoFar",setsPerformedSoFar);
+        DetectorActivityIntent.putExtra("setsPerformedSoFar", setsPerformedSoFar);
         TextView overlayHeadingTV = findViewById(R.id.overlay_heading_tv);
 
         // Initialize the TextToSpeech Engine
@@ -46,15 +47,15 @@ public class TimerRedirectActivity extends AppCompatActivity {
                 if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
                     t1.speak("Hello Test!", TextToSpeech.QUEUE_FLUSH, null, null);
-                    new CountDownTimer(timerStartValue * 1000 + 100, 1000) {
+                    myCountDownTimer = new CountDownTimer(timerStartValue * 1000 + 100, 1000) {
                         public void onTick(long millisUntilFinished) {
                             Long secondsLeftLong = (millisUntilFinished / 1000);
                             int secondsLeft = secondsLeftLong.intValue();
-                            if (secondsLeft!=0){
+                            if (secondsLeft != 0) {
                                 overlayTimerTV.setText(String.valueOf(secondsLeft));
                             }
                             // If last second, then say "Go" instead of 0
-                            if (millisUntilFinished < 500){
+                            if (millisUntilFinished < 500) {
                                 overlayTimerTV.setText("Go!");
                                 t1.speak("Go!", TextToSpeech.QUEUE_FLUSH, null, null);
                             }
@@ -73,5 +74,11 @@ public class TimerRedirectActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        myCountDownTimer.cancel();
+        super.onBackPressed();
     }
 }
