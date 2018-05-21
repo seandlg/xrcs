@@ -203,7 +203,7 @@ public abstract class CameraActivity extends Activity
                         t1.speak(setFinishedText, TextToSpeech.QUEUE_ADD, null, null);
                         Intent timerRedirectIntent = new Intent(getApplicationContext(), TimerRedirectActivity.class);
                         timerRedirectIntent.putExtra("workoutDataBundle", workoutDataBundle);
-                        timerRedirectIntent.putExtra("timerHeading", "Get ready for set " + (currentSet+1));
+                        timerRedirectIntent.putExtra("timerHeading", "Get ready for set #" + (currentSet+1));
                         timerRedirectIntent.putExtra("timerStartValue", Integer.parseInt(workoutDataBundle.getString("restBetween")));
                         timerRedirectIntent.putExtra("currentSet", (currentSet+1));
                         startActivity(timerRedirectIntent);

@@ -40,23 +40,27 @@
         android:background="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline">
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/activity_camera_heading_tv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="29dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="workoutName"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@+id/activity_camera_sets_tv"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_camera_tracking_your_workout_tv" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside" />
 
         <TextView
             android:id="@+id/activity_camera_sets_tv"
@@ -68,7 +72,9 @@
             app:layout_constraintBottom_toTopOf="@+id/activity_camera_rest_between_tv"
             app:layout_constraintEnd_toStartOf="@+id/activity_camera_reps_tv"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_camera_heading_tv" />
 
         <TextView
             android:id="@+id/activity_camera_reps_tv"
@@ -109,13 +115,13 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="Your workout is being tracked."
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:layout_marginTop="8dp"
+            android:text="This workout is being tracked."
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_camera_heading_tv" />
 
     </android.support.constraint.ConstraintLayout>
 
