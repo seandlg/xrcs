@@ -106,7 +106,7 @@ public class EditWorkoutActivity extends AppCompatActivity {
                         break;
                 }
                 cv.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, noSets.getValue());
-                cv.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, setRestTime.getValue());
+                cv.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30*setRestTime.getValue()); // moving in steps of 30
                 cv.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, noReps.getValue());
                 if (timeTargetSwitch.isChecked()) {
                     cv.put(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE, "Time Target Mode");
@@ -235,8 +235,8 @@ public class EditWorkoutActivity extends AppCompatActivity {
             }
             noSets.setValue(cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS)));
             noReps.setValue(cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REPS)));
-            int restTime = cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME)) / 30; // Moving in steps of 30, yet index is integer
-            setRestTime.setValue(restTime);
+            int restTime = cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME));
+            setRestTime.setValue(restTime/30); // Moving in steps of 30, yet index is integer
             setTargetTime.setValue(cursor.getInt(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME)));
         }
         // Check after checking and potentially updating data in edit mode
