@@ -37,7 +37,7 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
         List<ContentValues> list = new ArrayList<ContentValues>();
         ContentValues cv = new ContentValues();
 
-        cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME, "Pushup Sample Exercise");
+        cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME, "Pushup Warmup");
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE, "Pushups");
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 30);
@@ -47,13 +47,13 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
         list.add(cv);
 
         cv = new ContentValues();
-        cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME, "Pullup Sample Exercise");
+        cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_NAME, "Pullup Warmup");
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_WORKOUT_TYPE, "Pullups");
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_NO_SETS, 3);
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_REST_TIME, 60);
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_REPS, 7);
         cv.put(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE, "No Time Target");
-        cv.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 0);
+        cv.put(WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME, 20);
         list.add(cv);
 
         try {

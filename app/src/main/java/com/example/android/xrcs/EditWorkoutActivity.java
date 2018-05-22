@@ -225,10 +225,10 @@ public class EditWorkoutActivity extends AppCompatActivity {
             }
             switch (cursor.getString(cursor.getColumnIndex(WorkoutContract.WorkoutEntry.COLUMN_TIME_TARGET_MODE))) {
                 case "Time Target Mode":
-                    timeTargetSwitch.setActivated(true);
+                    timeTargetSwitch.setChecked(true);
                     break;
                 case "No Time Target":
-                    timeTargetSwitch.setActivated(false);
+                    timeTargetSwitch.setChecked(false);
                     break;
                 default:
                     throw new RuntimeException("Database error! Database should only contain TIME_TARGET_MODES of 'Time Target Mode' or 'No Time Target'");
@@ -241,14 +241,10 @@ public class EditWorkoutActivity extends AppCompatActivity {
         }
         // Check after checking and potentially updating data in edit mode
         if (timeTargetSwitch.isChecked()) {
-            setTargetTime.setActivated(true);
             setTargetTime.setEnabled(true);
-            setRestTime.setActivated(true);
             setRestTime.setEnabled(true);
         } else {
-            setTargetTime.setActivated(false);
             setTargetTime.setEnabled(false);
-            setRestTime.setActivated(false);
             setRestTime.setEnabled(false);
         }
     }
