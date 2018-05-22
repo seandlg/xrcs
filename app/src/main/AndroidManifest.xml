@@ -38,7 +38,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.xrcs.MainActivity" />
         </activity>
-        <activity android:name=".TimerRedirectActivity"></activity>
+        <activity android:name=".TimerRedirectActivity" />
+        <activity android:name=".CongratulationsScreenActivity"></activity>
     </application>
 
 </manifest>

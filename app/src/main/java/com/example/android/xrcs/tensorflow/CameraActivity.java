@@ -201,13 +201,19 @@ public abstract class CameraActivity extends Activity
                         noReps = repTarget;
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                         t1.speak(setFinishedText, TextToSpeech.QUEUE_ADD, null, null);
-                        Intent timerRedirectIntent = new Intent(getApplicationContext(), TimerRedirectActivity.class);
-                        timerRedirectIntent.putExtra("workoutDataBundle", workoutDataBundle);
-                        timerRedirectIntent.putExtra("timerHeading", "Get ready for set #" + (currentSet+1));
-                        timerRedirectIntent.putExtra("timerStartValue", Integer.parseInt(workoutDataBundle.getString("restBetween")));
-                        timerRedirectIntent.putExtra("currentSet", (currentSet+1));
-                        startActivity(timerRedirectIntent);
-                        finish();
+                        if (currentSet == setTarget) {
+                            // Workout finished! Congratulations!
+
+                        } else {
+                            // Initialize next set
+                            Intent timerRedirectIntent = new Intent(getApplicationContext(), TimerRedirectActivity.class);
+                            timerRedirectIntent.putExtra("workoutDataBundle", workoutDataBundle);
+                            timerRedirectIntent.putExtra("timerHeading", "Get ready for set #" + (currentSet + 1));
+                            timerRedirectIntent.putExtra("timerStartValue", Integer.parseInt(workoutDataBundle.getString("restBetween")));
+                            timerRedirectIntent.putExtra("currentSet", (currentSet + 1));
+                            startActivity(timerRedirectIntent);
+                            finish();
+                        }
                     } else {
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                     }
@@ -228,10 +234,9 @@ public abstract class CameraActivity extends Activity
                 if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
                     String speechOutputText = "";
-                    if (currentSet==1){
+                    if (currentSet == 1) {
                         speechOutputText = "Begin " + workoutType + " workout. Set " + (currentSet) + " of " + workoutDataBundle.getString("workoutName");
-                    }
-                    else {
+                    } else {
                         speechOutputText = "Continue " + workoutType + " workout. Set " + (currentSet) + " of " + workoutDataBundle.getString("workoutName");
                     }
                     t1.speak(speechOutputText, TextToSpeech.QUEUE_FLUSH, null, null);
