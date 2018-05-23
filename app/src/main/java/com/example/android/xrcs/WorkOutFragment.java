@@ -79,6 +79,7 @@ public class WorkOutFragment extends Fragment {
                 timerRedirectIntent.putExtra("timerHeading", "Initializing workout!");
                 timerRedirectIntent.putExtra("timerStartValue", 3);
                 timerRedirectIntent.putExtra("setsPerformedSoFar",0);
+                timerRedirectIntent.putExtra("repTimes",new ArrayList<String>()); // Initialize an empty ArrayList<String> that holds the timestamps of counted reps and is passed through until the workout is finished
                 startActivity(timerRedirectIntent);
             }
         });

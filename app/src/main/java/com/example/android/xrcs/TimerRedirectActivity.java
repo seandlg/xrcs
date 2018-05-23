@@ -36,6 +36,7 @@ public class TimerRedirectActivity extends AppCompatActivity {
 
         final Intent DetectorActivityIntent = new Intent(this, DetectorActivity.class);
         DetectorActivityIntent.putExtra("workoutDataBundle", workoutDataBundle);
+        DetectorActivityIntent.putExtra("repTimes",intent.getStringArrayListExtra("repTimes")); // Simply pass on the repTimes ArrayList<String>
 
         DetectorActivityIntent.putExtra("currentSet", currentSet);
         TextView overlayHeadingTV = findViewById(R.id.overlay_heading_tv);

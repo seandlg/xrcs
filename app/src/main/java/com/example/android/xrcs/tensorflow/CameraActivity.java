@@ -47,9 +47,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Locale;
 
+import com.example.android.xrcs.CongratulationsScreenActivity;
 import com.example.android.xrcs.tensorflow.env.ImageUtils;
 import com.example.android.xrcs.tensorflow.env.Logger;
 import com.example.android.xrcs.R; // Explicit import needed for internal Google builds.
@@ -91,6 +93,8 @@ public abstract class CameraActivity extends Activity
     public static Handler tvHandler;
     public String workoutType;
     public int currentSet;
+    public ArrayList<String> repTimes;
+
 
     public static class workoutLogger {
         private LinkedList<RectF> locationHistory; // History of last rep
@@ -188,6 +192,8 @@ public abstract class CameraActivity extends Activity
             setTargetTime = findViewById(R.id.activity_camera_target_time_tv);
             setTargetTime.setText("Target time: " + workoutDataBundle.getString("targetTime") + "s");
         }
+        // Get the repTimes of previous sets of this workout - remember that
+        repTimes = intent.getStringArrayListExtra("repTimes"); // Get the list of the repetition time stamps of the current workout
         // Initialize a Handler that updates the current workout status
         tvHandler = new Handler() {
             @Override
@@ -196,14 +202,20 @@ public abstract class CameraActivity extends Activity
                 int noReps = Integer.parseInt(bundle.getString("reps")); // the reps done in this workout iteration so far (restart counting on new set)
                 int setFinished = noReps / repTarget; // this is 0 until a set has been finished and it becomes 1
                 if (!("Rep " + noReps + "/" + repTarget).equals(String.valueOf(noRepsTV.getText()))) { // if a new rep has been performed, i.e. noReps changed
-                    if (setFinished == 1) { // if a new set is initialized
+                    repTimes.add(String.valueOf(System.currentTimeMillis())); // Add the time at which the current repetition was recognized
+                    // Log.d("Timestamp",repTimes.toString()); // Log repetition timestamps
+                    if (setFinished == 1) { // if a new set is about to be initialized
                         String setFinishedText = "Set number " + (currentSet) + " finished. Pause for " + workoutDataBundle.getString("restBetween") + " seconds.";
                         noReps = repTarget;
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                         t1.speak(setFinishedText, TextToSpeech.QUEUE_ADD, null, null);
                         if (currentSet == setTarget) {
                             // Workout finished! Congratulations!
-
+                            Intent congratulationsScreenIntent = new Intent(getApplicationContext(), CongratulationsScreenActivity.class);
+                            congratulationsScreenIntent.putExtra("workoutDataBundle", workoutDataBundle); // pass all data concerning the workout to save in the database
+                            congratulationsScreenIntent.putExtra("repTimes",repTimes); // Pass the repTimes ArrayList<String> to the congratulationsScreenIntent to save the rep timing information to the DB
+                            startActivity(congratulationsScreenIntent);
+                            finish();
                         } else {
                             // Initialize next set
                             Intent timerRedirectIntent = new Intent(getApplicationContext(), TimerRedirectActivity.class);
@@ -211,6 +223,7 @@ public abstract class CameraActivity extends Activity
                             timerRedirectIntent.putExtra("timerHeading", "Get ready for set #" + (currentSet + 1));
                             timerRedirectIntent.putExtra("timerStartValue", Integer.parseInt(workoutDataBundle.getString("restBetween")));
                             timerRedirectIntent.putExtra("currentSet", (currentSet + 1));
+                            timerRedirectIntent.putExtra("repTimes",repTimes); // pass the repTimes to the timerRedirectIntent. These are then repassed to the new CameraActivity Object, that is launched upon every new set
                             startActivity(timerRedirectIntent);
                             finish();
                         }
