@@ -9,7 +9,7 @@
         android:id="@+id/countdown_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent">
+        android:background="@color/colorPrimaryDark">
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline_timer_redirect"
@@ -45,7 +45,8 @@
             android:layout_marginStart="8dp"
             android:text="3"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

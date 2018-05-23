@@ -14,11 +14,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/cake_congrats" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/congrats_guy" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
@@ -51,7 +63,8 @@
         android:layout_marginTop="8dp"
         android:text="10"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/duration_congratulations"
         app:layout_constraintHorizontal_bias="0.5"
@@ -65,7 +78,8 @@
         android:layout_height="wrap_content"
         android:text="12:34"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/no_reps_congratulations"
         app:layout_constraintEnd_toStartOf="@+id/rest_time_congratulations"
         app:layout_constraintHorizontal_bias="0.5"
@@ -75,10 +89,11 @@
         android:id="@+id/no_reps_congratulations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="48dp"
         android:text="10"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/no_sets_congratulations"
         app:layout_constraintEnd_toStartOf="@+id/no_sets_congratulations"
         app:layout_constraintHorizontal_bias="0.5"
@@ -100,7 +115,7 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reps"
+        android:text="Reps / set"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="@+id/no_reps_congratulations"
@@ -122,10 +137,11 @@
         android:id="@+id/rest_time_congratulations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="48dp"
         android:text="5:00"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/duration_congratulations"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -141,4 +157,5 @@
         app:layout_constraintEnd_toEndOf="@+id/rest_time_congratulations"
         app:layout_constraintStart_toStartOf="@+id/rest_time_congratulations"
         app:layout_constraintTop_toBottomOf="@+id/rest_time_congratulations" />
+
 </android.support.constraint.ConstraintLayout>

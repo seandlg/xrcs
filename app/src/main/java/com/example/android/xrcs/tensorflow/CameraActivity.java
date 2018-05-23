@@ -205,7 +205,12 @@ public abstract class CameraActivity extends Activity
                     repTimes.add(String.valueOf(System.currentTimeMillis())); // Add the time at which the current repetition was recognized
                     // Log.d("Timestamp",repTimes.toString()); // Log repetition timestamps
                     if (setFinished == 1) { // if a new set is about to be initialized
-                        String setFinishedText = "Set number " + (currentSet) + " finished. Pause for " + workoutDataBundle.getString("restBetween") + " seconds.";
+                        String setFinishedText = "Set number " + (currentSet) + " finished. ";
+                        if (currentSet != setTarget) {
+                            setFinishedText += "Pause for " + workoutDataBundle.getString("restBetween") + " seconds.";
+                        } else {
+                            setFinishedText += "Congratulations! Workout finished!";
+                        }
                         noReps = repTarget;
                         t1.speak(String.valueOf(noReps), TextToSpeech.QUEUE_ADD, null, null);
                         t1.speak(setFinishedText, TextToSpeech.QUEUE_ADD, null, null);
@@ -213,7 +218,7 @@ public abstract class CameraActivity extends Activity
                             // Workout finished! Congratulations!
                             Intent congratulationsScreenIntent = new Intent(getApplicationContext(), CongratulationsScreenActivity.class);
                             congratulationsScreenIntent.putExtra("workoutDataBundle", workoutDataBundle); // pass all data concerning the workout to save in the database
-                            congratulationsScreenIntent.putExtra("repTimes",repTimes); // Pass the repTimes ArrayList<String> to the congratulationsScreenIntent to save the rep timing information to the DB
+                            congratulationsScreenIntent.putExtra("repTimes", repTimes); // Pass the repTimes ArrayList<String> to the congratulationsScreenIntent to save the rep timing information to the DB
                             startActivity(congratulationsScreenIntent);
                             finish();
                         } else {
@@ -223,7 +228,7 @@ public abstract class CameraActivity extends Activity
                             timerRedirectIntent.putExtra("timerHeading", "Get ready for set #" + (currentSet + 1));
                             timerRedirectIntent.putExtra("timerStartValue", Integer.parseInt(workoutDataBundle.getString("restBetween")));
                             timerRedirectIntent.putExtra("currentSet", (currentSet + 1));
-                            timerRedirectIntent.putExtra("repTimes",repTimes); // pass the repTimes to the timerRedirectIntent. These are then repassed to the new CameraActivity Object, that is launched upon every new set
+                            timerRedirectIntent.putExtra("repTimes", repTimes); // pass the repTimes to the timerRedirectIntent. These are then repassed to the new CameraActivity Object, that is launched upon every new set
                             startActivity(timerRedirectIntent);
                             finish();
                         }
