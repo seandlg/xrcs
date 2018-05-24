@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -55,5 +56,10 @@ public class CongratulationsScreenActivity extends AppCompatActivity {
         restTime.setText(String.valueOf(effectiveSetRestTime) + " s");
 
         // TODO: Save the data to the database
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return true;
     }
 }
