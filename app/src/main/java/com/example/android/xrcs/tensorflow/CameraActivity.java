@@ -96,7 +96,6 @@ public abstract class CameraActivity extends Activity
     public ArrayList<String> repTimes;
     public boolean showDebugBoxes;
 
-
     public static class workoutLogger {
         private LinkedList<RectF> locationHistory; // History of last rep
         private int repetitionCount;
@@ -178,6 +177,7 @@ public abstract class CameraActivity extends Activity
         final Intent intent = getIntent();
         myWorkoutLogger = new workoutLogger();
         final Bundle workoutDataBundle = intent.getBundleExtra("workoutDataBundle");
+
         noRepsTV = findViewById(R.id.activity_camera_reps_tv);
         final int repTarget = Integer.parseInt(workoutDataBundle.getString("repTarget"));
         noRepsTV.setText("Rep 0/" + repTarget);
@@ -202,15 +202,18 @@ public abstract class CameraActivity extends Activity
             public void handleMessage(Message msg) {
                 Bundle bundle = msg.getData();
                 int noReps = Integer.parseInt(bundle.getString("reps")); // the reps done in this workout iteration so far (restart counting on new set)
-                int setFinished = noReps / repTarget; // this is 0 until a set has been finished and it becomes 1
+                boolean setFinished = (noReps/repTarget)==1; // this is true if the set has been finished with the latest rep
                 if (!("Rep " + noReps + "/" + repTarget).equals(String.valueOf(noRepsTV.getText()))) { // if a new rep has been performed, i.e. noReps changed
                     repTimes.add(String.valueOf(System.currentTimeMillis())); // Add the time at which the current repetition was recognized
                     // Log.d("Timestamp",repTimes.toString()); // Log repetition timestamps
-                    if (setFinished == 1) { // if a new set is about to be initialized
+                    if (setFinished) { // if a new set is about to be initialized
                         String setFinishedText = "Set number " + (currentSet) + " finished. ";
-                        if (currentSet != setTarget) {
+                        boolean timeTargetMode = workoutDataBundle.getString("timeTargetMode").equals("Time Target Mode");
+                        if ((currentSet != setTarget) && (timeTargetMode)) { // If we're in time target
                             setFinishedText += "Pause for " + workoutDataBundle.getString("restBetween") + " seconds.";
-                        } else {
+                        } else if ((currentSet != setTarget) && !(timeTargetMode)) { // If we're not in time target
+                            setFinishedText += "Pause. To continue, press the continue-button.";
+                        } else { // If the workout has finished (irrespectively of time target or not)
                             setFinishedText += "Congratulations! Workout finished!";
                         }
                         noReps = repTarget;
@@ -241,14 +244,26 @@ public abstract class CameraActivity extends Activity
                 noRepsTV.setText("Rep " + noReps + "/" + repTarget);
                 noSetsTV.setText("Set " + currentSet + "/" + setTarget);
             }
-        };
-        if (hasPermission()) {
+        }
+
+        ;
+        if (
+
+                hasPermission())
+
+        {
             setFragment();
-        } else {
+        } else
+
+        {
             requestPermission();
         }
         // Initialize the TextToSpeech Engine
-        t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+        t1 = new
+
+                TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener()
+
+        {
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {

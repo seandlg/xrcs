@@ -6,6 +6,8 @@ import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -16,6 +18,8 @@ public class TimerRedirectActivity extends AppCompatActivity {
     public TextToSpeech t1;
     public int timerStartValue;
     public CountDownTimer myCountDownTimer;
+    public boolean timeTargetMode;
+    public Button continueWorkoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,17 +34,49 @@ public class TimerRedirectActivity extends AppCompatActivity {
         overlayHeadingTV = findViewById(R.id.overlay_heading_tv);
         overlayHeadingTV.setText(overlayHeadingText);
 
-        timerStartValue = intent.getIntExtra("timerStartValue", 0);
+        continueWorkoutButton = findViewById(R.id.continue_workout_button);
+
+        timerStartValue = intent.getIntExtra("timerStartValue", 3);
         overlayTimerTV = findViewById(R.id.overlay_text_tv);
-        overlayTimerTV.setText(String.valueOf(timerStartValue));
+        if (workoutDataBundle.getString("timeTargetMode").equals("Time Target Mode")) {
+            timeTargetMode = true;
+            overlayTimerTV.setText(String.valueOf(timerStartValue));
+        } else {
+            timeTargetMode = false;
+            overlayTimerTV.setText("3");
+        }
 
         final Intent DetectorActivityIntent = new Intent(this, DetectorActivity.class);
         DetectorActivityIntent.putExtra("workoutDataBundle", workoutDataBundle);
-        DetectorActivityIntent.putExtra("repTimes",intent.getStringArrayListExtra("repTimes")); // Simply pass on the repTimes ArrayList<String>
+        DetectorActivityIntent.putExtra("repTimes", intent.getStringArrayListExtra("repTimes")); // Simply pass on the repTimes ArrayList<String>
 
         DetectorActivityIntent.putExtra("currentSet", currentSet);
         TextView overlayHeadingTV = findViewById(R.id.overlay_heading_tv);
 
+        if (!timeTargetMode) { // if not time target mode
+            if (currentSet != 1) {
+                continueWorkoutButton.setVisibility(View.VISIBLE); // Show Continue Button
+                continueWorkoutButton.setOnClickListener(new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        continueWorkoutButton.setVisibility(View.INVISIBLE);
+                        timerFromX(3, DetectorActivityIntent);
+                    }
+                });
+            } else { // If the workout is just launched, simply start with a 3-second timer
+                timerFromX(timerStartValue, DetectorActivityIntent);
+            }
+        } else { // else if time target mode just launch the timer
+            timerFromX(timerStartValue, DetectorActivityIntent);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        myCountDownTimer.cancel();
+        super.onBackPressed();
+    }
+
+    public void timerFromX(final int timerStartValue, final Intent DetectorActivityIntent) {
         // Initialize the TextToSpeech Engine
         t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -48,8 +84,9 @@ public class TimerRedirectActivity extends AppCompatActivity {
                 if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                     myCountDownTimer = new CountDownTimer(timerStartValue * 1000 + 300, 1000) {
                         public void onTick(long millisUntilFinished) {
@@ -79,11 +116,5 @@ public class TimerRedirectActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        myCountDownTimer.cancel();
-        super.onBackPressed();
     }
 }
