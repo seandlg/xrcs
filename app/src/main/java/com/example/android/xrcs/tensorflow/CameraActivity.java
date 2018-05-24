@@ -94,6 +94,7 @@ public abstract class CameraActivity extends Activity
     public String workoutType;
     public int currentSet;
     public ArrayList<String> repTimes;
+    public boolean showDebugBoxes;
 
 
     public static class workoutLogger {
@@ -169,6 +170,7 @@ public abstract class CameraActivity extends Activity
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        showDebugBoxes = false;
         LOGGER.d("onCreate " + this);
         super.onCreate(null);
         setContentView(R.layout.activity_camera);
@@ -576,7 +578,7 @@ public abstract class CameraActivity extends Activity
         }
     }
 
-/*    public boolean isDebug() {
+    public boolean isDebug() {
         return debug;
     }
 
@@ -597,6 +599,7 @@ public abstract class CameraActivity extends Activity
     public void onSetDebug(final boolean debug) {
     }
 
+/*
     @Override
     public boolean onKeyDown(final int keyCode, final KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP

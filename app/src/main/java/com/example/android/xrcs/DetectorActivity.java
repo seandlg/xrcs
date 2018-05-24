@@ -141,59 +141,62 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
         frameToCropTransform.invert(cropToFrameTransform);
 
         trackingOverlay = (OverlayView) findViewById(R.id.tracking_overlay);
-/*        trackingOverlay.addCallback(
-                new DrawCallback() {
-                    @Override
-                    public void drawCallback(final Canvas canvas) {
-                        tracker.draw(canvas);
-                        if (isDebug()) {
-                            tracker.drawDebug(canvas);
-                        }
-                    }
-                });
 
-        addCallback(
-                new DrawCallback() {
-                    @Override
-                    public void drawCallback(final Canvas canvas) {
-                        if (!isDebug()) {
-                            return;
-                        }
-                        final Bitmap copy = cropCopyBitmap;
-                        if (copy == null) {
-                            return;
-                        }
-
-                        final int backgroundColor = Color.argb(100, 0, 0, 0);
-                        canvas.drawColor(backgroundColor);
-
-                        final Matrix matrix = new Matrix();
-                        final float scaleFactor = 2;
-                        matrix.postScale(scaleFactor, scaleFactor);
-                        matrix.postTranslate(
-                                canvas.getWidth() - copy.getWidth() * scaleFactor,
-                                canvas.getHeight() - copy.getHeight() * scaleFactor);
-                        canvas.drawBitmap(copy, matrix, new Paint());
-
-                        final Vector<String> lines = new Vector<String>();
-                        if (detector != null) {
-                            final String statString = detector.getStatString();
-                            final String[] statLines = statString.split("\n");
-                            for (final String line : statLines) {
-                                lines.add(line);
+        if (showDebugBoxes) {
+            trackingOverlay.addCallback(
+                    new DrawCallback() {
+                        @Override
+                        public void drawCallback(final Canvas canvas) {
+                            tracker.draw(canvas);
+                            if (isDebug()) {
+                                tracker.drawDebug(canvas);
                             }
                         }
-                        lines.add("");
+                    });
 
-                        lines.add("Frame: " + previewWidth + "x" + previewHeight);
-                        lines.add("Crop: " + copy.getWidth() + "x" + copy.getHeight());
-                        lines.add("View: " + canvas.getWidth() + "x" + canvas.getHeight());
-                        lines.add("Rotation: " + sensorOrientation);
-                        lines.add("Inference time: " + lastProcessingTimeMs + "ms");
+            addCallback(
+                    new DrawCallback() {
+                        @Override
+                        public void drawCallback(final Canvas canvas) {
+                            if (!isDebug()) {
+                                return;
+                            }
+                            final Bitmap copy = cropCopyBitmap;
+                            if (copy == null) {
+                                return;
+                            }
 
-                        borderedText.drawLines(canvas, 10, canvas.getHeight() - 10, lines);
-                    }
-                });*/
+                            final int backgroundColor = Color.argb(100, 0, 0, 0);
+                            canvas.drawColor(backgroundColor);
+
+                            final Matrix matrix = new Matrix();
+                            final float scaleFactor = 2;
+                            matrix.postScale(scaleFactor, scaleFactor);
+                            matrix.postTranslate(
+                                    canvas.getWidth() - copy.getWidth() * scaleFactor,
+                                    canvas.getHeight() - copy.getHeight() * scaleFactor);
+                            canvas.drawBitmap(copy, matrix, new Paint());
+
+                            final Vector<String> lines = new Vector<String>();
+                            if (detector != null) {
+                                final String statString = detector.getStatString();
+                                final String[] statLines = statString.split("\n");
+                                for (final String line : statLines) {
+                                    lines.add(line);
+                                }
+                            }
+                            lines.add("");
+
+                            lines.add("Frame: " + previewWidth + "x" + previewHeight);
+                            lines.add("Crop: " + copy.getWidth() + "x" + copy.getHeight());
+                            lines.add("View: " + canvas.getWidth() + "x" + canvas.getHeight());
+                            lines.add("Rotation: " + sensorOrientation);
+                            lines.add("Inference time: " + lastProcessingTimeMs + "ms");
+
+                            borderedText.drawLines(canvas, 10, canvas.getHeight() - 10, lines);
+                        }
+                    });
+        }
     }
 
     OverlayView trackingOverlay;
