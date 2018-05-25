@@ -1,21 +1,31 @@
 package com.example.android.xrcs;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.android.xrcs.data.WorkoutContract;
+import com.example.android.xrcs.data.WorkoutDbHelper;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class CongratulationsScreenActivity extends AppCompatActivity {
-    public TextView workoutName;
-    public TextView noSets;
-    public TextView noReps;
-    public TextView duration;
-    public TextView restTime;
+    private TextView workoutName;
+    private TextView noSets;
+    private TextView noReps;
+    private TextView duration;
+    private TextView restTime;
+    private SQLiteDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +52,11 @@ public class CongratulationsScreenActivity extends AppCompatActivity {
         for (String l : repTimes) {
             repTimesLongList.add(Long.valueOf(l));
         }
-        long startSecond = repTimesLongList.get(0)/1000;
-        long endSecond = repTimesLongList.get(repTimes.size()-1)/1000;
-        long totalDuration = endSecond-startSecond;
-        long effectiveSetRestTime = (Long.valueOf(workoutDataBundle.getString("setTarget"))-1)*(Long.valueOf(workoutDataBundle.getString("restBetween"))); // No break after last set
-        long effectiveWorkoutTime = totalDuration-effectiveSetRestTime;
+        long startSecond = repTimesLongList.get(0) / 1000;
+        long endSecond = repTimesLongList.get(repTimes.size() - 1) / 1000;
+        long totalDuration = endSecond - startSecond;
+        long effectiveSetRestTime = (Long.valueOf(workoutDataBundle.getString("setTarget")) - 1) * (Long.valueOf(workoutDataBundle.getString("restBetween"))); // No break after last set
+        long effectiveWorkoutTime = totalDuration - effectiveSetRestTime;
         Log.d("SECONDEND", String.valueOf(endSecond));
         Log.d("SECONDSTART", String.valueOf(startSecond));
         Log.d("SECONDSETTOTAL", String.valueOf(effectiveSetRestTime));
@@ -56,7 +66,33 @@ public class CongratulationsScreenActivity extends AppCompatActivity {
         restTime.setText(String.valueOf(effectiveSetRestTime) + " s");
 
         // TODO: Save the data to the database
+        WorkoutDbHelper dbHelper = new WorkoutDbHelper(this);
+        mDb = dbHelper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        Gson gson = new Gson();
+        cv.put(WorkoutContract.WorkoutLog.COLUMN_WORKOUT_NAME, workoutDataBundle.getString("workoutName"));
+        cv.put(WorkoutContract.WorkoutLog.COLUMN_WORKOUT_TYPE, workoutDataBundle.getString("workoutType"));
+        cv.put(WorkoutContract.WorkoutLog.COLUMN_NO_SETS, workoutDataBundle.getString("setTarget"));
+        cv.put(WorkoutContract.WorkoutLog.COLUMN_REST_TIME, workoutDataBundle.getString("restBetween"));
+        cv.put(WorkoutContract.WorkoutLog.COLUMN_REPS, workoutDataBundle.getString("repTarget"));
+        cv.put(WorkoutContract.WorkoutLog.COLUMN_TIME_TARGET_MODE, workoutDataBundle.getString("timeTargetMode"));
+        cv.put(WorkoutContract.WorkoutLog.COLUMN_TARGET_TIME, workoutDataBundle.getString("targetTime"));
+        cv.put(WorkoutContract.WorkoutLog.COLUMN_REP_TIMES, gson.toJson(repTimesLongList));
+
+        try {
+            mDb.beginTransaction();
+            mDb.insert(WorkoutContract.WorkoutLog.TABLE_NAME, null, cv);
+            mDb.setTransactionSuccessful();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            mDb.endTransaction();
+            Toast.makeText(this, "Workout successfully saved!",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();

@@ -20,6 +20,7 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        // Create the table holding the user-defined and pre-defined workouts
         final String SQL_CREATE_WORKOUTS_TABLE = "CREATE TABLE " +
                 WorkoutContract.WorkoutEntry.TABLE_NAME + " (" +
                 WorkoutContract.WorkoutEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -32,6 +33,21 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
                 WorkoutContract.WorkoutEntry.COLUMN_TARGET_TIME + " INTEGER NOT NULL, " +
                 WorkoutContract.WorkoutEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP);";
         sqLiteDatabase.execSQL(SQL_CREATE_WORKOUTS_TABLE);
+
+        // Create the table that holds the workout logs
+        final String SQL_CREATE_WORKOUT_LOG_TABLE = "CREATE TABLE " +
+                WorkoutContract.WorkoutLog.TABLE_NAME + " (" +
+                WorkoutContract.WorkoutLog._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                WorkoutContract.WorkoutLog.COLUMN_WORKOUT_NAME + " TEXT NOT NULL, " +
+                WorkoutContract.WorkoutLog.COLUMN_WORKOUT_TYPE + " TEXT NOT NULL, " +
+                WorkoutContract.WorkoutLog.COLUMN_NO_SETS + " INTEGER NOT NULL, " +
+                WorkoutContract.WorkoutLog.COLUMN_REST_TIME + " INTEGER NOT NULL, " +
+                WorkoutContract.WorkoutLog.COLUMN_REPS + " INTEGER NOT NULL, " +
+                WorkoutContract.WorkoutLog.COLUMN_TIME_TARGET_MODE + " TEXT NOT NULL, " +
+                WorkoutContract.WorkoutLog.COLUMN_TARGET_TIME + " INTEGER NOT NULL, " +
+                WorkoutContract.WorkoutLog.COLUMN_REP_TIMES + " TEXT NOT NULL, " +
+                WorkoutContract.WorkoutLog.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP);";
+        sqLiteDatabase.execSQL(SQL_CREATE_WORKOUT_LOG_TABLE);
 
         // Populate the database with two exemplary workouts
         List<ContentValues> list = new ArrayList<ContentValues>();
