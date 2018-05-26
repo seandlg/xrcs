@@ -47,7 +47,7 @@
         android:id="@+id/exercise_type_edit_activity"
         android:layout_width="wrap_content"
         android:layout_height="160dp"
-        app:layout_constraintEnd_toStartOf="@+id/no_sets_edit_activity"
+        app:layout_constraintEnd_toStartOf="@+id/no_sets_stats"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -69,12 +69,12 @@
         android:layout_height="wrap_content"
         android:text="# Sets"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        app:layout_constraintEnd_toEndOf="@+id/no_sets_edit_activity"
-        app:layout_constraintStart_toStartOf="@+id/no_sets_edit_activity"
+        app:layout_constraintEnd_toEndOf="@+id/no_sets_stats"
+        app:layout_constraintStart_toStartOf="@+id/no_sets_stats"
         app:layout_constraintTop_toTopOf="@+id/textView3" />
 
     <NumberPicker
-        android:id="@+id/no_sets_edit_activity"
+        android:id="@+id/no_sets_stats"
         android:layout_width="wrap_content"
         android:layout_height="160dp"
         app:layout_constraintEnd_toStartOf="@+id/no_reps_edit_activity"
@@ -109,8 +109,8 @@
         android:layout_height="wrap_content"
         android:text="Set target time [s]"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        app:layout_constraintEnd_toEndOf="@+id/set_target_time_edit_activity"
-        app:layout_constraintStart_toStartOf="@+id/set_target_time_edit_activity"
+        app:layout_constraintEnd_toEndOf="@+id/set_target_time_stats_tv"
+        app:layout_constraintStart_toStartOf="@+id/set_target_time_stats_tv"
         app:layout_constraintTop_toTopOf="@+id/textView5" />
 
     <NumberPicker
@@ -119,20 +119,20 @@
         android:layout_height="160dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/no_sets_edit_activity"
+        app:layout_constraintStart_toEndOf="@+id/no_sets_stats"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <NumberPicker
         android:id="@+id/set_break_time_edit_activity"
         android:layout_width="wrap_content"
         android:layout_height="160dp"
-        app:layout_constraintEnd_toStartOf="@+id/set_target_time_edit_activity"
+        app:layout_constraintEnd_toStartOf="@+id/set_target_time_stats_tv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <NumberPicker
-        android:id="@+id/set_target_time_edit_activity"
+        android:id="@+id/set_target_time_stats_tv"
         android:layout_width="wrap_content"
         android:layout_height="160dp"
         app:layout_constraintEnd_toEndOf="parent"

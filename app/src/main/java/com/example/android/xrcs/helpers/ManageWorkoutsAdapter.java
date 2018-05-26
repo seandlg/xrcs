@@ -3,7 +3,6 @@ package com.example.android.xrcs.helpers;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,10 +85,10 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
         public WorkoutViewHolder(View itemView) {
             super(itemView);
             databaseID = this.databaseID;
-            workoutTitleTV = itemView.findViewById(R.id.workout_title_tv);
-            workoutTypeTV = itemView.findViewById(R.id.workout_type_tv);
+            workoutTitleTV = itemView.findViewById(R.id.workout_title_stats_tv);
+            workoutTypeTV = itemView.findViewById(R.id.workout_type_stats_tv);
             timedTargetModeTV = itemView.findViewById(R.id.time_target_mode_tv);
-            noSetsTV = itemView.findViewById(R.id.no_sets_number_tv);
+            noSetsTV = itemView.findViewById(R.id.no_sets_number_stats_tv);
             restBetweenTV = itemView.findViewById(R.id.rest_between_number_tv);
             noRepsTV = itemView.findViewById(R.id.no_reps_number_tv);
             setTargetTimeNumberTV = itemView.findViewById(R.id.set_target_time_number_tv);

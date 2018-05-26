@@ -56,7 +56,7 @@ public class EditWorkoutActivity extends AppCompatActivity {
 
         timeTargetSwitch = findViewById(R.id.time_target_switch_edit_activity);
         setRestTime = findViewById(R.id.set_break_time_edit_activity);
-        setTargetTime = findViewById(R.id.set_target_time_edit_activity);
+        setTargetTime = findViewById(R.id.set_target_time_stats_tv);
         populateViewWithData(extras);
 
         // Deactivate / activate time number pickers if time target switch toggled off / on
@@ -190,7 +190,7 @@ public class EditWorkoutActivity extends AppCompatActivity {
         exerciseType.setMaxValue(1);
         exerciseType.setDisplayedValues(new String[]{"Pushups", "Pullups"});
         exerciseType.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-        noSets = findViewById(R.id.no_sets_edit_activity);
+        noSets = findViewById(R.id.no_sets_stats);
         noSets.setMinValue(1);
         noSets.setMaxValue(10);
         noSets.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);

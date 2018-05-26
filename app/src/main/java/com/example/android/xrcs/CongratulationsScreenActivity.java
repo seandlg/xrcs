@@ -6,7 +6,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,16 +15,15 @@ import com.example.android.xrcs.data.WorkoutDbHelper;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 public class CongratulationsScreenActivity extends AppCompatActivity {
     private TextView workoutName;
-    private TextView noSets;
+    private TextView noSetsTV;
     private TextView noReps;
     private TextView duration;
     private TextView restTime;
     private SQLiteDatabase mDb;
+    private boolean timeTarget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,17 +33,19 @@ public class CongratulationsScreenActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         workoutName = findViewById(R.id.workout_name_congratulations);
-        noSets = findViewById(R.id.no_sets_congratulations);
+        noSetsTV = findViewById(R.id.no_sets_congratulations);
         noReps = findViewById(R.id.no_reps_congratulations);
         duration = findViewById(R.id.duration_congratulations);
         restTime = findViewById(R.id.rest_time_congratulations);
 
         Intent AllWorkoutDataIntent = getIntent();
         Bundle workoutDataBundle = AllWorkoutDataIntent.getBundleExtra("workoutDataBundle");
+        timeTarget = workoutDataBundle.getString("timeTargetMode").equals("Time Target Mode");
         ArrayList<String> repTimes = AllWorkoutDataIntent.getStringArrayListExtra("repTimes");
         workoutName.setText(workoutDataBundle.getString("workoutName"));
         noReps.setText(workoutDataBundle.getString("repTarget"));
-        noSets.setText(workoutDataBundle.getString("setTarget"));
+        int numberOfSets = Integer.parseInt(workoutDataBundle.getString("setTarget"));
+        noSetsTV.setText(numberOfSets);
 
         // Calculate the effective Workout / rest time
         ArrayList<Long> repTimesLongList = new ArrayList<Long>();
@@ -55,12 +55,17 @@ public class CongratulationsScreenActivity extends AppCompatActivity {
         long startSecond = repTimesLongList.get(0) / 1000;
         long endSecond = repTimesLongList.get(repTimes.size() - 1) / 1000;
         long totalDuration = endSecond - startSecond;
-        long effectiveSetRestTime = (Long.valueOf(workoutDataBundle.getString("setTarget")) - 1) * (Long.valueOf(workoutDataBundle.getString("restBetween"))); // No break after last set
-        long effectiveWorkoutTime = totalDuration - effectiveSetRestTime;
-        Log.d("SECONDEND", String.valueOf(endSecond));
-        Log.d("SECONDSTART", String.valueOf(startSecond));
-        Log.d("SECONDSETTOTAL", String.valueOf(effectiveSetRestTime));
-        Log.d("SECONDWORKOUTTOTAL", String.valueOf(effectiveWorkoutTime));
+        long effectiveWorkoutTime;
+        long effectiveSetRestTime;
+        if (timeTarget){
+            effectiveSetRestTime = (Long.valueOf(workoutDataBundle.getString("setTarget")) - 1) * (Long.valueOf(workoutDataBundle.getString("restBetween"))); // No break after last set
+            effectiveWorkoutTime = totalDuration - effectiveSetRestTime;
+        } else {
+            int no_pauses = numberOfSets - 1;
+            // TODO calculate effective Set rest time
+            effectiveSetRestTime = 0;
+            effectiveWorkoutTime = totalDuration;
+        }
 
         duration.setText(String.valueOf(effectiveWorkoutTime) + " s");
         restTime.setText(String.valueOf(effectiveSetRestTime) + " s");

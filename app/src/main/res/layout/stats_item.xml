@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout_workout_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -14,8 +15,8 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:background="?android:attr/selectableItemBackground">
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/workout_title_stats_tv"
@@ -53,6 +54,7 @@
                 android:id="@+id/no_sets_stats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:text="@string/sets_text"
                 app:layout_constraintEnd_toStartOf="@+id/rest_between_stats_tv"
@@ -83,7 +85,7 @@
                 app:srcCompat="@drawable/ic_timer_black_24dp" />
 
             <TextView
-                android:id="@+id/time_target_mode_tv"
+                android:id="@+id/time_target_mode_stats_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -103,7 +105,7 @@
                 app:layout_constraintStart_toEndOf="@+id/no_sets_stats" />
 
             <TextView
-                android:id="@+id/rest_between_number_tv"
+                android:id="@+id/rest_between_number_stats_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
@@ -115,7 +117,7 @@
                 app:layout_constraintStart_toStartOf="@+id/rest_between_stats_tv" />
 
             <TextView
-                android:id="@+id/no_reps_number_tv"
+                android:id="@+id/no_reps_number_stats_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
@@ -124,6 +126,7 @@
                 android:text="@string/repetitions_value"
                 app:layout_constraintBottom_toTopOf="@+id/repetitions_stats_tv"
                 app:layout_constraintEnd_toEndOf="@+id/repetitions_stats_tv"
+                app:layout_constraintHorizontal_bias="0.4"
                 app:layout_constraintStart_toStartOf="@+id/repetitions_stats_tv" />
 
             <TextView
@@ -140,6 +143,7 @@
                 android:id="@+id/set_target_time_stats_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text="@string/set_target_time_text"
                 app:layout_constraintBaseline_toBaselineOf="@+id/repetitions_stats_tv"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -147,7 +151,7 @@
                 app:layout_constraintStart_toEndOf="@+id/repetitions_stats_tv" />
 
             <TextView
-                android:id="@+id/set_target_time_number_tv"
+                android:id="@+id/set_target_time_number_stats_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
@@ -157,6 +161,148 @@
                 app:layout_constraintBottom_toTopOf="@+id/set_target_time_stats_tv"
                 app:layout_constraintEnd_toEndOf="@+id/set_target_time_stats_tv"
                 app:layout_constraintStart_toStartOf="@+id/set_target_time_stats_tv" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/repetitions_stats_tv" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/textView2"
+                app:srcCompat="@drawable/ic_timelapse_black_24dp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Insights"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+            <TextView
+                android:id="@+id/actual_workout_time_stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="60s"
+                app:layout_constraintEnd_toEndOf="@+id/textView9"
+                app:layout_constraintStart_toStartOf="@+id/textView9"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Workout time"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/actual_workout_time_stats" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Rest time"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView9"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/total_rest_time_stats_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="60s"
+                app:layout_constraintBottom_toTopOf="@+id/textView11"
+                app:layout_constraintEnd_toEndOf="@+id/textView11"
+                app:layout_constraintStart_toStartOf="@+id/textView11" />
+
+            <TextView
+                android:id="@+id/date_stats_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="26-May-18 15:04"
+                app:layout_constraintBaseline_toBaselineOf="@+id/workout_title_stats_tv"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Workout target"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView9"
+                app:layout_constraintEnd_toEndOf="@+id/sentiment_view_stats"
+                app:layout_constraintStart_toStartOf="@+id/sentiment_view_stats" />
+
+            <TextView
+                android:id="@+id/workout_target_time_stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="120s"
+                app:layout_constraintBottom_toTopOf="@+id/textView17"
+                app:layout_constraintEnd_toEndOf="@+id/textView17"
+                app:layout_constraintStart_toStartOf="@+id/textView17" />
+
+            <ImageView
+                android:id="@+id/sentiment_view_stats"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView9"
+                app:srcCompat="@drawable/ic_sentiment_very_satisfied_black_24dp" />
+
+            <TextView
+                android:id="@+id/sentiment_text_stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Well below target time"
+                app:layout_constraintEnd_toEndOf="@+id/sentiment_view_stats"
+                app:layout_constraintStart_toStartOf="@+id/sentiment_view_stats"
+                app:layout_constraintTop_toBottomOf="@+id/sentiment_view_stats" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Press card to show graph insights"
+                android:textAppearance="@style/TextAppearance.AppCompat.Notification.Info"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/sentiment_view_stats"
+                app:layout_constraintStart_toStartOf="@+id/sentiment_view_stats"
+                app:layout_constraintTop_toBottomOf="@+id/sentiment_text_stats" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
