@@ -21,11 +21,27 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
     private Cursor mCursor;
     private Context mContext;
     private Gson gson;
+    private int workoutNameIndex;
+    private int workoutTypeIndex;
+    private int noSetsIndex;
+    private int restTimeIndex;
+    private int noRepsIndex;
+    private int timeTargetModeIndex;
+    private int targetTimeIndex;
+    private int repTimesIndex;
 
     public StatsAdapter(Context context, Cursor cursor) {
         this.mContext = context;
         this.mCursor = cursor;
         this.gson = new Gson();
+        this.workoutNameIndex = mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_WORKOUT_NAME);
+        this.workoutTypeIndex = mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_WORKOUT_TYPE);
+        this.noSetsIndex = mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_NO_SETS);
+        this.restTimeIndex = mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_REST_TIME);
+        this.noRepsIndex = mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_REPS);
+        this.timeTargetModeIndex = mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_TIME_TARGET_MODE);
+        this.targetTimeIndex = mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_TARGET_TIME);
+        this.repTimesIndex = mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_REP_TIMES);
     }
 
     @Override
@@ -43,62 +59,61 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
             return; // bail if returned null
 
         // Get data from database
-        int database_id = mCursor.getInt(mCursor.getColumnIndex("_id"));
-        String workout_name = mCursor.getString(mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_WORKOUT_NAME));
-        String workout_type = mCursor.getString(mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_WORKOUT_TYPE));
-        int no_sets = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_NO_SETS));
-        int rest_time = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_REST_TIME));
-        int no_reps = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_REPS));
-        String timed_target_mode = mCursor.getString(mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_TIME_TARGET_MODE));
-        int target_time = mCursor.getInt(mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_TARGET_TIME));
-        // Set the database ID in the holder object for later reference
-        holder.setDatabaseID(database_id);
-        // Get the rep information
+        int databaseID = mCursor.getInt(mCursor.getColumnIndex("_id"));
+        String workoutName = mCursor.getString(workoutNameIndex);
+        String workoutType = mCursor.getString(workoutTypeIndex);
+        int setTargetInt = mCursor.getInt(noSetsIndex);
+        int restBetweenInt = mCursor.getInt(restTimeIndex);
+        int noRepsInt = mCursor.getInt(noRepsIndex);
+        String timedTargetMode = mCursor.getString(timeTargetModeIndex);
+        boolean timeTarget = timedTargetMode.equals("Time Target Mode");
+        int targetTimeInt = mCursor.getInt(targetTimeIndex);
+        holder.setDatabaseID(databaseID); // Set the database ID in the holder object for later reference
         Type type = new TypeToken<ArrayList<Long>>() {
         }.getType();
-        ArrayList<Long> repTimesLongList = gson.fromJson(mCursor.getString((mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_REP_TIMES))), type);
+        ArrayList<Long> repTimesLongList = this.gson.fromJson(mCursor.getString(repTimesIndex), type);
         long startSecond = repTimesLongList.get(0) / 1000;
         long endSecond = repTimesLongList.get(repTimesLongList.size() - 1) / 1000;
         long totalDuration = endSecond - startSecond;
         long effectiveWorkoutTime;
         long effectiveSetRestTime;
-        boolean timeTarget = mCursor.getString(mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_TIME_TARGET_MODE)).equals("Time Target Mode");
-        Long setTarget = Long.valueOf(mCursor.getString(mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_NO_SETS)));
-        Long restBetween = Long.valueOf(mCursor.getString(mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_REST_TIME)));
-        Long numberOfRepsPerSet = Long.valueOf(no_reps);
-        Long targetTimePerSet = Long.valueOf(target_time);
+        Long setTarget = Long.valueOf(setTargetInt);
+        Long restBetween = Long.valueOf(restBetweenInt);
+        Long targetTimePerSet = Long.valueOf(targetTimeInt);
+        Long workoutTargetTime = setTarget * targetTimePerSet;
         if (timeTarget) {
             effectiveSetRestTime = (setTarget - 1) * (restBetween); // No break after last set
             effectiveWorkoutTime = totalDuration - effectiveSetRestTime;
         } else {
-            // Long no_pauses = setTarget - 1;
             // TODO calculate effective Set rest time
+            // Long no_pauses = setTarget - 1;
             effectiveSetRestTime = 0;
             effectiveWorkoutTime = totalDuration;
         }
         // Update the holder insights information from the calculated data
-        Long workoutTargetTime = setTarget * targetTimePerSet;
-        holder.actualWorkoutTimeStats.setText(String.valueOf(effectiveWorkoutTime));
-        holder.workoutTargetTimeStats.setText(String.valueOf(workoutTargetTime));
-        holder.totalRestTimeStats.setText(String.valueOf(effectiveSetRestTime));
+        holder.actualWorkoutTimeStats.setText(String.valueOf(effectiveWorkoutTime) + "s");
+        holder.workoutTargetTimeStats.setText(String.valueOf(workoutTargetTime) + "s");
+        holder.totalRestTimeStats.setText(String.valueOf(effectiveSetRestTime) + "s");
         double timeTakenRatio = ((double) (effectiveWorkoutTime)) / ((double) workoutTargetTime);
-        if (timeTakenRatio<0.8){
-            holder.sentimentTextStats.setText("Well below target time");
-            //holder.sentimentImageStats.setImageURI();
-        } else if (timeTakenRatio>1.2){
-            holder.sentimentTextStats.setText("Well above target time");
-        } else{
-            holder.sentimentTextStats.setText("Mostly within target time");
+        if (timeTakenRatio < 0.8) {
+            holder.sentimentTextStats.setText("Well below target time!");
+            holder.sentimentImageStats.setImageResource(R.drawable.ic_sentiment_satisfied_black_24dp);
+        } else if (timeTakenRatio > 1.2) {
+            holder.sentimentTextStats.setText("Well above target time!");
+            holder.sentimentImageStats.setImageResource(R.drawable.ic_sentiment_neutral_black_24dp);
+        } else {
+            holder.sentimentTextStats.setText("Great! You're within target time!");
+            holder.sentimentImageStats.setImageResource(R.drawable.ic_sentiment_very_satisfied_black_24dp);
         }
         // Update the holder workout information from database data
-        holder.workoutTitleTV.setText(workout_name);
-        holder.workoutTypeTV.setText(workout_type);
-        holder.noSetsTV.setText(String.valueOf(no_sets));
-        holder.restBetweenTV.setText(String.valueOf(rest_time) + "s");
-        holder.noRepsTV.setText(String.valueOf(no_reps));
-        holder.timedTargetModeTV.setText(timed_target_mode);
-        holder.setTargetTimeNumberTV.setText(String.valueOf(target_time) + "s");
-        if (timed_target_mode.equals("No Time Target")) {
+        holder.workoutTitleTV.setText(workoutName);
+        holder.workoutTypeTV.setText(workoutType);
+        holder.noSetsTV.setText(String.valueOf(setTargetInt));
+        holder.restBetweenTV.setText(String.valueOf(restBetweenInt) + "s");
+        holder.noRepsTV.setText(String.valueOf(noRepsInt));
+        holder.timedTargetModeTV.setText(timedTargetMode);
+        holder.setTargetTimeNumberTV.setText(String.valueOf(targetTimeInt) + "s");
+        if (timedTargetMode.equals("No Time Target")) {
             holder.setTargetTimeNumberTV.setText("---");
             holder.restBetweenTV.setText("---");
         }
@@ -132,7 +147,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
             workoutTypeTV = itemView.findViewById(R.id.workout_type_stats_tv);
             timedTargetModeTV = itemView.findViewById(R.id.time_target_mode_stats_tv);
             noSetsTV = itemView.findViewById(R.id.no_sets_number_stats_tv);
-            restBetweenTV = itemView.findViewById(R.id.rest_between_stats_tv);
+            restBetweenTV = itemView.findViewById(R.id.rest_between_number_stats_tv);
             noRepsTV = itemView.findViewById(R.id.no_reps_number_stats_tv);
             setTargetTimeNumberTV = itemView.findViewById(R.id.set_target_time_number_stats_tv);
             actualWorkoutTimeStats = itemView.findViewById(R.id.actual_workout_time_stats);
