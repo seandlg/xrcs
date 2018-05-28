@@ -15,6 +15,7 @@ import com.example.android.xrcs.data.WorkoutDbHelper;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CongratulationsScreenActivity extends AppCompatActivity {
     private TextView workoutName;
@@ -45,7 +46,7 @@ public class CongratulationsScreenActivity extends AppCompatActivity {
         workoutName.setText(workoutDataBundle.getString("workoutName"));
         noReps.setText(workoutDataBundle.getString("repTarget"));
         int numberOfSets = Integer.parseInt(workoutDataBundle.getString("setTarget"));
-        noSetsTV.setText(numberOfSets);
+        noSetsTV.setText(String.valueOf(numberOfSets));
 
         // Calculate the effective Workout / rest time
         ArrayList<Long> repTimesLongList = new ArrayList<Long>();
@@ -83,6 +84,7 @@ public class CongratulationsScreenActivity extends AppCompatActivity {
         cv.put(WorkoutContract.WorkoutLog.COLUMN_REPS, workoutDataBundle.getString("repTarget"));
         cv.put(WorkoutContract.WorkoutLog.COLUMN_TIME_TARGET_MODE, workoutDataBundle.getString("timeTargetMode"));
         cv.put(WorkoutContract.WorkoutLog.COLUMN_TARGET_TIME, workoutDataBundle.getString("targetTime"));
+        // cv.put(WorkoutContract.WorkoutLog.COLUMN_TIMESTAMP, Calendar.getInstance().getTime().toString());
         cv.put(WorkoutContract.WorkoutLog.COLUMN_REP_TIMES, gson.toJson(repTimesLongList));
 
         try {

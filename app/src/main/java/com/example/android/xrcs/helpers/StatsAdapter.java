@@ -3,6 +3,7 @@ package com.example.android.xrcs.helpers;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
     private int timeTargetModeIndex;
     private int targetTimeIndex;
     private int repTimesIndex;
+    private int timeIndex;
 
     public StatsAdapter(Context context, Cursor cursor) {
         this.mContext = context;
@@ -42,6 +44,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
         this.timeTargetModeIndex = mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_TIME_TARGET_MODE);
         this.targetTimeIndex = mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_TARGET_TIME);
         this.repTimesIndex = mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_REP_TIMES);
+        this.timeIndex = mCursor.getColumnIndex(WorkoutContract.WorkoutLog.COLUMN_TIMESTAMP);
     }
 
     @Override
@@ -68,6 +71,9 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
         String timedTargetMode = mCursor.getString(timeTargetModeIndex);
         boolean timeTarget = timedTargetMode.equals("Time Target Mode");
         int targetTimeInt = mCursor.getInt(targetTimeIndex);
+        String timeStamp = mCursor.getString(timeIndex);
+        holder.timeOfWorkoutCompletionStats.setText(timeStamp);
+        Log.d("TIME",timeStamp);
         holder.setDatabaseID(databaseID); // Set the database ID in the holder object for later reference
         Type type = new TypeToken<ArrayList<Long>>() {
         }.getType();
@@ -139,6 +145,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
         private TextView totalRestTimeStats;
         private ImageView sentimentImageStats;
         private TextView sentimentTextStats;
+        private TextView timeOfWorkoutCompletionStats;
 
         public StatsViewHolder(View itemView) {
             super(itemView);
@@ -155,6 +162,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
             totalRestTimeStats = itemView.findViewById(R.id.total_rest_time_stats_tv);
             sentimentImageStats = itemView.findViewById(R.id.sentiment_view_stats);
             sentimentTextStats = itemView.findViewById(R.id.sentiment_text_stats);
+            timeOfWorkoutCompletionStats = itemView.findViewById(R.id.date_stats_tv);
         }
 
         public int getDatabaseID() {
