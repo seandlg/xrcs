@@ -1,6 +1,7 @@
 package com.example.android.xrcs.helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.xrcs.GraphActivity;
 import com.example.android.xrcs.R;
 import com.example.android.xrcs.data.WorkoutContract;
 import com.google.gson.Gson;
@@ -56,11 +58,10 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
     }
 
     @Override
-    public void onBindViewHolder(StatsAdapter.StatsViewHolder holder, int position) {
+    public void onBindViewHolder(final StatsAdapter.StatsViewHolder holder, final int position) {
         mCursor.moveToPosition(position);
         if (!mCursor.moveToPosition(position))
             return; // bail if returned null
-
         // Get data from database
         int databaseID = mCursor.getInt(mCursor.getColumnIndex("_id"));
         String workoutName = mCursor.getString(workoutNameIndex);
@@ -74,10 +75,10 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
         String timeStamp = mCursor.getString(timeIndex);
         holder.timeOfWorkoutCompletionStats.setText(timeStamp);
         Log.d("TIME",timeStamp);
-        holder.setDatabaseID(databaseID); // Set the database ID in the holder object for later reference
         Type type = new TypeToken<ArrayList<Long>>() {
         }.getType();
         ArrayList<Long> repTimesLongList = this.gson.fromJson(mCursor.getString(repTimesIndex), type);
+        holder.setRepTimesLongList(repTimesLongList); // Set the repTimesLongList in the holder object for later reference
         long startSecond = repTimesLongList.get(0) / 1000;
         long endSecond = repTimesLongList.get(repTimesLongList.size() - 1) / 1000;
         long totalDuration = endSecond - startSecond;
@@ -123,6 +124,14 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
             holder.setTargetTimeNumberTV.setText("---");
             holder.restBetweenTV.setText("---");
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent graphIntent = new Intent(mContext, GraphActivity.class);
+                graphIntent.putExtra("repTimes", gson.toJson(holder.getRepsList()));
+                mContext.startActivity(graphIntent);
+            }
+        });
     }
 
     @Override
@@ -132,7 +141,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
     }
 
     public class StatsViewHolder extends RecyclerView.ViewHolder {
-        private int databaseID;
+        private ArrayList<Long> repTimesLongList;
         private TextView workoutTitleTV;
         private TextView workoutTypeTV;
         private TextView timedTargetModeTV;
@@ -149,7 +158,6 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
 
         public StatsViewHolder(View itemView) {
             super(itemView);
-            databaseID = this.databaseID;
             workoutTitleTV = itemView.findViewById(R.id.workout_title_stats_tv);
             workoutTypeTV = itemView.findViewById(R.id.workout_type_stats_tv);
             timedTargetModeTV = itemView.findViewById(R.id.time_target_mode_stats_tv);
@@ -165,12 +173,12 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
             timeOfWorkoutCompletionStats = itemView.findViewById(R.id.date_stats_tv);
         }
 
-        public int getDatabaseID() {
-            return this.databaseID;
+        public ArrayList<Long> getRepsList() {
+            return this.repTimesLongList;
         }
 
-        private void setDatabaseID(int newDatabaseID) {
-            this.databaseID = newDatabaseID;
+        private void setRepTimesLongList(ArrayList<Long> newRepTimesLongList) {
+            this.repTimesLongList = newRepTimesLongList;
         }
     }
 }

@@ -297,7 +297,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="Press card to show graph insights"
-                android:textAppearance="@style/TextAppearance.AppCompat.Notification.Info"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textSize="8sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/sentiment_view_stats"

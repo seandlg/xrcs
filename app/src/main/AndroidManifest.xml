@@ -39,7 +39,8 @@
                 android:value="com.example.android.xrcs.MainActivity" />
         </activity>
         <activity android:name=".TimerRedirectActivity" />
-        <activity android:name=".CongratulationsScreenActivity"></activity>
+        <activity android:name=".CongratulationsScreenActivity" />
+        <activity android:name=".GraphActivity"></activity>
     </application>
 
 </manifest>

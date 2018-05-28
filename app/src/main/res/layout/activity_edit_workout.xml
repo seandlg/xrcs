@@ -128,7 +128,7 @@
         android:id="@+id/set_break_time_edit_activity"
         android:layout_width="wrap_content"
         android:layout_height="160dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/set_target_time_stats_tv"
         app:layout_constraintHorizontal_bias="0.5"

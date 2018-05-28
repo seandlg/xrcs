@@ -16,11 +16,13 @@ import com.example.android.xrcs.data.WorkoutContract;
 import com.example.android.xrcs.data.WorkoutDbHelper;
 import com.example.android.xrcs.helpers.ItemClickSupport;
 import com.example.android.xrcs.helpers.StatsAdapter;
+import com.google.gson.Gson;
 
 public class StatsFragment extends Fragment {
     private SQLiteDatabase mDb;
     private StatsAdapter mAdapter;
     private RecyclerView statsRecyclerView;
+    private Gson gson;
 
     public StatsFragment() {
         // Required empty public constructor
@@ -31,6 +33,7 @@ public class StatsFragment extends Fragment {
         // Create a DB helper (this will create the DB if run for the first time)
         WorkoutDbHelper dbHelper = new WorkoutDbHelper(getActivity());
         mDb = dbHelper.getWritableDatabase();
+        gson = new Gson();
         super.onCreate(savedInstanceState);
     }
 
@@ -47,23 +50,6 @@ public class StatsFragment extends Fragment {
         // Link the adapter to the RecyclerView
         statsRecyclerView.setAdapter(mAdapter);
         setHasOptionsMenu(true);
-
-        ItemClickSupport.addTo(statsRecyclerView).setOnItemClickListener(
-                new ItemClickSupport.OnItemClickListener() {
-                    @Override
-                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        // StatsAdapter.StatsViewHolder holder = (StatsAdapter.StatsViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(position));
-                        // Toast toast = Toast.makeText(getContext(), "Graph " + String.valueOf(holder.getDatabaseID()) + " will come soon!", Toast.LENGTH_SHORT);
-                        Toast toast = Toast.makeText(getContext(), "Graph will come soon!", Toast.LENGTH_SHORT);
-                        toast.show();
-                        // Handle click by getting database ID and passing it to new createWorkoutIntent
-                        /*Intent createWorkoutIntent = new Intent(getActivity(), EditWorkoutActivity.class);
-                        final ManageWorkoutsAdapter.WorkoutViewHolder holder = (ManageWorkoutsAdapter.WorkoutViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(position));
-                        createWorkoutIntent.putExtra("databaseID", holder.getDatabaseID());
-                        startActivityForResult(createWorkoutIntent, 1);*/
-                    }
-                }
-        );
         return rootView;
     }
 
