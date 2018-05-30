@@ -32,7 +32,7 @@ public class GraphActivity extends AppCompatActivity {
         DataPoint[] points = new DataPoint[repTimesLongList.size()];
         long zeroPoint = repTimesLongList.get(0);
         for (int i = 0; i < points.length; i++) {
-            points[i] = new DataPoint(i,(repTimesLongList.get(i)-zeroPoint)/1000);
+            points[i] = new DataPoint(i+1,(repTimesLongList.get(i)-zeroPoint)/1000);
         }
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
         graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
