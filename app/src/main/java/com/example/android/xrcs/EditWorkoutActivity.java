@@ -158,6 +158,7 @@ public class EditWorkoutActivity extends AppCompatActivity {
                         mDb.delete(WorkoutContract.WorkoutEntry.TABLE_NAME, whereClause, whereArgs);
                         Toast.makeText(getApplicationContext(), "Workout deleted",
                                 Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
                 builder.setNegativeButton(R.string.cancel_delete_workout_text, new DialogInterface.OnClickListener() {

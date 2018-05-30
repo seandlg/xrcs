@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
                 //  Create a new boolean and preference and set it to true
                 boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
-                isFirstStart = true;
 
                 //  If the activity has never started before...
                 if (isFirstStart) {

@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -26,6 +27,8 @@ public class GraphActivity extends AppCompatActivity {
         //Log.d("ARRAY", repTimesLongList.toString());
 
         GraphView graph = (GraphView) findViewById(R.id.workout_graph);
+        GridLabelRenderer glr = graph.getGridLabelRenderer();
+        glr.setPadding(48); // should allow for 3 digits to fit on screen
         DataPoint[] points = new DataPoint[repTimesLongList.size()];
         long zeroPoint = repTimesLongList.get(0);
         for (int i = 0; i < points.length; i++) {
@@ -33,6 +36,14 @@ public class GraphActivity extends AppCompatActivity {
         }
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
         graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
+        // set manual X and Y bounds
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY((int) points[points.length - 1].getY()+1);
+
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX((int) points[points.length - 1].getX()+1);
         graph.addSeries(series);
     }
 }

@@ -61,6 +61,6 @@ public class StatsFragment extends Fragment {
                 null,
                 null,
                 null,
-                WorkoutContract.WorkoutLog.COLUMN_TIMESTAMP);
+                WorkoutContract.WorkoutLog.COLUMN_TIMESTAMP + " DESC");
     }
 }

@@ -73,7 +73,7 @@ public class ManageWorkoutsFragment extends Fragment {
                 null,
                 null,
                 null,
-                WorkoutContract.WorkoutEntry.COLUMN_TIMESTAMP);
+                WorkoutContract.WorkoutEntry.COLUMN_TIMESTAMP + " DESC");
     }
 
     @Override
