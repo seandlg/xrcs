@@ -40,7 +40,8 @@
         </activity>
         <activity android:name=".TimerRedirectActivity" />
         <activity android:name=".CongratulationsScreenActivity" />
-        <activity android:name=".GraphActivity"></activity>
+        <activity android:name=".GraphActivity" />
+        <activity android:name=".IntroActivity"></activity>
     </application>
 
 </manifest>

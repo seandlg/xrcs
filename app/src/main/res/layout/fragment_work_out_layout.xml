@@ -7,7 +7,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
 
         <TextView
             android:id="@+id/welcome_heading"
@@ -23,59 +24,36 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tldr_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/tldr_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tldr_heading" />
-
-        <TextView
             android:id="@+id/welcome_text"
-            android:layout_width="0dp"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/welcome_text"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/welcome_heading" />
-
-        <TextView
-            android:id="@+id/tldr_heading"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/colorAccent"
-            android:gravity="center"
-            android:text="@string/tldr_heading"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@android:color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/welcome_text" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
         <Button
             android:id="@+id/start_workout_button"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorAccent"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="@string/start_workout_button_text"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textColor="@color/colorIcons"
-            android:background="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/work_out_number_picker"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/work_out_number_picker"
-            app:layout_constraintTop_toBottomOf="@+id/tldr_text"/>
+            app:layout_constraintTop_toTopOf="@+id/work_out_number_picker" />
 
         <NumberPicker
             android:id="@+id/work_out_number_picker"
@@ -90,6 +68,20 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tldr_text" />
+            app:layout_constraintTop_toBottomOf="@+id/welcome_text" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="212dp"
+            android:layout_height="217dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/hq_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_heading" />
+
     </android.support.constraint.ConstraintLayout>
+
 </FrameLayout>
