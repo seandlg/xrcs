@@ -1,5 +1,7 @@
 package com.example.android.xrcs;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -86,6 +88,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
     private BorderedText borderedText;
     private Toast ToastMoreThanTwoPersons;
+    private android.app.AlertDialog dialog;
 
     public void showToastMoreThanTwoPersons() {
         if (ToastMoreThanTwoPersons != null) {
@@ -305,6 +308,31 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     @Override
     protected Size getDesiredPreviewFrameSize() {
         return DESIRED_PREVIEW_SIZE;
+    }
+
+    @Override
+    public void onBackPressed(){
+        // Create an alert dialog to show when the remove workout button is clicked
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Add title and message
+        builder.setMessage("Are you sure? All progress will be lost!").setTitle("Quit workout?");
+        // Add the buttons
+        builder.setPositiveButton("Quit", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked Delete button
+                Toast.makeText(getApplicationContext(), "Quit workout!",
+                        Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+        builder.setNegativeButton("Stay", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+        // Create the AlertDialog
+        dialog = builder.create();
+        dialog.show();
     }
 
     /*@Override

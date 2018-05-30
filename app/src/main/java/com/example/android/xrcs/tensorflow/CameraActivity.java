@@ -653,4 +653,5 @@ public abstract class CameraActivity extends Activity
     protected abstract int getLayoutId();
 
     protected abstract Size getDesiredPreviewFrameSize();
+
 }
