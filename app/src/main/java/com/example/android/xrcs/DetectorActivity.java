@@ -20,11 +20,7 @@ import android.util.Size;
 import android.util.TypedValue;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Vector;
-
+import com.example.android.xrcs.tensorflow.CameraActivity;
 import com.example.android.xrcs.tensorflow.Classifier;
 import com.example.android.xrcs.tensorflow.OverlayView;
 import com.example.android.xrcs.tensorflow.OverlayView.DrawCallback;
@@ -33,7 +29,11 @@ import com.example.android.xrcs.tensorflow.env.BorderedText;
 import com.example.android.xrcs.tensorflow.env.ImageUtils;
 import com.example.android.xrcs.tensorflow.env.Logger;
 import com.example.android.xrcs.tensorflow.tracking.MultiBoxTracker;
-import com.example.android.xrcs.tensorflow.CameraActivity;
+
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * An activity that uses a TensorFlowMultiBoxDetector and ObjectTracker to detect and then track
@@ -89,6 +89,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     private BorderedText borderedText;
     private Toast ToastMoreThanTwoPersons;
     private android.app.AlertDialog dialog;
+
 
     public void showToastMoreThanTwoPersons() {
         if (ToastMoreThanTwoPersons != null) {

@@ -1,6 +1,5 @@
 package com.example.android.xrcs;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -70,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        WorkOutFragment fragment1 = new WorkOutFragment();
-        ManageWorkoutsFragment fragment2 = new ManageWorkoutsFragment();
-        StatsFragment fragment3 = new StatsFragment();
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -80,15 +76,15 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_work_out:
                     getSupportActionBar().setTitle("Work out");
-                    fragmentTransaction.replace(R.id.fragment_container, fragment1).commit();
+                    fragmentTransaction.replace(R.id.fragment_container, new WorkOutFragment()).commit();
                     return true;
                 case R.id.navigation_manage_workouts:
                     getSupportActionBar().setTitle("Manage workouts");
-                    fragmentTransaction.replace(R.id.fragment_container, fragment2).commit();
+                    fragmentTransaction.replace(R.id.fragment_container, new ManageWorkoutsFragment()).commit();
                     return true;
                 case R.id.navigation_stats:
                     getSupportActionBar().setTitle("Stats");
-                    fragmentTransaction.replace(R.id.fragment_container, fragment3).commit();
+                    fragmentTransaction.replace(R.id.fragment_container, new StatsFragment()).commit();
                     return true;
             }
             return false;
@@ -108,6 +104,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                getSupportActionBar().setTitle("Settings");
+                fragmentTransaction.replace(R.id.fragment_container, new SettingsFragment()).commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

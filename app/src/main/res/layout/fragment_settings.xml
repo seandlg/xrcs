@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <CheckBoxPreference
+        android:key="show_boxes"
+        android:title="Show bounding boxes"
+        android:summary="Toggling this setting on will show a bounding box around the user. This box is used to track the movement."
+        android:defaultValue="true" />
+</PreferenceScreen>

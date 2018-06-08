@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.RectF;
 import android.hardware.Camera;
@@ -39,6 +40,7 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.os.Trace;
 import android.speech.tts.TextToSpeech;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
@@ -46,16 +48,16 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.xrcs.CongratulationsScreenActivity;
+import com.example.android.xrcs.R;
+import com.example.android.xrcs.TimerRedirectActivity;
+import com.example.android.xrcs.tensorflow.env.ImageUtils;
+import com.example.android.xrcs.tensorflow.env.Logger;
+
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Locale;
-
-import com.example.android.xrcs.CongratulationsScreenActivity;
-import com.example.android.xrcs.tensorflow.env.ImageUtils;
-import com.example.android.xrcs.tensorflow.env.Logger;
-import com.example.android.xrcs.R; // Explicit import needed for internal Google builds.
-import com.example.android.xrcs.TimerRedirectActivity;
 
 
 public abstract class CameraActivity extends Activity
@@ -169,7 +171,8 @@ public abstract class CameraActivity extends Activity
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        showDebugBoxes = false;
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        showDebugBoxes = sharedPref.getBoolean("show_boxes",true);
         LOGGER.d("onCreate " + this);
         super.onCreate(null);
         setContentView(R.layout.activity_camera);
