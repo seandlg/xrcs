@@ -1,2 +1,0 @@
-# Privacy policy
-Tba
